@@ -3,13 +3,13 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
+title: mcxyzmc
 subtitle: ''
 description: ''
-keywords:
+keywords: SIBS MD LAMMPS 
 author: xyz
 language: zh-CN
-timezone: ''
+timezone: 'Asia/Shanghai'
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
@@ -102,3 +102,12 @@ theme: bamboo
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: ''
+
+
+# Bamboo主题配置项
+
+## 搜索配置项
+search:
+  path: search.xml
+  field: post
+

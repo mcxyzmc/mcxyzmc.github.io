@@ -52,7 +52,7 @@ sidebar:
       avatar: https://pic2.zhimg.com/80/v2-42b72d5ebee4b8d8aa70d9687effe87b_1440w.webp
       shape: rectangle # circle, rectangle
       url: /about/
-      title: 青墨书晚风
+      title: 
       subtitle: 我是副标题
       jinrishici: true # Poetry Today. You can set a string, and it will be displayed when loading fails.
       fontFammily: Titillium Web,'PingFang SC','Hiragino Sans GB','Microsoft JhengHei','Microsoft YaHei',sans-serif
