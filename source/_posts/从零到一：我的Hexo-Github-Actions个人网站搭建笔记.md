@@ -145,7 +145,7 @@ jobs:
 
 ⑤依次执行以下命令保存提交并推送到远程仓库，推送会触发`Actions`，可以在远程仓库的Actions页面查看自动部署进度
 
-```
+```cmd
 git add .
 git commit -m "init site"
 git push -u origin main
