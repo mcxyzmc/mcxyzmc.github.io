@@ -30,12 +30,15 @@ tags:
 
 ①进入[Github官网]创建一个账号并登录，找到`Repositories`点击`New`新建一个名为`username.github.io`的个人仓库，这里的`username`必须是你的Github账户名，仓库可见性必须设置为`Public`。
 
+![2025-12-31-04-08-47.png](2025-12-31-04-08-47.png)
 
 ②参考[Node.js视频安装配置教程]安装Node.js，当然你也可以尝试[Hexo官方文档]的方法安装（如果你使用官方文档的方法成功搭建了个人网站恳请评论告知，我会更新这一步安装方法，因为相比之下视频的安装方法实在是太麻烦了）
 
+![2025-12-31-04-09-38.png](2025-12-31-04-09-38.png)
 
 ③进入[Git官网下载页面]下载并安装对应版本的`Git`（选择自己想要的安装目录，其余保持默认即可）。
 
+![2025-12-31-04-09-56.png](2025-12-31-04-09-56.png)
 
 ④若初次使用`Git`请在开始菜单栏中搜索`cmd`选择以管理员身份运行，在弹出的终端中依次执行以下命令配置用户名和邮箱信息（这里的`username`和`useremail`需要和你的`Github`账户一样）
 
@@ -50,9 +53,11 @@ git config --global user.email "useremail"
 ssh-keygen -t rsa -C "useremail"
 ```
 
+![2025-12-31-04-10-26.png](2025-12-31-04-10-26.png)
 
 ⑥找到`Github`个人仓库的`Deploy keys`界面将复制的内容粘贴到`Key`框中，`Title`随意即可，点击`Add key`。
 
+![2025-12-31-04-11-01.png](2025-12-31-04-11-01.png)
 
 ---
 
@@ -66,12 +71,16 @@ npm install hexo-cli -g
 
 ②在自己想要的路径下创建一个文件夹作为站点本地源文件的上级目录，在该目录下执行命令`hexo init sitename`从`Hexo`官网下载最基础的博客模板，这里`sitename`是你自己想要取的站点目录的名字。
 
+![2025-12-31-04-11-38.png](2025-12-31-04-11-38.png)
 
 ③进入站点目录执行命令`npm install`安装博客运行所需的依赖包
 
+![2025-12-31-04-11-51.png](2025-12-31-04-11-51.png)
 
 ④执行命令`hexo s`启动本地服务器进行测试，默认网址为`http://localhost:4000/`，可以打开浏览器搜索该网址检查本地博客是否搭建成功（按`Ctrl+C`中断测试）
 
+![2025-12-31-04-12-16.png](2025-12-31-04-12-16.png)
+![2025-12-31-04-12-30.png](2025-12-31-04-12-30.png)
 
 ---
 
@@ -90,6 +99,7 @@ git remote add origin https://github.com/username/username.github.io.git
 
 ③找到`Github`个人仓库的`Pages`页面，将`Source`改为`Github Actions`
 
+![2025-12-31-04-12-54.png](2025-12-31-04-12-54.png)
 
 ④在进入站点目录下`.sitename`文件夹中创建文件夹`workflows`，在该文件夹下创建文件`pages.yml`并写入以下内容
 
@@ -178,8 +188,6 @@ git push -u origin main
 b站**爬虫孙大圣**的《Nodejs安装零基础教程2025》：https://www.bilibili.com/video/
 b站**HDAlex_Jhon**的《给傻子的Git教程》：https://www.bilibili.com/video/BV1Hkr7YYEh8?
 最后感谢Gemini！感谢伟大的互联网精神！
-
-![2025-12-31-03-42-09.png](2025-12-31-03-42-09.png)
 
 [Github官网]:https://github.com/
 [Node.js视频安装配置教程]:https://www.bilibili.com/video/BV1sbjgzwEBX?vd_source=1b606c48397af663676c9ef6bea963a2
