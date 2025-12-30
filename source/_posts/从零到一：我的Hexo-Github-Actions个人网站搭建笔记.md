@@ -4,9 +4,7 @@ date: 2025-12-30 16:06:10
 tags:
 ---
 
-## 从零到一：我的Hexo+Github Actions个人网站搭建笔记
-
-### 0.前言
+## 0.前言
 
 事先声明，本人基本上可以算是一个电脑小白，本篇笔记所有内容都是基于知乎、b站、官网资料、Gemini及本人的网站搭建经验撰写的，我（实则是Gemini）会尽力将每一步的过程和作用讲清楚。当然如果诸位发现本文有任何错漏的地方，欢迎大家批评指正！
 
@@ -26,7 +24,7 @@ tags:
 
 ---
 
-### 1.环境准备
+## 1.环境准备
 
 ①进入[Github官网]创建一个账号并登录，找到`Repositories`点击`New`新建一个名为`username.github.io`的个人仓库，这里的`username`必须是你的Github账户名，仓库可见性必须设置为`Public`。
 
@@ -61,7 +59,7 @@ ssh-keygen -t rsa -C "useremail"
 
 ---
 
-### 2.Hexo搭建本地博客
+## 2.Hexo搭建本地博客
 
 ①以管理员身份打开终端，执行以下命令安装`Hexo`
 
@@ -84,7 +82,7 @@ npm install hexo-cli -g
 
 ---
 
-### 3.网站部署
+## 3.网站部署
 
 ①在站点目录下找到并打开站点配置文件`_config.yml`，找到`url`字段的值，修改为`https://username.github.io`
 ②在站点目录下依次执行以下命令，分别实现：将站点源码纳入`git`版本控制系统中成为本地仓库、添加文件到暂缓区、进行第一次提交使其产生`master`分支、将本地分支名改为与`Github`相同的`main`、将`GitHub`仓库`username.github.io`设为默认远程仓库
@@ -165,21 +163,125 @@ git push -u origin main
 
 ---
 
-### 4.撰写文章
+## 4.更新文章
 
-在终端执行命令`hexo n "blogname"`这将在你的站点目录下的`_posts`文件夹下生成名为`blogname.md`的Markdown文件，在这个md文件中编写完你的博客后提交保存并推送到远程仓库即可。对于新手小白而言个人更推荐[Git基础教程]的方式在VsCode中进行创作。
+由于本人习惯用VScode来编写Markdown文档，所以后面的很多配置都是针对VScode的，另外为了更好地编写我们的Markdown文档请在VScode中自行安装好`Markdown Preview Enhance`、`Markdown All in One`和`Paste Image`插件。首先我们需要打开`cmd`依次执行类似以下命令，这样能保证后续文章能顺利上传到github仓库，这里的`http://127.0.0.1:7890`需要替换为你自己的代理工具的端口（不会科学上网的自己简单去搞一下）。
 
-### 5.网站优化
+```cmd
+git config --global http.proxy http://127.0.0.1:7890 
+git config --global https.proxy http://127.0.0.1:7890 
+```
 
-#### 5.1 更换主题
+>注：如果你开启了全局代理，你完全不需要这一步就能顺利上传文件，但是个人还是推荐设置一下反正也就两行代码的事，不怕一万就怕万一好吧。
 
-#### 5.2 插入图片
+完成了代理设置就可以撰写文章了，以下介绍鄙人撰写文章的一般流程：
+①用VScode打开本地站点文件夹，找到`sitename/source/_posts/`文件夹，在目录下新建文件`articlename.md`，开头写入类似以下内容，后面正常用Markdown通用语法撰写文章即可，如果你的文章里需要有图片或公式那还需要另外的配置，详见本文第五节网站优化。
 
-#### 5.3 插入公式
+```md
+---
+title: articlename
+---
+```
+
+>注：这部分内容为Hexo中的`Front-matter`，你可以在`Front-matter`中添加更多的内容以实现更多的功能，详见[Hexo官方文档]。
+
+②编写并保存完文章后在VScode终端调出`cmd`窗口，执行`hexo s`命令，在浏览器打开`http://localhost:4000/`网页检查文章是否符合预期。
+
+>注：虽然VScode终端默认是powershell，但是cmd可以绕过很多权限问题，所以这里推荐的是cmd。
+
+③打开侧边栏`源代码管理`，在更改框中可以任意填写你想要的的`commitname`点击提交，提交成功后按钮变成推送，点击推送待Github部署成功后即可刷新自己的个人网页查看是否成功上传。
+
+![2025-12-31-05-45-13.png](2025-12-31-05-45-13.png)
+
+## 5.网站优化
+
+### 5.1 更换主题
+
+在Hexo中有许多国内外大佬上传的主题模板，你可以在Hexo主题页面找到自己喜欢的主题，进入对应的Github网址查看如何将使用这个主题（操作基本都差不多），以下以鄙人用的Bamboo为例讲解如何更换主题。
+①用VScode打开本地站点文件夹，然后调出cmd终端
+②执行命令`npm install hexo-theme-bamboo`安装主题包
+③执行以下命令将主题配置文件复制为站点目录下名为`_config.bamboo.yml`的文件
+
+```cmd
+copy node_modules/hexo-theme-_config.yml _config.bamboo.yml
+```
+
+④打开站点配置文件`_config.yml`，找到theme字段将其值改为true
+⑤（可选）找到title字段将其值改为你想要的`sitetitle`，找到author字段将其值改为你想要的`authorname`，找到language字段将其值改为zh-CN，找到`timezone`字段将其值改为`Asia/Shanghai`
+⑥执行命令`hexo clean`和`clean s`清理内存并预览
+
+>注：你也可以使用git clone安装主题包，那么后续的操作就不同了。个人觉得npm更稳定一点，所以推荐使用npm。第三步的复制操作你也可以直接在文件夹下通过互联网神技CV技术来完成
+
+### 5.2 插入图片
+
+①打开站点配置文件，找到post_asset_floder字段将其值改为true并在下方添加如下代码打开资管管理功能。这样Hexo将会在你每一次通过`hexo new [layout] <title>`命令创建新文章时自动创建一个文件夹。这个资源文件夹将会有与这个文章文件一样的名字。将所有与你的文章有关的资源放在这个关联文件夹中之后，你可以通过相对路径来引用它们，这样你就得到了一个更简单而且方便得多的工作流。
+
+```yml
+marked:
+  prependRoot: true
+  postAsset: true
+```
+
+②在VScode中按`Ctrl+Shift+P`搜索选择`首选项：打开用户设置(JSON)`打开VScode的配置文件在最外层大括号添加如下内容
+
+```json
+    //----------------------Paste Image配置（迎合Hexo图片格式，Ctrl+Shift+C）----------------------
+    //将图片存入同名文件夹而不是文档所在目录下
+    "pasteImage.path": "${currentFileNameWithoutExt}/",
+    //在Hexo的_config.yml中进行相关配置后，会自动进入文档同名文件夹中寻找图片，但进行上一行配置后
+    //粘贴图片代码格式为![](articlename/imagename)，所以需要修改代码格式省略为![](imagename)
+    "pasteImage.insertPattern": "![${imageFileName}](${imageFileName})",
+
+
+    //VSCode原生图片粘贴功能配置（Ctrl+C）
+    // 设置粘贴图片的存放路径：存入同名文件夹
+    "markdown.copyFiles.destination": {
+        "**/_posts/*.md": "${documentBaseName}/"
+    }
+```
+
+③在VScode中按`Ctrl+Shift+P`搜索选择`MPE：扩展Parser（工作区）`，打开MPE的parser.js配置文件，将其中
+
+```js
+  onWillParseMarkdown: async function(markdown) {
+    return markdown;
+  },
+```
+
+改为
+
+```js
+  onWillParseMarkdown: async function(markdown) {
+    let folderName = "";
+
+    // 1. 提取标题并模拟 Hexo 的连字符逻辑 (Slugify)
+    const titleMatch = markdown.match(/^title:\s*(.*)$/m);
+    if (titleMatch) {
+      folderName = titleMatch[1].trim()
+        .replace(/[\s\+]+/g, '-')  // 把空格和 + 变成 -
+        .replace(/-+/g, '-');      // 连续的 - 合并为一个
+    }
+
+    // 2. 执行替换
+    // 添加 ^ 锚点并开启多行模式 (m 标志)，这样它只会匹配【以 ! 开头】或者【空格后紧跟 !】的行
+    const newMarkdown = markdown.replace(
+      /^(\s*!\[.*?\]\()(?!(?:http|https|\/|[.][\\/]|.*[\\/]))(.+?)(\))/gm,
+      (match, p1, p2, p3) => {
+        // Windows 环境下本地预览，直接拼接通常比编码更稳
+        return `${p1}${folderName}/${p2}${p3}`;
+      }
+    );
+
+    return newMarkdown;
+  },
+```
+
+>注：如果配置文件大括号中已经有内容了记得在已有内容末尾加上英文逗号
+### 5.3 插入公式
 
 ---
 
-### 6.参考资料
+## 6.参考资料
 
 本文主要参考资料：
 知乎**青羽**的《一小时搭建自己的个人网站》：https://zhuanlan.zhihu.com/p/78467553?share_code=15EEKNf6f26on&utm_psn=1988735836959809917
