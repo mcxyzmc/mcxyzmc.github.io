@@ -60,9 +60,9 @@ ssh-keygen -t rsa -C "useremail"
 
 ![2025-12-31-04-10-26.png](2025-12-31-04-10-26.png)
 
-⑥找到`Github`个人仓库的`Deploy keys`界面将复制的内容粘贴到`Key`框中，`Title`随意即可，点击`Add key`。
+⑥在Github的`Setting`界面找到`SSH and GPG keys`，点击`New SSH key`，将刚才复制的内容填到`key`框内点击`Add SSH key`
 
-![2025-12-31-04-11-01.png](2025-12-31-04-11-01.png)
+![2025-12-31-15-32-36.png](2025-12-31-15-32-36.png)
 
 ---
 
@@ -224,7 +224,7 @@ copy node_modules/hexo-theme-_config.yml _config.bamboo.yml
 
 ④打开站点配置文件`_config.yml`，找到`theme`字段将其值改为`true`
 ⑤（可选）找到`title`字段将其值改为你想要的`sitetitle`，找到`author`字段将其值改为你想要的`authorname`，找到`language`字段将其值改为`zh-CN`，找到`timezone`字段将其值改为`Asia/Shanghai`
-⑥执行命令`hexo clean`和`clean s`清理内存并预览
+⑥执行命令`hexo clean`和`hexo s`清理内存并预览
 
 >注：
 a. 第二步你也可以使用git clone安装主题包，不过后续的操作就不同了。个人觉得npm更稳定一点，所以推荐使用npm。
