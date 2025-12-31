@@ -15,7 +15,7 @@ mathjax: true
 想象你在互联网这个大城市里买了一块地，GitHub就是提供这块地的房产商。它不仅帮你存着网站的所有代码，还免费提供了一个名为`GitHub Pages`的橱窗，让全世界的人都能通过网址看到你的装修成果。
 
 2. Node.js：电脑和程序之间的翻译官
-Hexo是使用`JavaScripts`语言编写的计算机程序，而计算机的底层逻辑是二进制语言。当你在`Hexo`执行某个操作后就需要Node.js将`JavaScripts`语言翻译成计算机能理解的二进制语言。
+Hexo是使用`JavaScript`语言编写的计算机程序，而计算机的底层逻辑是二进制语言。当你在`Hexo`执行某个操作后就需要Node.js将`JavaScript`语言翻译成计算机能理解的二进制语言。
 
 3. Git：本地和云端存档间的搬运工
 Git的工作主要有两件：一是把你本地写好的文章上传到GitHub的仓库里去；二是它会像录像机一样记下你每次的改动。如果你哪天把网站改坏了，Git能帮你“一键回滚”到还没坏的时候。
@@ -186,7 +186,7 @@ git config --global http.proxy http://127.0.0.1:7890
 git config --global https.proxy http://127.0.0.1:7890 
 ```
 
->注：如果你开启了全局代理，你完全不需要这一步就能顺利上传文件，但是个人还是推荐设置一下反正也就两行代码的事，不怕一万就怕万一好吧。
+>注：如果你开启了全局代理，你完全不需要这一步就能顺利上传文件，但是个人还是推荐设置一下反正也就两行代码的事，不怕一万就怕万一好吧。如果以后不用代理了，或者更换了代理端口，需要执行`git config --global --unset http.proxy`来取消设置，否则Git会报错。
 
 完成了代理设置就可以撰写文章了，以下介绍鄙人撰写文章的一般流程：
 ①用VScode打开本地站点文件夹，找到`sitename/source/_posts/`文件夹，在目录下新建文件`articlename.md`，开头写入类似以下内容，后面正常用`Markdown`通用语法撰写文章即可，如果你的文章里需要有图片或公式那还需要另外的配置，详见本文第五节网站优化。
@@ -232,7 +232,7 @@ b. 第三步的复制操作你也可以直接在文件夹下通过互联网神�
 
 ### 5.2 插入图片
 
-①打开站点配置文件，找到`post_asset_floder: false`将其改为以下内容
+①打开站点配置文件，找到`post_asset_folder: false`将其改为以下内容
 
 ```yml
 post_asset_folder: true
@@ -280,7 +280,7 @@ c. `VSCode原生图片粘贴功能配置`其实就是实现`Paste Image配置`�
     let folderName = "";
 
     // 1. 提取标题并模拟Hexo的连字符逻辑 (Slugify)
-    const titleMatch = markdown.match(/^title:\s*(.*)$/m);
+    const titleMatch = markdown.match(/^title:\s*["']?(.*?)["']?\s*$/m);
     if (titleMatch) {
       folderName = titleMatch[1].trim()
         .replace(/[\s\+]+/g, '-')  // 把空格和+变成-
@@ -301,7 +301,9 @@ c. `VSCode原生图片粘贴功能配置`其实就是实现`Paste Image配置`�
   },
 ```
 
->注：在你完成了前两步的配置后你会发现一个很恶心的问题：当你开启文件夹资源后Hexo要求你的`Markdown`图片引用格式里路径省略`articlename/`，但是你要在VScode预览成功加载图片的话你的路径里就不能省略这个东西，也就是说你无法兼顾Hexo的图片渲染和VScode图片预览。虽然说你可以直接抛弃VScode的图片预览，这并不会对我们的网站造成任何影响，但是我个人还是无法接受。所以我们就需要这一步对MPE（Markdown Preview Enhanced）的配置，这样配置的话在预览前MPE会自动获取我们在`Front-mattter`中`title`的值然后与图片名拼接成完整路径`titlename/imagename.png`，所以你需要保证`title`里的值和文件名（无后缀）是一样的。不过如果你直接把光标悬停在图片引用代码上它还是无法加载，只有打开右侧预览界面才能正常加载。如果各位有更好的方法欢迎评论交流。
+>注：
+a. 在你完成了前两步的配置后你会发现一个很恶心的问题：当你开启文件夹资源后Hexo要求你的`Markdown`图片引用格式里路径省略`articlename/`，但是你要在VScode预览成功加载图片的话你的路径里就不能省略这个东西，也就是说你无法兼顾Hexo的图片渲染和VScode图片预览。虽然说你可以直接抛弃VScode的图片预览，这并不会对我们的网站造成任何影响，但是我个人还是无法接受。所以我们就需要这一步对MPE（Markdown Preview Enhanced）的配置，这样配置的话在预览前MPE会自动获取我们在`Front-matter`中`title`的值然后与图片名拼接成完整路径`titlename/imagename.png`，所以你需要保证`title`里的值和文件名（无后缀）是一样的。不过如果你直接把光标悬停在图片引用代码上它还是无法加载，只有打开右侧预览界面才能正常加载。如果各位有更好的方法欢迎评论交流。
+b. Hexo对标题转换成文件夹名时会进行slugify（即你脚本里写的把空格和加号变横杠）。如果用户在标题里用了中文符号，Hexo通常会默认保留。
 
 ### 5.3 插入公式
 

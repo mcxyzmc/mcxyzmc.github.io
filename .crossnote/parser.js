@@ -6,7 +6,7 @@
     let folderName = "";
 
     // 1. 提取标题并模拟 Hexo 的连字符逻辑 (Slugify)
-    const titleMatch = markdown.match(/^title:\s*(.*)$/m);
+    const titleMatch = markdown.match(/^title:\s*["']?(.*?)["']?\s*$/m);
     if (titleMatch) {
       folderName = titleMatch[1].trim()
         .replace(/[\s\+]+/g, '-')  // 把空格和 + 变成 -
