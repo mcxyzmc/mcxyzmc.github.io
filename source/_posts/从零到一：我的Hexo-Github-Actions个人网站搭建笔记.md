@@ -2,6 +2,7 @@
 title: 从零到一：我的Hexo+Github Actions个人网站搭建笔记
 date: 2025-12-30 16:06:10
 tags:
+mathjax: true
 ---
 
 ## 0.前言
