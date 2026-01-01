@@ -28,11 +28,11 @@ bgImg: index/background.png
   grid-template-columns: 50% 50%;
   grid-template-rows: 30px 30px;
   grid-column-gap: 20px">
-{% progress 70 danger 进度条测试 %}
-{% progress 60 info 进度条测试 %}
-{% progress 60 success 进度条测试 %}
-{% progress 60 warning 进度条测试 %}
-{% progress 60 primary 进度条测试 %}
+{% progress 100 danger 吃饭 %}
+{% progress 100 info 睡觉 %}
+{% progress 100 success 打豆豆 %}
+{% progress 0 warning 学习 %}
+{% progress 0 primary 工作 %}
 </div>
 
 ## 其他
@@ -48,7 +48,7 @@ bgImg: index/background.png
 
 ## 我的游戏
 {% gallery %}
-![王者荣耀](https://pic2.zhimg.com/v2-abb2c12e9fbe8dda1993f7cd5d149159_b.jpg)
+![我的世界](index/game1.png)
 {% endgallery %}
 
 ## 我的相册
