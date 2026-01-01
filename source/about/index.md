@@ -1,7 +1,7 @@
 ---
 title: "关于我"
 onlyTitle: true
-bgImg: https://picx.zhimg.com/80/v2-85c31120acff76826ab53ea8934ef4bb_1440w.webp
+bgImg: index/background.png
 ---
 
 # 个人介绍
@@ -11,7 +11,7 @@ bgImg: https://picx.zhimg.com/80/v2-85c31120acff76826ab53ea8934ef4bb_1440w.webp
 {% sitegroup %}
     {% site 分子动力学模拟, url=https://www.cip.com.cn/Book/Index/108449, screenshot=index/book1.png, avatar=index/author1.png, description=樊哲勇 化学工业出版社 %}
     {% site 计算材料学：从算法原理到代码实现, url=https://bookcenter.hustp.com/detail/20199.html, screenshot=index/book2.png, avatar=index/author2.png, description=单斌 华中科技大学出版社 %}
-    {% site Statistical mechanics: theory and molecular simulation, url=https://global.oup.com/academic/product/statistical-mechanics-theory-and-molecular-simulation-9780198825562?q=Statistical%20mechanics:%20theory%20and%20molecular%20simulation&cc=hk&lang=en, screenshot=index/book3.png, avatar=index/author3, description=Mark E.Tuckerman Oxford University Press%}
+    {% site Statistical mechanics: theory and molecular simulation, url=https://global.oup.com/academic/product/statistical-mechanics-theory-and-molecular-simulation-9780198825562?q=Statistical%20mechanics:%20theory%20and%20molecular%20simulation&cc=hk&lang=en, screenshot=index/book3.png, avatar=index/author3.png, description=Mark E.Tuckerman Oxford University Press%}
 {% endsitegroup %}
 
 ## 我的社交账号
@@ -31,7 +31,7 @@ bgImg: https://picx.zhimg.com/80/v2-85c31120acff76826ab53ea8934ef4bb_1440w.webp
 {% progress 70 danger 进度条测试 %}
 {% progress 60 info 进度条测试 %}
 {% progress 60 success 进度条测试 %}
-{% progress 60 warning 进度条测试 %}
+{% progress 50 warning 进度条测试 %}
 {% progress 60 primary 进度条测试 %}
 </div>
 
