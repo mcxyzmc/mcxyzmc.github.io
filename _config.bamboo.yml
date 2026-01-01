@@ -1,36 +1,36 @@
 # 配置里面 线上地址写法：http://xxx，本地地址。可以在`source`文件夹下创建目录，假如创建img和videos目录，则引用的时候使用 /img/xxx 写法, /videos/xxx  ... 
 
 # 菜单
-# menu:
-#   Home:
-#     url: /
-#     icon: fas fa-home
-#   Archives:
-#     url: /archives
-#     icon: fas fa-archive
-#   Tags:
-#     url: /tags
-#     icon: fas fa-tags
-#   Categories:
-#     url: /categories
-#     icon: fas fa-bookmark
+menu:
+  Home:
+    url: /
+    icon: fas fa-home
+  Archives:
+    url: /archives
+    icon: fas fa-archive
+  Tags:
+    url: /tags
+    icon: fas fa-tags
+  Categories:
+    url: /categories
+    icon: fas fa-bookmark
 #   Friends:
 #     url: /friends
 #   更多: # 这是二级菜单的写法
 #    icon: fas fa-link
-#    children:
-#     - name: 图库
-#       url: /gallery
-#       icon: fas fa-music
+  children:
+   - name: 图库
+     url: /gallery
+     icon: fas fa-music
 #     - name: 友情连接
 #       url: /huoban
 #       icon: fas fa-film
-#     - name: 关于我
-#       url: /me
-#       icon: fas fa-film
-#     - name: 百度
-#       url: http://baidu.com
-#       icon: fas fa-film
+   - name: 关于我
+     url: /about
+     icon: fas fa-film
+   - name: 百度
+     url: http://baidu.com
+     icon: fas fa-film
 
 # github地址, 头部导航右上角的github链接
 Github: 
@@ -64,7 +64,7 @@ sidebar:
         - icon: fas fa-zhihu
           url: https://www.zhihu.com/people/29-75-55-63
         - icon: fab fa-github
-          url: https://github.com/yuang01/hexo-theme-bamboo
+          url: https://github.com/mcxyzmc/mcxyzmc.github.io
         - icon: fab fa-qq
           url: tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=705191326
     # ---------------------------------------
@@ -76,7 +76,7 @@ sidebar:
         icon: fas fa-list
         icon_color: # 标题字体颜色
         title: 本文目录
-      before: number # number为序号，可以是自定义表情字符
+      before: '' # number为序号，可以是自定义表情字符
       heading: h2, h3, h4 # h2,3,4标题会在目录显示，可以加上 ,h5则h5标题也会显示在目录里
       collapseDepth: 20 # 折叠深度, 0则会折叠，0-6即可, 20相当于不折叠
     # ---------------------------------------

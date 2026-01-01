@@ -106,10 +106,16 @@ theme: bamboo
 deploy:
   type: ''
 
+
 # Bamboo主题配置项
 
 ## 搜索配置项
 search:
   path: search.xml
   field: post
+
+## 中文链接转拼音配置项
+permalink_pinyin:
+  enable: true
+  separator: '-' # default: '-'
 
