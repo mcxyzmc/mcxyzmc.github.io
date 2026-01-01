@@ -9,12 +9,9 @@ bgImg: https://picx.zhimg.com/80/v2-85c31120acff76826ab53ea8934ef4bb_1440w.webp
 
 ## 我的书籍
 {% sitegroup %}
-    {% site 木兮, url=http://www.baidu.com, screenshot=https://pic4.zhimg.com/v2-7fcb0d73e1d90788ccf136e22ba7b1bd_r.jpg, avatar=https://pic4.zhimg.com/80/v2-45eb5749949e7f90a5c788f9bc5721ef_1440w.jpg, description=这是描述 %}
-    {% site yuang01, url=https://yuang01.gitee.io/, screenshot=https://pic4.zhimg.com/80/v2-f549722dac8f777693c090a92498de0f_1440w.jpg, avatar=https://pic3.zhimg.com/80/v2-8bb491487280587026cd576b224ca91e_1440w.jpg, description=这是描述哦 %}
-    {% site 木兮, url=http://www.baidu.com, screenshot=https://pic4.zhimg.com/v2-7fcb0d73e1d90788ccf136e22ba7b1bd_r.jpg, avatar=https://pic4.zhimg.com/80/v2-45eb5749949e7f90a5c788f9bc5721ef_1440w.jpg, description=这是描述 %}
-    {% site yuang01, url=https://yuang01.gitee.io/, screenshot=https://pic4.zhimg.com/80/v2-f549722dac8f777693c090a92498de0f_1440w.jpg, avatar=https://pic3.zhimg.com/80/v2-8bb491487280587026cd576b224ca91e_1440w.jpg, description=这是描述哦 %}
-    {% site 木兮, url=http://www.baidu.com, screenshot=https://pic4.zhimg.com/v2-7fcb0d73e1d90788ccf136e22ba7b1bd_r.jpg, avatar=https://pic4.zhimg.com/80/v2-45eb5749949e7f90a5c788f9bc5721ef_1440w.jpg, description=这是描述 %}
-    {% site yuang01, url=https://yuang01.gitee.io/, screenshot=https://pic4.zhimg.com/80/v2-f549722dac8f777693c090a92498de0f_1440w.jpg, avatar=https://pic3.zhimg.com/80/v2-8bb491487280587026cd576b224ca91e_1440w.jpg, description=这是描述哦 %}
+    {% site 分子动力学模拟, url=https://www.cip.com.cn/Book/Index/108449, screenshot=book1.png avatar=author1.png, description=樊哲勇 化学工业出版社 %}
+    {% site 计算材料学：从算法原理到代码实现, url=https://bookcenter.hustp.com/detail/20199.html, screenshot=book2.png, avatar=author2.png, description=单斌 华中科技大学出版社 %}
+    {% site Statistical mechanics: theory and molecular simulation, url=https://global.oup.com/academic/product/statistical-mechanics-theory-and-molecular-simulation-9780198825562?q=Statistical%20mechanics:%20theory%20and%20molecular%20simulation&cc=hk&lang=en, screenshot=book3.png, avatar=author3, description=Mark E.Tuckerman Oxford University Press%}
 {% endsitegroup %}
 
 ## 我的社交账号
