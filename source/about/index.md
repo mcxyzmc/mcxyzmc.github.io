@@ -1,7 +1,7 @@
 ---
 title: "关于我"
 onlyTitle: true
-bgImg: index/background.png
+bgImg: source/about/index/background.png
 ---
 
 # 个人介绍
