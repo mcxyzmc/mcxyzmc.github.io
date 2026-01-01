@@ -17,6 +17,7 @@ menu:
 #   Friends:
 #     url: /friends
 #   更多: # 这是二级菜单的写法
+  资源:
 #    icon: fas fa-link
   children:
    - name: 图库
