@@ -1,7 +1,7 @@
 ---
 title: "关于我"
 onlyTitle: true
-bgImg: /about/index/background.png
+bgImg: https://picx.zhimg.com/80/v2-85c31120acff76826ab53ea8934ef4bb_1440w.webp
 ---
 
 # 个人介绍
@@ -31,7 +31,7 @@ bgImg: /about/index/background.png
 {% progress 70 danger 进度条测试 %}
 {% progress 60 info 进度条测试 %}
 {% progress 60 success 进度条测试 %}
-{% progress 50 warning 进度条测试 %}
+{% progress 60 warning 进度条测试 %}
 {% progress 60 primary 进度条测试 %}
 </div>
 
