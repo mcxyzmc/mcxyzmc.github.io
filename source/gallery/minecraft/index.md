@@ -9,4 +9,4 @@ img: https://pic1.zhimg.com/80/v2-92cc20bdf4674b6c6337478bb06657b3_1440w.jpg?sou
 ![alt text](wallhaven2.png)
 {% endgallery %}
 
-![alt text](wallhaven1.png)
+![alt text](index/wallhaven1.png)
