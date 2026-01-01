@@ -35,7 +35,7 @@
 # github地址, 头部导航右上角的github链接
 Github: 
   on: true
-  url: https://github.com/yuang01/hexo-theme-bamboo
+  url: https://github.com/mcxyzmc/mcxyzmc.github.io
 
 # 网站logo
 logo: /medias/logo.png # 为空则不显示
@@ -59,14 +59,14 @@ sidebar:
       background: '#fff'
       order:  # 卡片排序, 数值越小，越在上面
       social:
-        - icon: fas fa-rss
-          url: /atom.xml
-        - icon: fas fa-envelope
-          url: mailto:me@xxx.com
+        - icon: fas fa-github
+          url: https://github.com/mcxyzmc
+        - icon: fas fa-zhihu
+          url: https://www.zhihu.com/people/29-75-55-63
         - icon: fab fa-github
           url: https://github.com/yuang01/hexo-theme-bamboo
         - icon: fab fa-qq
-          url: tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=你的qq号码
+          url: tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=705191326
     # ---------------------------------------
     side_toc:
       on: true

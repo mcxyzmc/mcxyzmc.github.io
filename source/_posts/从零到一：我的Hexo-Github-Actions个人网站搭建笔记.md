@@ -1,7 +1,10 @@
 ---
 title: 从零到一：我的Hexo+Github Actions个人网站搭建笔记
 date: 2025-12-30 16:06:10
+updated: 
 tags:
+categories: 
+comments: true
 mathjax: true
 ---
 
@@ -219,7 +222,7 @@ title: articlename
 ③执行以下命令将主题配置文件复制为站点目录下名为`_config.bamboo.yml`的文件
 
 ```cmd
-copy node_modules/hexo-theme-_config.yml _config.bamboo.yml
+copy node_modules/hexo-theme-bamboo/_config.yml _config.bamboo.yml
 ```
 
 ④打开站点配置文件`_config.yml`，找到`theme`字段将其值改为`true`

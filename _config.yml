@@ -5,7 +5,7 @@
 # Site
 title: mcxyzmc
 subtitle: ''
-description: ''
+description: '这里是xyz的个人笔记网站'
 keywords: SIBS MD LAMMPS 
 author: xyz
 language: zh-CN
@@ -105,7 +105,6 @@ theme: bamboo
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: ''
-
 
 # Bamboo主题配置项
 
