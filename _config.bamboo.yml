@@ -39,10 +39,10 @@ Github:
   url: https://github.com/mcxyzmc/mcxyzmc.github.io
 
 # 网站logo
-logo: /medias/logo.png # 为空则不显示
+logo: /img/logo.jpg # 为空则不显示
 
 # 网站 favicon
-favicon: /favicon.ico # or .png .jpg .svg .gif .jpeg .ico
+favicon: /img/favicon.jpg # or .png .jpg .svg .gif .jpeg .icos
 
 # sidebar侧边栏
 sidebar:
@@ -60,10 +60,10 @@ sidebar:
       background: '#fff'
       order:  # 卡片排序, 数值越小，越在上面
       social:
-        - icon: fas fa-github
-          url: https://github.com/mcxyzmc
-        - icon: fas fa-zhihu
-          url: https://www.zhihu.com/people/29-75-55-63
+        # - icon: fas fa-rss
+        #   url: /atom.xml
+        - icon: fas fa-envelope
+          url: mailto:705191326@qq.com
         - icon: fab fa-github
           url: https://github.com/mcxyzmc/mcxyzmc.github.io
         - icon: fab fa-qq
@@ -195,7 +195,7 @@ swiper:
   bubble: true # 轮播图是否显示气泡,也可以打开底下的花瓣或者雪花特效 sakura（花瓣）: true snow(雪花): true
   wave: true # 轮播图底下的波浪特效
   # 当没有文章设置swiper: true时候，轮播图会显示以下default默认内容，可自行切换对应内容
-  defaultImg: 'https://pic1.zhimg.com/v2-af3ccef61cf58b1a70765747cc1bbeac_b.jpg' # 图片，没有则随机选取
+  defaultImg: '/img/steamcommunity25.jpg' # 图片，没有则随机选取
   defaultVideo: '' # video，min-width:992px show
   defaultVideoLoadingImg: 'https://img14.360buyimg.com/ddimg/jfs/t1/175057/18/19582/882056/60ee7ac8Ef0045710/202d2ad878684a3b.gif' # video loading img -- use .gif img, 视频预加载动画，使用gif图片作为loading，为空则视频没有预加载动画
   defaultTile: '青墨书晚风' # 标题

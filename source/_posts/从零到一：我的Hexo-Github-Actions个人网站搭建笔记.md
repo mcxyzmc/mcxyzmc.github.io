@@ -189,7 +189,7 @@ git push -u origin main
 
 ```cmd
 git config --global http.proxy http://127.0.0.1:7890 
-git config --global https.proxy http://127.0.0.1:7890 
+git config --global https.proxy http://127.0.0.1:7890
 ```
 
 >注：如果你开启了全局代理，你完全不需要这一步就能顺利上传文件，但是个人还是推荐设置一下反正也就两行代码的事，不怕一万就怕万一好吧。如果以后不用代理了，或者更换了代理端口，需要执行`git config --global --unset http.proxy`来取消设置，否则Git会报错。
