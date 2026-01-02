@@ -1,7 +1,7 @@
 ---
 title: "关于我"
 onlyTitle: true
-bgImg: index/background.png
+bgImg: /about/index/background.png
 ---
 
 # 个人介绍
@@ -31,8 +31,8 @@ bgImg: index/background.png
 {% progress 100 danger 吃饭 %}
 {% progress 100 info 睡觉 %}
 {% progress 100 success 打豆豆 %}
-{% progress 0 warning 学习 %}
-{% progress 0 primary 工作 %}
+{% progress 10 warning 学习 %}
+{% progress 10 primary 工作 %}
 </div>
 
 ## 其他
@@ -48,13 +48,13 @@ bgImg: index/background.png
 
 ## 我的游戏
 {% gallery %}
-![我的世界](index/game1.png)
+![我的世界](/about/index/steamcommunity14.jpg)
 {% endgallery %}
 
 ## 我的相册
 {% swiper width:fill %}
-![我的相册1](https://pic3.zhimg.com/80/v2-7cfc909ebe8d83683909846edd6b5232_1440w.webp)
-![我的相册2](https://pic2.zhimg.com/80/v2-e22aaad20d20634f506f57fff0fcbc17_1440w.webp)
-![我的相册3](https://pic2.zhimg.com/80/v2-63bbdb5b76b8d349ad35ff4281efbd37_1440w.webp)
-![我的相册4](https://pica.zhimg.com/80/v2-61f99f8dcf899f54cad2a1aa28b21e44_1440w.webp)
+![我的相册1](/about/index/wallhaven3.jpg)
+![我的相册2](/about/index/steamcommunity16.jpg)
+![我的相册3](/about/index/steamcommunity26.jpg)
+![我的相册4](/about/index/steamcommunity28.jpg)
 {% endswiper %}
