@@ -339,7 +339,7 @@ baiduPush: true
 music:
   on: true
   autoHide: true    # hide automaticaly
-  server: tencent   # require music platform: netease, tencent, kugou, xiami, baidu
+  server: netease   # require music platform: netease, tencent, kugou, xiami, baidu
   type: playlist    # require song, playlist, album, search, artist
   id: 2488306802    # require song id / playlist id / album id / search keyword
   fixed: true       # 开启吸底模式，建议开启
