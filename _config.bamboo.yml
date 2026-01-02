@@ -51,7 +51,7 @@ sidebar:
     side_blogger:
       on: true
       avatar: /img/logo.jpg
-      shape: rectangle # circle, rectangle
+      shape: circle # circle, rectangle
       url: /about/
       title: 
       subtitle: 欢迎来到我的世界！
