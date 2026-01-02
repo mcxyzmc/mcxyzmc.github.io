@@ -17,7 +17,7 @@ menu:
   # Friends:
   #   url: /friends
   # 更多: # 这是二级菜单的写法
-  资源:
+  更多:
   # icon: fas fa-link
     children:
       - name: 图库
@@ -60,8 +60,8 @@ sidebar:
       background: '#fff'
       order:  # 卡片排序, 数值越小，越在上面
       social:
-        # - icon: fas fa-rss
-        #   url: /atom.xml
+        - icon: fas fa-rss
+          url: /atom.xml
         - icon: fas fa-envelope
           url: mailto:705191326@qq.com
         - icon: fab fa-github
@@ -198,10 +198,10 @@ swiper:
   defaultImg: '/img/steamcommunity25.jpg' # 图片，没有则随机选取
   defaultVideo: '' # video，min-width:992px show
   defaultVideoLoadingImg: 'https://img14.360buyimg.com/ddimg/jfs/t1/175057/18/19582/882056/60ee7ac8Ef0045710/202d2ad878684a3b.gif' # video loading img -- use .gif img, 视频预加载动画，使用gif图片作为loading，为空则视频没有预加载动画
-  defaultTile: '青墨书晚风' # 标题
+  defaultTile: '稚子童趣 萤火蝉鸣' # 标题
   defaultDesc: [] #描 述，例如 ['煮酒洗净尘嚣，论知交', '万般付之一笑，共偕老']
-  defaultLeftBtnText: '阅读文档' # 左边按钮文字, 空字符串则不显示
-  defaultLeftBtnLink: 'https://yuang01.gitee.io/2021/02/08/hexo-theme-bamboo-new/' # 左边按钮链接 
+  defaultLeftBtnText: '参考网站' # 左边按钮文字, 空字符串则不显示
+  defaultLeftBtnLink: 'https://hexo-theme-bamboo.netlify.app/' # 左边按钮链接 
   defaultRightBtnText: '下载主题' # 右边按钮的文字，空字符串则不显示
   defaultRightBtnLink: 'https://gitee.com/yuang01/hexo-theme-bamboo/repository/archive/dev.zip' # 右边的按钮的链接
   defaultDescTyped: true # defaultDesc文字是否开启打字特效  is typed
@@ -341,7 +341,7 @@ music:
   autoHide: true    # hide automaticaly
   server: tencent   # require music platform: netease, tencent, kugou, xiami, baidu
   type: playlist    # require song, playlist, album, search, artist
-  id: 8062553743    # require song id / playlist id / album id / search keyword
+  id: 2488306802    # require song id / playlist id / album id / search keyword
   fixed: true       # 开启吸底模式，建议开启
   autoplay: false   # 是否自动播放, 有些浏览器会禁用自动播放，目前edge可以自动播放
   theme: '#42b983'
@@ -488,7 +488,7 @@ gitalk:
 utterance:
   on: true
   # 仓库名字，格式：你的用户 ID/ 仓库名称，如：yuang01/yuang01.github.io
-  repo: 
+  repo: mcxyzmc/mcxyzmc.github.io
   # 主题
   theme:
     light: github-light
@@ -637,15 +637,15 @@ site_footer:
   # busuanzi是访客数那个,假如说你想在 social和 copyright中间加一个自定义内容, 可以这样写 layout: [social, aaa ,copyright, busuanzi, custom], 然后在下面写上aaa: 'markdown格式', aaa这个名称随便取
   layout: [social, copyright, custom]
   social:
-    # - icon: fas fa-rss
-    #   url: /atom.xml
-    # - icon: fas fa-envelope
-    #   url: mailto:1730241541@qq.com
-    # - icon: fas fa-github
-    #   url: https://github.com/yuang01/hexo-theme-bamboo
-    # - icon: fas fa-qq
-    #   url: tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1730241541
-  copyright: 'Copyright © 2019 - 2020 <a href="https://github.com/yuang01">yuang01</a> | Powered by <a href="https://hexo.io/zh-cn/docs/">Hexo</a> | Theme <a href="https://github.com/yuang01/theme">Bamboo</a> '
+    - icon: fas fa-rss
+      url: /atom.xml
+    - icon: fas fa-envelope
+      url: mailto:705191326@qq.com
+    - icon: fas fa-github
+      url: https://github.com/mcxyzmc
+    - icon: fas fa-qq
+      url: tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=705191326
+  copyright: 'Copyright © 2025 - 2026 <a href="https://github.com/mcxyzmc">mcxyzmc</a> | Powered by <a href="https://hexo.io/zh-cn/docs/">Hexo</a> | Theme <a href="https://github.com/yuang01/theme">Bamboo</a> '
   custom: # 根据需要自行取消注释，label: 'markdown格式'，会在下面继续增加内容
     # - label: '<br>'
     # - label: '[Hello World](http://baidu.com)'
