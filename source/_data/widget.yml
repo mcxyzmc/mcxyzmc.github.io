@@ -72,12 +72,11 @@ home_widget:
   - class_name: my_github_container
     id_name: my_github_container
     order: -1
-    name: 测试日历
-    icon: fas fa-envelope
-    icon_color: blue
+    name: Github日历
+    icon: fa-solid fa-calendar-days
+    icon_color: '#42b983'
     url: http://baidu.com
     background: '#fff'
     html: '
-        <div id="github_container"></div>
-        <script defer data-pjax src="/githubcalendar/index.js"></script>
-      '
+      <img no-lazy width="100%" hright="300px" src="https://ghchart.rshah.org/42b983/mcxyzmc" alt="mcxyzmc github" />
+    '
