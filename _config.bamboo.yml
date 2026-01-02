@@ -280,8 +280,8 @@ inputEffects:
   on: true
 
 # 背影彩带
-# ribbon:
-#   on: false
+ribbon:
+  on: false
 
 # live-2d(左下角动画人物)
 live2d:
