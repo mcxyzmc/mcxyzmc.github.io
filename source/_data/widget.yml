@@ -1,0 +1,83 @@
+# widget_library 里面的不会出现在sticky区域，也就是不会粘贴在左侧 
+widget_library:
+  - class_name: daojishi
+    id_name: daojishi
+    order: 1
+    name: 人生倒计时
+    icon: fa-solid fa-clock
+    icon_color: '#d63130'
+    url: http://baidu.com
+    background: '#fff'
+    html: '
+          <div class="sidebar-box classListBox">
+          <div class="aside aside-count">
+          <div class="content">
+          <div class="item" id="dayProgress">
+          <div class="title">今日已经过去<span></span>小时</div>
+          <div class="progress">
+          <div class="progress-bar">
+          <div class="progress-inner progress-inner-1"></div>
+          </div>
+          <div class="progress-percentage"></div>
+          </div>
+          </div>
+          <div class="item" id="weekProgress">
+          <div class="title">这周已经过去<span></span>天</div>
+          <div class="progress">
+          <div class="progress-bar">
+          <div class="progress-inner progress-inner-2"></div>
+          </div>
+          <div class="progress-percentage"></div>
+          </div>
+          </div>
+          <div class="item" id="monthProgress">
+          <div class="title">本月已经过去<span></span>天</div>
+          <div class="progress">
+          <div class="progress-bar">
+          <div class="progress-inner progress-inner-3"></div>
+          </div>
+          <div class="progress-percentage"></div>
+          </div>
+          </div>
+          <div class="item" id="yearProgress">
+          <div class="title">今年已经过去<span></span>个月</div>
+          <div class="progress">
+          <div class="progress-bar">
+          <div class="progress-inner progress-inner-4"></div>
+          </div>
+          <div class="progress-percentage"></div>
+          </div>
+          </div>
+          </div>
+          </div>
+          </div>
+          <script defer src="/daojishi/daojishi.js"></script>
+          <link href="/daojishi/daojishi.css" rel="stylesheet">
+      '
+
+# widget_library_sticky 里面的会出现在sticky区域，会粘贴在左侧
+# widget_library_sticky:
+#   - class_name: testWidget
+#     id_name: testWidget
+#     order: -1
+#     name: 微博热搜
+#     icon: fab fa-weibo
+#     icon_color: '#d63130'
+#     url: http://baidu.com
+#     background: '#fff'
+#     html: 'xixi'
+
+# home_widget里面的内容会出现在座右铭那一个栏目里面
+home_widget:
+  - class_name: my_github_container
+    id_name: my_github_container
+    order: -1
+    name: 测试日历
+    icon: fas fa-envelope
+    icon_color: blue
+    url: http://baidu.com
+    background: '#fff'
+    html: '
+        <div id="github_container"></div>
+        <script defer data-pjax src="/githubcalendar/index.js"></script>
+      '
