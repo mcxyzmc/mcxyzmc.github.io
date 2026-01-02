@@ -71,7 +71,7 @@ widget_library:
 home_widget:
   - class_name: my_github_container
     id_name: my_github_container
-    order: -1
+    order: 0
     name: Github日历
     icon: fa-solid fa-calendar-days
     icon_color: '#42b983'
