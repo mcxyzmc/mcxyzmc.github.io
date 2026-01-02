@@ -534,7 +534,7 @@ danmu:
 # 归档页面图片、描述、视频，全屏 or 'http://xxx'
 archive:
   title: 'archive'
-  img: 'https://pic1.zhimg.com/80/v2-1414b3a4b205e19060db18a20d08723a_1440w.jpg?source=1940ef5c'
+  img: '/img/2021春节.jpg'
   desc: '愿你如风，被人温柔以待'
   full: true # 设置为true，则图片全屏显示
   video: '' # 如果有值，则在屏幕大于920px的时候，全屏显示视频，为空则显示图片(img)
@@ -546,7 +546,7 @@ archive:
 # 标签页面，配置同上
 tag:
   title: 'tags'
-  img: 'https://pic2.zhimg.com/80/v2-bf6c555e7c61a57ba4a1fd95a9a32975_1440w.jpg' # 标签页上面的图片
+  img: '/img/2021国庆节.jpg' # 标签页上面的图片
   desc: '愿你如风，被人温柔以待'
   full: false # 标签页上面的图片是否全屏显示
   video: '' # 如果有值，则在屏幕大于920px的时候，全屏显示视频
@@ -556,7 +556,7 @@ tag:
 # 标签详情页面，配置同上
 tagDetail:
   title: 'tag'
-  img: 'https://pic1.zhimg.com/80/v2-604a15cef201cf177943af2d915eb2e7_1440w.jpg?source=1940ef5c'
+  img: '/img/2022端午节.jpg'
   desc: '愿你如风，被人温柔以待' # 标签页详情上上面的图片上的文字
   full: false
   video: ''
@@ -565,7 +565,7 @@ tagDetail:
 # 分类页面，配置同上
 categories:
   title: 'categories'
-  img: 'https://pic2.zhimg.com/80/v2-7c496c95897fb15768593cc5170c8b1a_1440w.jpg?source=1940ef5c'
+  img: '/img/2022元宵节.jpg'
   desc: '愿你如风，被人温柔以待'
   full: false
   video: ''
@@ -575,7 +575,7 @@ categories:
 #分类详情页面，配置同上
 categoryDetail:
   title: 'category'
-  img: 'https://pic3.zhimg.com/80/v2-98dcd81cb0d1fee52a807c13cedb8338_1440w.jpg?source=1940ef5c'
+  img: '/img/2022中秋节.jpg'
   desc: '愿你如风，被人温柔以待'
   full: false
   video: ''
@@ -615,7 +615,7 @@ color_scheme:
     # 如果背景只想要一个图片：可以使用 ['http://xxxxxx'] 或者 'http://xxxxxxx'，这样的写法, 图片地址也可以是本地路径('/img/xxx.png' or '/medias/xxx.png')
     # 也可以是颜色字符串（例如'#C7EDCC', 或者rgba(0 ,0 ,0, 0.8) 那么会使用该颜色作为背景）
     # 空字符串则背景颜色为透明
-    bgImg: '/img/steamcommunity26.jpg'
+    bgImg: '/img/mc_wallpaper_movie_vista_1920x1080.jpg'
     # 背景图幻灯片模式--延迟时间
     # 如果bgImg设置为数组，数组里面是多个图片地址,则 bgImgDelay表示背景图幻灯片的 延迟间隔时间
     bgImgDelay: 180000 # 默认三分钟，切换一张图片
