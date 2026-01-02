@@ -1,7 +1,7 @@
 ---
 title: "关于我"
 onlyTitle: true
-bgImg: /about/index/background.png
+bgImg: /about/index/wallhaven6.png
 ---
 
 # 个人介绍
