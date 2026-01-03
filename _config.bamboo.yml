@@ -641,9 +641,9 @@ site_footer:
       url: /atom.xml
     - icon: fas fa-envelope
       url: mailto:705191326@qq.com
-    - icon: fas fa-github
+    - icon: fab fa-github
       url: https://github.com/mcxyzmc
-    - icon: fas fa-qq
+    - icon: fab fa-qq
       url: tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=705191326
   copyright: 'Copyright © 2025 - 2026 <a href="https://github.com/mcxyzmc">mcxyzmc</a> | Powered by <a href="https://hexo.io/zh-cn/docs/">Hexo</a> | Theme <a href="https://github.com/yuang01/theme">Bamboo</a> '
   custom: # 根据需要自行取消注释，label: 'markdown格式'，会在下面继续增加内容
