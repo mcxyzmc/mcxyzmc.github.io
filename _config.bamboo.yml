@@ -285,7 +285,7 @@ ribbon:
 
 # live-2d(左下角动画人物)
 live2d:
-  on: false # 控制显示或者隐藏
+  on: true # 控制显示或者隐藏
   modelId:  # 0 or 1 or 2 or 3 or 4 or 5 or 6
   open: true # 默认展开，false则收缩，通过点左下角的方块点击，控制展开或者收缩
 
