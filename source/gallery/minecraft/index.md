@@ -5,9 +5,9 @@ toc: false
 img: https://pic1.zhimg.com/80/v2-92cc20bdf4674b6c6337478bb06657b3_1440w.jpg?source=1940ef5c
 ---
 
-### minecraft官方
+## minecraft官方
 
-#### 1. 中国版
+### 1. 中国版
 
 {% gallery stretch, 2 %}
 ![2018春节](gallery/minecraft/index/2018春节.jpg) 
@@ -36,7 +36,7 @@ img: https://pic1.zhimg.com/80/v2-92cc20bdf4674b6c6337478bb06657b3_1440w.jpg?sou
 ![2023情人节](gallery/minecraft/index/2023情人节.jpg)
 {% endgallery %}
 
-#### 2. 其他
+### 2. 其他
 
 {% gallery stretch, 2 %}
 ![mc_wallpaper_movie_vista](gallery/minecraft/index/mc_wallpaper_movie_vista_1920x1080.jpg) 
@@ -48,7 +48,7 @@ img: https://pic1.zhimg.com/80/v2-92cc20bdf4674b6c6337478bb06657b3_1440w.jpg?sou
 ![wallpaper_minecraft_winter_celebration](gallery/minecraft/index/wallpaper_minecraft_winter_celebration_1920x1080.jpg)
 {% endgallery %}
 
-### wallhaven的
+## wallhaven
 
 {% gallery stretch, 2 %}
 ![wallhaven1](gallery/minecraft/index/wallhaven1.jpg) 
@@ -62,7 +62,7 @@ img: https://pic1.zhimg.com/80/v2-92cc20bdf4674b6c6337478bb06657b3_1440w.jpg?sou
 ![wallhaven9](gallery/minecraft/index/wallhaven9.jpg)
 {% endgallery %}
 
-### steamcommunity
+## steamcommunity
 
 {% gallery stretch, 2 %}
 ![steamcommunity10](gallery/minecraft/index/steamcommunity10.jpg) 
@@ -87,10 +87,11 @@ img: https://pic1.zhimg.com/80/v2-92cc20bdf4674b6c6337478bb06657b3_1440w.jpg?sou
 ![steamcommunity29](gallery/minecraft/index/steamcommunity29.jpg) 
 {% endgallery %}
 
-### 图片来源
+## 图片来源
 
 未标注序号的都来自于minecraft官网：<https://www.minecraft.net/zh-hans>
 序号1-9来自于wallhaven，序号10-28来自于steamcommunity，具体网址如下：
+
 ```shell
 1.https://whvn.cc/j31z6w
 2.https://whvn.cc/y8epzx

@@ -6,7 +6,7 @@ widget_library:
     name: 人生倒计时
     icon: fa-solid fa-clock
     icon_color: '#d63130'
-    url: http://baidu.com
+    url:  https://b23.tv/NCF8niS
     background: '#fff'
     html: '
           <div class="sidebar-box classListBox">

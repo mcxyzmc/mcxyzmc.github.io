@@ -7,13 +7,14 @@ tags:
  - github
 categories: 
  - website
-comments: true
 mathjax: true
+swiper: true
+top: true
 ---
 
 ## 0.前言
 
-事先声明，鄙人基本上可以算是一个电脑小白，本篇笔记所有内容都是基于知乎、b站、官网资料、Gemini及本人的网站搭建经验撰写的，我（实则是Gemini）会尽力将每一步的过程和作用讲清楚。当然如果诸位发现本文有任何错漏的地方，欢迎大家批评指正！这是搭建完成后[我的个人网站主页]。
+事先声明，本人对于前端开发、html、css什么的完全不懂，本篇笔记所有内容都是基于知乎、b站、官网资料、Gemini及本人的网站搭建经验撰写的，我（实则是Gemini）会尽力将每一步的过程和作用讲清楚。当然如果诸位发现本文有任何错漏的地方，欢迎大家批评指正！这是搭建完成后[我的个人网站主页]。
 
 以下是在搭建过程中需要用到的工具的简要介绍，如果不感兴趣的话可以直接移步正文：
 
@@ -37,7 +38,7 @@ Git的工作主要有两件：一是把你本地写好的文章上传到GitHub�
 
 ![2025-12-31-04-08-47.png](2025-12-31-04-08-47.png)
 
->注：这里Description和Add READMD可选可不选
+>注：这里Description和Add READMD随意即可
 
 ②参考[Node.js视频安装配置教程]安装Node.js，当然你也可以尝试[Hexo官方文档]的方法安装
 
@@ -80,9 +81,7 @@ ssh-keygen -t rsa -C "useremail"
 npm install hexo-cli -g
 ```
 
->注：本节按理说应该不用管理员身份，不过保险点用管理员身份应该也不会出现什么大错
-
-②在自己想要的路径下创建一个文件夹作为站点本地源文件的上级目录，在该目录下执行命令`hexo init sitename`从`Hexo`官网下载最基础的博客模板，这里`sitename`是你自己想要取的站点目录的名字。
+②在自己想要的路径下创建一个文件夹作为站点本地源文件的上级目录，在该目录下执行命令`hexo init "sitename"`从`Hexo`官网下载最基础的博客模板，这里`sitename`是你自己想要取的站点目录的名字。
 
 ![2025-12-31-04-11-38.png](2025-12-31-04-11-38.png)
 
@@ -90,11 +89,11 @@ npm install hexo-cli -g
 
 ![2025-12-31-04-11-51.png](2025-12-31-04-11-51.png)
 
-④执行命令`hexo s`启动本地服务器进行测试，默认网址为`http://localhost:4000/`，可以打开浏览器搜索该网址检查本地博客是否搭建成功（按`Ctrl+C`中断测试）
+④执行命令`hexo s`启动本地服务器进行测试，默认网址为`http://localhost:4000/`，可以打开浏览器搜索该网址检查本地博客是否搭建成功
 
 ![2025-12-31-04-12-30.png](2025-12-31-04-12-30.png)
 
->注：科学上网的时候应该是打不开这个页面的
+>注：确定测试成功后可以按`Ctrl+C`中断测试，但中断测试后就无法打开这个页面，需要再次查看的话需重新执行`hexo s`
 
 ---
 
@@ -192,14 +191,16 @@ git config --global http.proxy http://127.0.0.1:7890
 git config --global https.proxy http://127.0.0.1:7890
 ```
 
->注：如果你开启了全局代理，你完全不需要这一步就能顺利上传文件，但是个人还是推荐设置一下反正也就两行代码的事，不怕一万就怕万一好吧。如果以后不用代理了，或者更换了代理端口，需要执行`git config --global --unset http.proxy`来取消设置，否则Git会报错。
+>注：如果你开启了全局代理，你可能不需要这一步就能顺利上传文件，但是个人还是推荐设置一下。如果以后不用代理了，或者更换了代理端口，需要执行`git config --global --unset http.proxy`来取消设置，否则Git会报错。
 
-完成了代理设置就可以撰写文章了，以下介绍鄙人撰写文章的一般流程：
+完成了代理设置就可以撰写文章了，以下介绍本人撰写文章的一般流程：
 ①用VScode打开本地站点文件夹，找到`sitename/source/_posts/`文件夹，在目录下新建文件`articlename.md`，开头写入类似以下内容，后面正常用`Markdown`通用语法撰写文章即可，如果你的文章里需要有图片或公式那还需要另外的配置，详见本文第五节网站优化。
 
 ```md
 ---
 title: articlename
+data:
+mathjax: true
 ---
 ```
 
@@ -219,7 +220,7 @@ title: articlename
 
 ### 5.1 更换主题
 
-在Hexo中有许多国内外大佬上传的主题模板，你可以在Hexo主题页面找到自己喜欢的主题，进入对应的Github网址查看如何将使用这个主题（操作基本都差不多），以下以鄙人用的`Bamboo`为例讲解如何更换主题。
+在Hexo中有许多国内外大佬上传的主题模板，你可以在Hexo主题页面找到自己喜欢的主题，进入对应的Github网址查看如何将使用这个主题（操作基本都差不多），部分主题的参考网页有非常详细的优化配置教程这种也是本人比较推荐的。以下以我自己用的`Bamboo`为例讲解如何更换主题，更多配置看一查看[我的Github个人网站仓库]或者[Bamboo参考网页]。
 ①用VScode打开本地站点文件夹，然后调出cmd终端
 ②执行命令`npm install hexo-theme-bamboo`安装主题包
 ③执行以下命令将主题配置文件复制为站点目录下名为`_config.bamboo.yml`的文件
@@ -228,13 +229,14 @@ title: articlename
 copy node_modules/hexo-theme-bamboo/_config.yml _config.bamboo.yml
 ```
 
-④打开站点配置文件`_config.yml`，找到`theme`字段将其值改为`true`
+④打开站点配置文件`_config.yml`，找到`theme`字段将其值改为`bamboo`
 ⑤（可选）找到`title`字段将其值改为你想要的`sitetitle`，找到`author`字段将其值改为你想要的`authorname`，找到`language`字段将其值改为`zh-CN`，找到`timezone`字段将其值改为`Asia/Shanghai`
 ⑥执行命令`hexo clean`和`hexo s`清理内存并预览
 
 >注：
-a. 第二步你也可以使用git clone安装主题包，不过后续的操作就不同了。个人觉得npm更稳定一点，所以推荐使用npm。
+a. 第二步你也可以使用git clone安装主题包，不过后续的操作就不同了。不过npm好像更稳定一点，所以推荐使用npm。
 b. 第三步的复制操作你也可以直接在文件夹下通过互联网神技CV工程技术来完成
+c. 再次提醒预览的时候不要`Ctrl+C`中断测试
 
 ### 5.2 插入图片
 
@@ -270,6 +272,7 @@ d. Hexo的标准图片引用格式为`{% asset_img imagepath/imagename.png %}`�
 a. 如果配置文件大括号中已经有内容了记得在已有内容末尾加上英文逗号
 b. 以上`Paste Image配置`实现两个功能，第一当你使用`Ctrl+Alt+V`在你的Markdown中粘贴图片时，它会自动在文档所在目录下新建文档同名目录并将图片放入该目录内；第二因为开启了`postAsset: true`，所以你的图片引用格式只需要写成`![](imagename.png)`而不是`![](articlename/imagename.png)`，而`Image Paste`会粘贴图片为后者的形式，所以第二行的配置就是让`Image Paste`将图片粘贴为前者的形式
 c. `VSCode原生图片粘贴功能配置`其实就是实现`Paste Image配置`中的第一个功能，遗憾的是我并没有找到该如何实现第二个功能，所以如果你用`Ctrl+V`粘贴图片它将不会被Hexo识别。聪明的你也许会想到可以关闭`postAsset`这样Hexo不会在进入文档同名文件夹再根据我们提供的路径来寻找图片，这样的话`Paste Image配置`还可以少一行配置，但事实上因为`HTML`转换的问题这是不行的具体这里就不解释了
+d. 如果想要在`_posts`外的文件夹中的Markdown文档中`Ctrl+V`粘贴图片时也创建一个文件夹来放置图片等相关资源只需把`"**/_posts/*.md"`改为`"**/*.md"`即可，个人比较推荐
 
 ③在VScode中按`Ctrl+Shift+P`搜索选择`MPE：扩展Parser（工作区）`，打开MPE的parser.js配置文件，将其中
 
@@ -333,7 +336,6 @@ $$i\hbar\frac{\partial}{\partial t}\psi({\bf r},t)=(-\frac{\hbar^2}{2m}\nabla^2+
 **Hexo**官方文档：<https://hexo.io/zh-cn/docs/>
 b站**爬虫孙大圣**的《Nodejs安装零基础教程2025》：<https://www.bilibili.com/video/>
 b站**HDAlex_Jhon**的《给傻子的Git教程》：<https://www.bilibili.com/video/BV1Hkr7YYEh8?>
-最后感谢Gemini！感谢伟大的互联网精神！
 
 [我的个人网站主页]:https://mcxyzmc.github.io
 [Github官网]:https://github.com/
@@ -341,3 +343,5 @@ b站**HDAlex_Jhon**的《给傻子的Git教程》：<https://www.bilibili.com/vi
 [Hexo官方文档]:https://hexo.io/zh-cn/docs/
 [Hexo官方文档Front-matter页面]:https://hexo.io/zh-cn/docs/front-matter
 [Git官网下载页面]:https://git-scm.com/install/
+[我的Github个人网站仓库]:https://github.com/mcxyzmc/mcxyzmc.github.io
+[Bamboo参考网页]:https://hexo-theme-bamboo.netlify.app/
