@@ -259,7 +259,7 @@ cursor_effect:
 
 # 头部导航是否显示天气
 weather:
-  on: false
+  on: true
 
 # 全文搜索功能
 search:
