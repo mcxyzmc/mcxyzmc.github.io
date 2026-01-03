@@ -237,7 +237,7 @@ copy node_modules/hexo-theme-bamboo/_config.yml _config.bamboo.yml
 a. 第二步你也可以使用git clone安装主题包，不过后续的操作就不同了。不过npm好像更稳定一点，所以推荐使用npm。
 b. 第三步的复制操作你也可以直接在文件夹下通过互联网神技CV工程技术来完成
 c. 再次提醒预览的时候不要`Ctrl+C`中断测试
-d. 如果你也使用bamboo主题，建议关闭live2d和weather，本人在未关闭这两个的的时候向Github上传更新的源代码后在Github部署的大概十几秒或者二十几秒内，刷新网站页面时会被恶意劫持跳转到别的网站.
+d. 如果你也使用bamboo主题，建议关闭live2d和weather，本人在未关闭这两个的的时候向Github上传更新的源代码后在Github部署的大概十几秒或者二十几秒内，刷新网站页面时会被恶意劫持跳转到别的网站。
 
 ### 5.2 插入图片
 
