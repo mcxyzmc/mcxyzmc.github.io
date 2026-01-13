@@ -1,16 +1,16 @@
 ---
 title: Linux系统安装与远程控制
-date: 2026-01-13 15:47:20
-updated:
-tags:
- - linux
- - tailscale
- - ssh
-categories:
- - scientific research
 mathjax: true
 swiper: false
 top: false
+date: 2026-01-13 20:30:52
+updated:
+tags:
+    - linux
+    - tailscale
+    - ssh
+categories:
+    - scientific research
 ---
 
 ## 一. 前期准备
