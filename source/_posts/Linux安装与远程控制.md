@@ -1,5 +1,5 @@
 ---
-title: Linux系统安装与远程控制
+title: Linux安装与远程控制
 mathjax: true
 swiper: false
 top: false
