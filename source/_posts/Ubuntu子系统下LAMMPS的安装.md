@@ -2,7 +2,7 @@
 title: Ubuntu子系统下LAMMPS的安装
 mathjax: true
 swiper: false
-top: false
+top: true
 date: 2026-01-14 22:52:28
 updated:
 tags:
