@@ -124,11 +124,10 @@ categories:
 
 >注：更多WSL基础命令请参考[Microsoft官方|WSL的基本命令][网址三]
 
-### 1.3 进程、线程与LAMMPS并行
+### 1.3 进程、线程与GPU加速
 
 1. 硬件基础概念
     - CPU（中央处理器）：计算机的总指挥。在LAMMPS中，CPU负责逻辑控制、积分计算和大部分力场计算。
-    - GPU（图形处理器/显卡）：擅长执行大规模重复性计算（如成千上万个原子间的相互作用力）。在LAMMPS中，可以启用GPU包或Kokkos包将计算量最大的“非键结力（Pair Forces）”卸载到GPU上，大幅加速模拟。
     - 物理核心：CPU硬件上独立的处理单元。比如一个8核CPU，就有8个真实的计算核心。**在绝大多数情况下，LAMMPS运行的最优策略是：将MPI进程数（-np）设置为等于你的物理核心数。**
     - 逻辑处理器：通过“超线程（Hyper-Threading）”技术，将一个物理核心虚拟成两个。**对于分子动力学这种计算密集型任务，超线程通常没有帮助，因为这两个“逻辑核”会争抢同一个物理计算单元，导致相互等待，通常会比只开物理核慢10%-30%**。
 2. 并行计算与软件架构
@@ -141,6 +140,16 @@ categories:
         - 线程：进程内部的更小执行单位，共享同一个进程的内存。
         - OpenMP：实现多线程并行的标准。
         - 在LAMMPS中，通常通过启用USER-OMP或KOKKOS包使用。**一个MPI进程可以下辖多个线程，适用于节点内核心非常多但内存带宽受限的情况。这种情况下的最佳策略一般为：进程数x线程数=物理核心数。**
+3. GPU加速
+    - GPU（图形处理器/显卡）：擅长执行大规模重复性计算（如成千上万个原子间的相互作用力）。在LAMMPS中，可以启用GPU包或Kokkos包将计算量最大的“非键结力（Pair Forces）”卸载到GPU上，大幅加速模拟。LAMMPS的GPU包和Kokkos包主要针对NVIDIA显卡，虽然也支持AMD/Intel（使用OpenCL或其他接口），但目前NVIDIA+CUDA是最主流、最稳定的组合。
+    - 驱动：负责操作系统与显卡硬件之间的沟通，告诉显卡什么时候该干活，并管理硬件资源。**在终端输入`nvidia-smi`，右上角可以看到你的驱动版本和它支持的最高CUDA版本。**
+    - CUDA-Toolkit：提供了各种数学库和编程接口，让开发者知道如何编写程序才能让显卡听得懂，并把任务分配给显卡。当你从源码编译LAMMPS时，编译器需要CUDA-Toolkit里的库文件来生成支持GPU的可执行文件。此外，LAMMPS运行时也需要调用这些库来把原子坐标传给显卡并取回计算结果。
+    - 协作流程：
+        ①LAMMPS程序：发起请求，说“我要计算这 10 万个原子的相互作用力”。
+        ②CUDA-Toolkit：根据代码指令，把这些复杂的数学公式拆解成GPU能处理的成千上万个小任务。
+        ③驱动：接收这些任务，确认显卡当前有空，然后把数据从内存搬运到显存中。
+        ④显卡：i疯狂并行计算。
+        ⑤驱动：计算完后，把结果从显存搬回内存交给CPU进行下一步的原子位置更新。
 
 ### 1.4 LAMMPS主要命令行选项
 
@@ -166,6 +175,8 @@ LAMMPS的命令行选项是“运行前配置”的核心入口，支持在不�
     - `h`或`-help`：可以显示用法，还会列出当前这个LAMMPS可执行文件编译进了哪些功能，如果你不确定你的LAMMPS是否支持某个势函数，运行`lmp -h`查一下列表
     - `-version`：显示版本日期，报Bug或发论文引用时需要
     - `-cite filename`：运行结束后，LAMMPS会把你用到的算法对应的参考文献列出来，存到这个文件里
+
+---
 
 ## 二. Ubuntu子系统的安装
 
@@ -208,9 +219,9 @@ LAMMPS的命令行选项是“运行前配置”的核心入口，支持在不�
 1. 按下`Win + I`，打开系统-系统信息，查看系统类型（`x64`/`arm64`/其它）
 2. 前往[Microsoft官方|旧版WSL的手动安装步骤][网址七]下载并安装最新版的Linux发行版Ubuntu
 
->注意：不是Microsoft Store跳转链接而是下载链接
+    >注意：不是Microsoft Store跳转链接而是下载链接
 
-![alt text](image.png)
+    ![alt text](image.png)
 
 **方法三**
 
@@ -222,9 +233,11 @@ LAMMPS的命令行选项是“运行前配置”的核心入口，支持在不�
 1. 按下`Win + R`，输入`cmd`回车打开PowerShell窗口
 2. 通过下拉箭头选择最新版的Ubuntu并打开，首次打开会提示创建用户名和密码，输入即可
 
->注：输入密码时不会有任何显示，这是正常现象
+    >注：输入密码时不会有任何显示，这是正常现象
 
-![alt text](image-1.png)
+    ![alt text](image-1.png)
+
+---
 
 ## 三.传统make安装LAMMPS
 
@@ -232,14 +245,19 @@ LAMMPS的命令行选项是“运行前配置”的核心入口，支持在不�
 
 #### 3.1.1 安装CUDA Toolkit（可选但推荐）
 
-1. 在Ubuntu终端执行`nvidia-smi`命令检查显卡驱动（本节只针对英伟达NVIDIA显卡），由下图可知，该电脑显卡配置为NVIDIA，显卡驱动版本为：Driver Version：527.83，CUDA版本为：CUDA Version：12.8，因此可安装的CUDA最高版本为12.8
-![alt text](image-2.png)
+1. 在Ubuntu终端执行`nvidia-smi`命令检查显卡驱动，由下图可知，该电脑显卡配置为NVIDIA，显卡驱动版本为：Driver Version：527.83，CUDA版本为：CUDA Version：12.8，因此可安装的CUDA最高版本为12.8
+    ![alt text](image-2.png)
 
     >注：本节仅针对需要安装GPU/KOKKOS版本LAMMPS，CPU版本LAMMPS可跳过
 
 2. 在Ubuntu终端执行`uname -m`命令查询系统架构
 3. 前往[CUDA官网][网址八]根据电脑配置选择对应版本，在Ubuntu终端执行对应版本CUDA的安装命令（这一步建议科学上网下载快些，命令执行过程中请耐心等待）
-![alt text](image-3.png)
+    ![alt text](image-3.png)
+
+    >注：以下对图中三种安装方式进行讲解：
+    ①deb(local)——离线安装包：下载的是一个非常大的文件（通常几个GB），里面包含了CUDA Toolkit的所有组件和驱动。由于使用了系统的包管理器(apt)，它会自动处理依赖关系，安装过程相对标准、稳健。
+    ②deb(network)——在线/网络安装包：下载的是一个非常小的引导文件（几百KB）。当你运行安装命令时，它会实时从NVIDIA官网下载你需要的组件。它只下载你勾选或需要的组件，而且它会将NVIDIA的官方仓库添加到你的系统软件源中，以后你可以通过 `sudo apt upgrade`像更新普通软件一样更新CUDA。但是使用这种方式在安装过程中必须保持网络畅通且稳定，如果网络不好，安装会频繁报错。
+    ③runfile(local)——通用脚本安装：这是一个以.run结尾的自解压脚本文件（也是离线的，包含所有组件）。它不使用操作系统的包管理器，而是直接运行一个交互式的安装界面。它允许你非常方便地选择“装Toolkit但不装显卡驱动”，如果你已经手动装好了显卡驱动，用`runfile`可以避免被`deb`安装包强制覆盖掉当前驱动，从而导致黑屏或系统崩溃。但是安装后，你通常需要手动配置环境变量，且卸载时比较麻烦。
 
 4. 在Ubuntu终端执行命令`vim ~/.bashrc`将添加类似以下内容到环境变量，确认无误后执行命令`source ~/.bashrc`使更改生效；执行`which nvcc`命令检查环境变量是否添加成功
 
@@ -248,22 +266,22 @@ LAMMPS的命令行选项是“运行前配置”的核心入口，支持在不�
     export LD_LIBRARY_PATH=/usr/local/cuda-12.8/lib64:$LD_LIBRARY_PATH
     ```
 
->注：
-①使用vim编辑器按`i`键进入编辑模式，按`Esc`键退出编辑模式，再输入`:wq`回车即可保存退出
-②`cuda-12.8`根据你的实际情况修改（安装过程中会弹出相关信息）
+    >注：
+    ①使用vim编辑器按`i`键进入编辑模式，按`Esc`键退出编辑模式，再输入`:wq`回车即可保存退出
+    ②`cuda-12.8`根据你的实际情况修改（安装过程中会弹出相关信息）
 
-![alt text](image-4.png)
+    ![alt text](image-4.png)
 
 #### 3.1.2 安装基础包
 
 打开Ubuntu子系统，执行以下命令安装基础包
 
-    ```bash
-    sudo apt-get update                     %更新系统中安装的包的列表，以确保安装时使用的是最新版本的包
-    sudo apt-get install build-essential    %安装g++、gcc及vim编辑器
-    sudo apt-get install cmake
-    sudo apt-get install gfortran
-    ```
+```bash
+sudo apt-get update                     %更新系统中安装的包的列表，以确保安装时使用的是最新版本的包
+sudo apt-get install build-essential    %安装g++、gcc及vim编辑器
+sudo apt-get install cmake
+sudo apt-get install gfortran
+```
 
 >注：可以通过输入which gcc、which g++、which vim、which gfortran、which cmake来检验是否安装成功，若安装成功会显示该命令所在路径
 
@@ -273,7 +291,7 @@ LAMMPS的命令行选项是“运行前配置”的核心入口，支持在不�
     >注：
     ①OPENMPI也可换成[MPICH][网址十一]，OPENMPI对于集群环境、GPU加速有更好的支持而MPICH在WSL环境中更稳定
     ②事实上LAMMPS仅对MPI有硬性要求，安装FFTW是因为其性能比LAMMPS自带的性能要好
-    
+
     ![alt text](image-5.png)
     ![alt text](image-6.png)
 
@@ -282,13 +300,13 @@ LAMMPS的命令行选项是“运行前配置”的核心入口，支持在不�
     >注：`mnt`是linux通往Windows文件夹的“入口”，后面的c代表的就是c盘，`mnt`后面的路径需要换成你自己安装包所在路径
 
     ```bash
-    mkdir lmp							%在当前目录创建一个lmp文件夹
-    cd lmp								%进入lmp文件夹
-    mkdir fftw							%在当前目录创建fftw文件夹
-    mkdir openmpi						        %在当前目录创建openmpi文件夹
-    cp /mnt/c/Users/xyy/Downloads/fftw-3.3.10.tar.gz ./		%将fftw安装包拷贝到当前文件夹
-    cp /mnt/c/Users/xyy/Downloads/openmpi-5.0.8.tar.gz ./		%将openmpi安装包拷贝到当前文件夹
-    ls								%查看当前目录下文件，确保都已正确拷贝
+    mkdir lmp                           %在当前目录创建一个lmp文件夹
+    cd lmp                              %进入lmp文件夹
+    mkdir fftw                          %在当前目录创建fftw文件夹
+    mkdir openmpi                               %在当前目录创建openmpi文件夹
+    cp /mnt/c/Users/xyy/Downloads/fftw-3.3.10.tar.gz ./     %将fftw安装包拷贝到当前文件夹
+    cp /mnt/c/Users/xyy/Downloads/openmpi-5.0.8.tar.gz ./       %将openmpi安装包拷贝到当前文件夹
+    ls                                  %查看当前目录下文件，确保都已正确拷贝
     ```
 
 3. 在Ubuntu终端依次执行类似以下命令，解压、编译、安装OPENMPI
@@ -296,15 +314,15 @@ LAMMPS的命令行选项是“运行前配置”的核心入口，支持在不�
     >注：
     ①`\`是换行符，等同于将`\`删去并将下一行与当前行合并
     ②如果未安装CUDA则需删去命令中的`--with-cuda=/usr/local/cuda-12.8`
-    ③`make -j`线程数越多编译越快，可在Ubuntu终端执行命令`nproc`查看当前系统可用线程数,或者直接执行命令`make -j $(nproc)`可自动根据系统配置设置并行任务的数量，最大化利用系统资源
+    ③`make -j`进程数越多编译越快，可在Ubuntu终端执行命令`nproc`查看当前系统可用进程数,或者直接执行命令`make -j $(nproc)`可自动根据硬件配置设置并行任务的数量，最大化利用系统资源
 
-    ```
-    tar -xvzf openmpi-5.0.8.tar.gz 				%tar -xvzf是tar.gz类压缩文件的解压缩命令
-    cd openmpi-5.0.8 					%进入解压缩后生成的文件夹
+    ```bash
+    tar -xvzf openmpi-5.0.8.tar.gz              %tar -xvzf是tar.gz类压缩文件的解压缩命令
+    cd openmpi-5.0.8                    %进入解压缩后生成的文件夹
     ./configure --prefix=/home/xyy/lmp/openmpi \
     --with-cuda=/usr/local/cuda-12.8                        %将openmpi安装到创建的openmpi文件夹
-    make –j 32						%采用32线程并行编译
-    make install						%安装OPENMPI
+    make –j 32                      %采用32线程并行编译
+    make install                        %安装OPENMPI
     cd ..                                                   %回退到上一级目录
     cd openmpi                                              %进入创建的openmpi文件夹
     ls                                                      %查看当前目录下文件，确保安装无误
@@ -319,15 +337,15 @@ LAMMPS的命令行选项是“运行前配置”的核心入口，支持在不�
 5. 在Ubuntu终端依次执行类似以下命令，解压、编译、安装FFTW
 
     ```bash
-    cd /home/xyy/lmp				%进入lmp目录
-    tar -xvzf fftw-3.3.10.tar.gz           		%解压fftw安装包
-    cd fftw-3.3.10					%进入解压生成的文件夹
-    ./configure --prefix=/home/xyy/lmp/fftw		%将fftw安装到创建的fftw文件夹
-    make –j 32					%采用32线程并行编译
-    make install					%安装fftw
-    cd ..						%回到上一级目录
-    cd fftw						%进入fftw文件夹
-    ls						%查看当前目录下文件，检查是否正确安装
+    cd /home/xyy/lmp                %进入lmp目录
+    tar -xvzf fftw-3.3.10.tar.gz    %解压fftw安装包
+    cd fftw-3.3.10                  %进入解压生成的文件夹
+    ./configure --prefix=/home/xyy/lmp/fftw     %将fftw安装到创建的fftw文件夹
+    make –j 32                      %采用32线程并行编译
+    make install                    %安装fftw
+    cd ..                           %回到上一级目录
+    cd fftw                         %进入fftw文件夹
+    ls                              %查看当前目录下文件，检查是否正确安装
     ```
 
 #### 3.1.4 下载并安装LAMMPS
@@ -341,8 +359,8 @@ LAMMPS的命令行选项是“运行前配置”的核心入口，支持在不�
 
     ```bash
     cd /home/xyy/lmp                                            %退到lmp目录
-    cp /mnt/c/Users/xyy/Downloads/lammps-stable.tar.gz ./	    %将lammps安装包拷贝到当前文件夹
-    tar -xvzf lammps-stable.tar.gz				    %解压lammps
+    cp /mnt/c/Users/xyy/Downloads/lammps-stable.tar.gz ./       %将lammps安装包拷贝到当前文件夹
+    tar -xvzf lammps-stable.tar.gz                              %解压lammps
     ```
 
 ##### 3.1.4.2 生成LAMMPS可执行文件
@@ -352,8 +370,8 @@ LAMMPS的命令行选项是“运行前配置”的核心入口，支持在不�
 
     ```bash
     cd /home/xyy/lmp/lammps-22Jul2025/src/MAKE/OPTIONS
-    ls				%查看当前目录下文件，其中Makefile.g++_openmpi即为需要修改的文件
-    vim Makefile.g++_openmpi		%编辑Makefile.g++_openmpi文件
+    ls              %查看当前目录下文件，其中Makefile.g++_openmpi即为需要修改的文件
+    vim Makefile.g++_openmpi        %编辑Makefile.g++_openmpi文件
     ```
 
     ![alt text](image-8.png)
@@ -376,13 +394,13 @@ LAMMPS的命令行选项是“运行前配置”的核心入口，支持在不�
 
     ```bash
     cd /home/xyy/lmp/lammps-22Jul2025/src       %进入lammps的src文件夹
-    make ps			                    %查看当前所有包的状态，初始所有包均为no，ps即package status
+    make ps                                     %查看当前所有包的状态，初始所有包均为no，ps即package status
     make yes-molecule yes-kspace yes-rigid yes-manybody \
     yes-meam yes-class2 yes-extra-pair yes-extra-fix \
     yes-extra-dump yes-extra-compute yes-extra-molecule \
     yes-dpd-basic yes-dpd-meso yes-misc yes-mc \
-    yes-reaxff yes-qeq	                    %这里提供的配置能满足大部分模拟需求
-    make –j 32 g++_openmpi	                    %编译可执行文件，这里g++_openmpi为刚才修改的Makefile文件的后缀
+    yes-reaxff yes-qeq                          %这里提供的配置能满足大部分模拟需求
+    make –j 32 g++_openmpi                      %编译可执行文件，这里g++_openmpi为刚才修改的Makefile文件的后缀
     ```
 
 3. 在Ubuntu终端执行命令`vim ~/.bashrc`将类似以下内容添加到环境变量，确认无误后执行命令`source ~/.bashrc`使更改生效；执行命令`lmp_g++_openmpi`检查环境变量是否添加成功；最后按`Ctrl + C`中断程序运行
@@ -395,24 +413,24 @@ LAMMPS的命令行选项是“运行前配置”的核心入口，支持在不�
 
 4. 在Ubuntu终端依次执行以下命令检验CPU并行版LAMMPS能否正常运行
 
-    >注：`lmp_g++_openmpi`为刚才编译的可执行文件，`in.flow.couette`是LAMMPS自带的一个示例文件，关于示例文件讲解可看本文[第五节 LAMMPS官方example讲解](#五lammps官方example讲解)
+    >注：`lmp_g++_openmpi`为刚才编译的可执行文件，`in.flow.couette`是LAMMPS自带的一个示例文件，关于示例文件讲解可看本文第五节LAMMPS官方example讲解
 
     ```bash
-    cd ..							%返回上一级目录
-    cd examples						%进入lammps自带的示例文件夹
-    cd flow							%进入flow例子文件夹
-    mpirun -np 32 lmp_g++_openmpi -in in.flow.couette	%采用32MPI进程进行运行lammps
+    cd ..                           %返回上一级目录
+    cd examples                     %进入lammps自带的示例文件夹
+    cd flow                         %进入flow例子文件夹
+    mpirun -np 32 lmp_g++_openmpi -in in.flow.couette   %采用32MPI进程进行运行lammps
     ```
 
     ![alt text](image-10.png)
 
 ### 3.2 GPU加速版LAMMPS的安装
 
-1. 在Ubuntu终端执行类似以下命令修改Makefile.linux文件，将`CUDA_HOME = /usr/local/cuda`修改为`CUDA_HOME = /usr/local/cuda-13.0`
+1. 在Ubuntu终端执行类似以下命令修改Makefile.linux文件，将`CUDA_HOME = /usr/local/cuda`修改为`CUDA_HOME = /usr/local/cuda-12.8`
 
     ```bash
-    cd /home/xyy/lmp/lammps-22Jul2025/lib/gpu	%进入lammps的gpu文件夹
-    vim Makefile.linux				%使用vim编辑Makefile.linux文件
+    cd /home/xyy/lmp/lammps-22Jul2025/lib/gpu   %进入lammps的gpu文件夹
+    vim Makefile.linux                          %使用vim编辑Makefile.linux文件
     ```
 
 2. 根据计算机配置在[维基百科|CUDA][网址十三]中找到对应算力，如`GeForce GTX 1080`为6.1，则将Makefile.linux文件中`CUDA_ARCH = -arch=sm_60`注释，将`CUDA_ARCH = -arch=sm_61`取消注释
@@ -430,9 +448,9 @@ LAMMPS的命令行选项是“运行前配置”的核心入口，支持在不�
     cd /home/xyy/lmp/lammps-22Jul2025/src       %进入lammps的src文件夹
     make yes-gpu                                %启用gpu包
     make -j 32 g++_openmpi                      %重新编译可执行文件
-    cd ..					    %返回上一级目录
-    cd examples				    %进入lammps自带的示例文件夹
-    cd flow					    %进入flow例子文件夹
+    cd ..                       %返回上一级目录
+    cd examples                 %进入lammps自带的示例文件夹
+    cd flow                     %进入flow例子文件夹
     mpirun -np 1 lmp_g++_openmpi -sf gpu -pk gpu 1 -in in.flow.couette
     ```
 
@@ -454,11 +472,13 @@ LAMMPS的命令行选项是“运行前配置”的核心入口，支持在不�
     make no-gpu                                 %禁用gpu包
     make yes-kokkos                             %启用kokkos包
     make -j 32 kokkos_cuda_mpi                  %重新编译可执行文件
-    cd ..					    %返回上一级目录
-    cd examples				    %进入lammps自带的示例文件夹
-    cd flow					    %进入flow例子文件夹
+    cd ..                       %返回上一级目录
+    cd examples                 %进入lammps自带的示例文件夹
+    cd flow                     %进入flow例子文件夹
     mpirun -np 1 lmp_kokkos_cuda_mpi -sf kk -k on g 1 -in in.flow.couette
     ```
+
+---
 
 ## 四.推荐cmake安装LAMMPS
 
@@ -852,36 +872,38 @@ ffmpeg libpnetcdf-dev
     </tr>   
 </table>
 
+---
+
 ## 五.LAMMPS官方example讲解
 
 LAMMPS官方example中包含以下三类目录（本节内容来源于lammps examples文件夹下的README文件）：
 
-- **小写字母命名的目录**：用于测试LAMMPS及其扩展包的简单示例问题
-每个子目录中都包含一个可通过 LAMMPS 运行的示例问题。大多数示例为二维模型，运行速度较快，在台式机上运行仅需几秒到几分钟。
-每个示例问题都包含一个输入脚本（in.* 格式），运行后会生成一个日志文件（log.* 格式），还可能生成一个 dump 文件（dump.* 格式）、图像文件（image.* 格式）或视频文件（movie.mpg 格式）。部分示例需要额外输入初始坐标数据文件（data.* 格式），还有部分示例要求你安装一个或多个 LAMMPS 可选扩展包。
-部分目录中还包含少量在不同机器、不同处理器数量下运行得到的示例日志文件，供你对比自己的运行结果。例如，名为 “log.crack.date.foo.P” 的日志文件，表示它是在 “foo” 机器上、使用指定日期版本的 LAMMPS、通过 P 个处理器运行得到的。需要注意的是，这些示例问题在不同机器或不同处理器数量下运行时，得到的结果应在统计上相似，但与此处提供的日志文件或 dump 文件中的结果不完全相同。更多相关说明可参考 LAMMPS 文档的 “错误（Errors）” 部分。
-大多数示例输入脚本中都有被注释掉的代码行，这些代码行可用于生成三种格式的模拟运行快照。
-    - 若取消对 “dump” 命令的注释，会生成一个文本格式的 dump 文件，该文件可通过多种可视化程序（参考网址：https://www.lammps.org/viz.html ）进行动画演示，如 Ovito、VMD 或 AtomEye。
+1. **小写字母命名的目录**：用于测试LAMMPS及其扩展包的简单示例问题
+    每个子目录中都包含一个可通过 LAMMPS 运行的示例问题。大多数示例为二维模型，运行速度较快，在台式机上运行仅需几秒到几分钟。
+    每个示例问题都包含一个输入脚本（in.*格式），运行后会生成一个日志文件（log.* 格式），还可能生成一个 dump 文件（dump.*格式）、图像文件（image.* 格式）或视频文件（movie.mpg 格式）。部分示例需要额外输入初始坐标数据文件（data.* 格式），还有部分示例要求你安装一个或多个 LAMMPS 可选扩展包。
+    部分目录中还包含少量在不同机器、不同处理器数量下运行得到的示例日志文件，供你对比自己的运行结果。例如，名为 “log.crack.date.foo.P” 的日志文件，表示它是在 “foo” 机器上、使用指定日期版本的 LAMMPS、通过 P 个处理器运行得到的。需要注意的是，这些示例问题在不同机器或不同处理器数量下运行时，得到的结果应在统计上相似，但与此处提供的日志文件或 dump 文件中的结果不完全相同。更多相关说明可参考 LAMMPS 文档的 “错误（Errors）” 部分。
+    大多数示例输入脚本中都有被注释掉的代码行，这些代码行可用于生成三种格式的模拟运行快照。
+    - 若取消对 “dump” 命令的注释，会生成一个文本格式的 dump 文件，该文件可通过多种可视化程序（参考网址：<https://www.lammps.org/viz.html> ）进行动画演示，如 Ovito、VMD 或 AtomEye。
     - 若取消对 “dump image” 命令的注释，且你构建的 LAMMPS 已集成 JPG 库，那么模拟运行时会生成 JPG 格式的快照图像。你可通过 “dump image” 文档页面中描述的命令，快速将这些图像处理成视频。
     - 若取消对 “dump movie” 命令的注释，且你构建的 LAMMPS 已集成 FFmpeg 库，那么模拟运行时会生成 MPG 格式的视频文件。该视频文件可通过多种播放器打开，如 MPlayer 或 QuickTime。
 
-你可在 LAMMPS 官网的 “视频（Movies）” 板块中查看许多示例的动画演示。
+    你可在 LAMMPS 官网的 “视频（Movies）” 板块中查看许多示例的动画演示。
 
-- **大写字母命名的目录**：更复杂的示例问题
+2. **大写字母命名的目录**：更复杂的示例问题
     - ASPHERE 目录：包含使用 LAMMPS 提供的三种样式模拟非球形粒子的示例（含溶剂和不含溶剂两种情况），即点椭圆粒子、刚体、由线段 / 三角形表面面片构建的二维 / 三维广义非球形物体。开始操作前可参考 ASPHERE 目录下的 README 文件。
     - COUPLE 目录：包含将 LAMMPS 作为库使用的示例（可单独使用，也可与其他代码或库协同使用）。开始操作前可参考 COUPLE 目录下的 README 文件。
     - ELASTIC 目录：包含一个在零温下计算弹性刚度张量（弹性常数）的示例脚本，以硅（Si）为例。更多信息可参考 ELASTIC 目录下的 in.elastic 文件。
-  - ELASTIC_T 目录：包含在有限温度下计算弹性刚度张量的示例脚本，演示了两种不同方法。其中 “DEFORMATION” 方法通过对多个模拟系统施加小的有限形变，估算平均应力张量的变化；“BORN_MATRIX” 方法通过单次模拟，对玻恩矩阵和应力涨落进行平均。第二种方法是 LAMMPS 中较新的功能，通常效率更高、可靠性更强。
-  - HEAT 目录：包含两种不同热交换算法（如用于建立温度梯度的算法）的示例脚本。更多信息可参考 HEAT 目录下的 README 文件。
-   - KAPPA 目录：包含使用五种不同方法计算 LJ 液体热导率（kappa）的示例脚本。更多信息可参考 KAPPA 目录下的 README 文件。
-   - LEPTON 目录：包含使用 fix efield/lepton 命令的示例。
-   - MC-LOOP 目录：包含将 LAMMPS 作为能量评估引擎，用于迭代蒙特卡洛能量弛豫循环的示例脚本。
-   - QUANTUM 目录：包含通过 MDI 代码耦合库将 LAMMPS 与多个量子化学代码协同使用的示例。
-   - SPIN 目录：包含使用 SPIN 扩展包的示例。
-   - UNITS 目录：包含模拟同一 LJ 液体模型的输入脚本示例，这些脚本分别采用三种不同的单位制（lj 单位制、real 单位制、metal 单位制）。通过这些示例，你可以了解如何对 LAMMPS 读写的输入输出值进行缩放 / 反缩放，以验证在不同单位制下是否在执行相同的模拟。
-   - VISCOSITY 目录：包含使用四种不同方法计算 LJ 液体黏度的示例脚本。更多信息可参考 VISCOSITY 目录下的 README 文件。
+    - ELASTIC_T 目录：包含在有限温度下计算弹性刚度张量的示例脚本，演示了两种不同方法。其中 “DEFORMATION” 方法通过对多个模拟系统施加小的有限形变，估算平均应力张量的变化；“BORN_MATRIX” 方法通过单次模拟，对玻恩矩阵和应力涨落进行平均。第二种方法是 LAMMPS 中较新的功能，通常效率更高、可靠性更强。
+    - HEAT 目录：包含两种不同热交换算法（如用于建立温度梯度的算法）的示例脚本。更多信息可参考 HEAT 目录下的 README 文件。
+    - KAPPA 目录：包含使用五种不同方法计算 LJ 液体热导率（kappa）的示例脚本。更多信息可参考 KAPPA 目录下的 README 文件。
+    - LEPTON 目录：包含使用 fix efield/lepton 命令的示例。
+    - MC-LOOP 目录：包含将 LAMMPS 作为能量评估引擎，用于迭代蒙特卡洛能量弛豫循环的示例脚本。
+    - QUANTUM 目录：包含通过 MDI 代码耦合库将 LAMMPS 与多个量子化学代码协同使用的示例。
+    - SPIN 目录：包含使用 SPIN 扩展包的示例。
+    - UNITS 目录：包含模拟同一 LJ 液体模型的输入脚本示例，这些脚本分别采用三种不同的单位制（lj 单位制、real 单位制、metal 单位制）。通过这些示例，你可以了解如何对 LAMMPS 读写的输入输出值进行缩放 / 反缩放，以验证在不同单位制下是否在执行相同的模拟。
+    - VISCOSITY 目录：包含使用四种不同方法计算 LJ 液体黏度的示例脚本。更多信息可参考 VISCOSITY 目录下的 README 文件。
 
-- **PACKAGES目录**：包含多个子目录，每个子目录中是对应单个扩展包或额外单个样式的示例脚本。这些示例大多由对应扩展包或样式的开发者提供。更多信息可参考各子目录下的 README 文件（若有）或手册中对应的文档页面。关于扩展包的安装与构建，可参考网址：https://docs.lammps.org/Build_package.html
+3. **PACKAGES目录**：包含多个子目录，每个子目录中是对应单个扩展包或额外单个样式的示例脚本。这些示例大多由对应扩展包或样式的开发者提供。更多信息可参考各子目录下的 README 文件（若有）或手册中对应的文档页面。关于扩展包的安装与构建，可参考网址：<https://docs.lammps.org/Build_package.html>
 
 | 目录名称       | 核心模型/功能                                                                 | 依赖扩展包（若有）       | 关键输出/用途                                                                 |
 |----------------|-------------------------------------------------------------------------------|--------------------------|-------------------------------------------------------------------------------|
@@ -967,6 +989,8 @@ LAMMPS官方example中包含以下三类目录（本节内容来源于lammps exa
 | UNITS          | 同一LJ液体在lj/real/metal三种单位制下的模拟对比                               | 无（基础功能）           | 日志文件，验证单位制缩放的一致性                                             |
 | VISCOSITY      | 四种方法计算LJ液体黏度                                                       | Viscosity                | 日志文件，对比不同黏度计算方法的结果差异                                     |
 
+---
+
 ## 六.moltemplate的安装
 
 1. 在Ubuntu终端执行类似以下命令安装moltemplate
@@ -983,6 +1007,8 @@ LAMMPS官方example中包含以下三类目录（本节内容来源于lammps exa
     ```
 
 3. 在Ubuntu终端执行命令`moltemplate.sh`检查环境变量是否添加成功
+
+---
 
 ## 七.packmol的安装
 
@@ -1002,6 +1028,8 @@ LAMMPS官方example中包含以下三类目录（本节内容来源于lammps exa
     ```
 
 3. 在Ubuntu终端执行命令`packmol`检查环境变量是否添加成功，确认无误后`Ctrl + C`中断程序
+
+---
 
 ## 八.参考资料
 
