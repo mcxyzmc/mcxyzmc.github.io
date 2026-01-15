@@ -247,10 +247,12 @@ LAMMPS的命令行选项是“运行前配置”的核心入口，支持在不�
 
 #### 3.1.1 安装CUDA Toolkit（可选但推荐）
 
-1. 在Ubuntu终端执行`nvidia-smi`命令检查显卡驱动，由下图可知，该电脑显卡配置为NVIDIA，显卡驱动版本为：Driver Version：527.83，CUDA版本为：CUDA Version：12.8，因此可安装的CUDA最高版本为12.8
+1. 在Ubuntu终端执行`nvidia-smi`命令检查显卡驱动，由下图可知，该电脑显卡配置为NVIDIA，显卡驱动版本为：527.83，CUDA版本为：12.8，因此可安装的CUDA最高版本为12.8
     ![alt text](image-2.png)
 
-    >注：本节仅针对需要安装GPU/KOKKOS版本LAMMPS，CPU版本LAMMPS可跳过
+    >注：
+    ①本节仅针对需要安装GPU/KOKKOS版本LAMMPS，CPU版本LAMMPS可跳过
+    ②如果执行命令`nvidia-smi`显示没有找到命令请自行检索NVIDIA驱动安装方法，请注意不要在Linux子系统内部安装显卡驱动，子系统内只装CUDA-Toolkit
 
 2. 在Ubuntu终端执行`uname -m`命令查询系统架构
 3. 前往[CUDA官网][网址八]根据电脑配置选择对应版本，在Ubuntu终端执行对应版本CUDA的安装命令（这一步建议科学上网下载快些，命令执行过程中请耐心等待）
