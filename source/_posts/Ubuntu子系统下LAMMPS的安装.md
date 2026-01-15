@@ -12,7 +12,7 @@ categories:
     - scientifit research
 ---
 
-**写在前面**：本文包含比较多的基础知识讲解、注解及多个版本LAMMPS的安装，主要面向刚接触LAMMPS的小白，如果有时间笔者建议把本文认真读完再进行实操。如果只是想快速安装LAMMPS跑代码笔者建议直接下载windows版LAMMPS或者直接阅读本文第二节和第四节快速安装Ubuntu子系统下的LAMMPS，**笔者强烈建议使用cmake安装LAMMPS**
+**写在前面**：本文包含比较多的基础知识讲解、注解及多个版本LAMMPS的安装，主要面向刚接触LAMMPS的小白，如果有时间笔者建议把本文认真读完再进行实操。如果只是想快速安装LAMMPS跑代码笔者建议直接下载windows版LAMMPS或者直接阅读本文第二节和第四节再Ubuntu子系统下安装纯CPU版的LAMMPS，**笔者强烈建议使用cmake安装LAMMPS**
 
 ## 一. 基础知识
 
@@ -150,7 +150,7 @@ categories:
         ①LAMMPS程序：发起请求，说“我要计算这 10 万个原子的相互作用力”。
         ②CUDA-Toolkit：根据代码指令，把这些复杂的数学公式拆解成GPU能处理的成千上万个小任务。
         ③驱动：接收这些任务，确认显卡当前有空，然后把数据从内存搬运到显存中。
-        ④显卡：i疯狂并行计算。
+        ④显卡：疯狂并行计算。
         ⑤驱动：计算完后，把结果从显存搬回内存交给CPU进行下一步的原子位置更新。
 
 ### 1.4 LAMMPS主要命令行选项
@@ -223,7 +223,7 @@ LAMMPS的命令行选项是“运行前配置”的核心入口，支持在不�
 
     >注意：不是Microsoft Store跳转链接而是下载链接
 
-    ![alt text](image.png)
+    ![](image.png)
 
 **方法三**
 
@@ -237,7 +237,7 @@ LAMMPS的命令行选项是“运行前配置”的核心入口，支持在不�
 
     >注：输入密码时不会有任何显示，这是正常现象
 
-    ![alt text](image-1.png)
+    ![](image-1.png)
 
 ---
 
@@ -248,7 +248,7 @@ LAMMPS的命令行选项是“运行前配置”的核心入口，支持在不�
 #### 3.1.1 安装CUDA Toolkit（可选但推荐）
 
 1. 在Ubuntu终端执行`nvidia-smi`命令检查显卡驱动，由下图可知，该电脑显卡配置为NVIDIA，显卡驱动版本为：527.83，CUDA版本为：12.8，因此可安装的CUDA最高版本为12.8
-    ![alt text](image-2.png)
+    ![](image-2.png)
 
     >注：
     ①本节仅针对需要安装GPU/KOKKOS版本LAMMPS，CPU版本LAMMPS可跳过
@@ -256,7 +256,7 @@ LAMMPS的命令行选项是“运行前配置”的核心入口，支持在不�
 
 2. 在Ubuntu终端执行`uname -m`命令查询系统架构
 3. 前往[CUDA官网][网址八]根据电脑配置选择对应版本，在Ubuntu终端执行对应版本CUDA的安装命令（这一步建议科学上网下载快些，命令执行过程中请耐心等待）
-    ![alt text](image-3.png)
+    ![](image-3.png)
 
     >注：以下对图中三种安装方式进行讲解：
     ①deb(local)——离线安装包：下载的是一个非常大的文件（通常几个GB），里面包含了CUDA Toolkit的所有组件和驱动。由于使用了系统的包管理器(apt)，它会自动处理依赖关系，安装过程相对标准、稳健。
@@ -274,7 +274,7 @@ LAMMPS的命令行选项是“运行前配置”的核心入口，支持在不�
     ①使用vim编辑器按`i`键进入编辑模式，按`Esc`键退出编辑模式，再输入`:wq`回车即可保存退出
     ②`cuda-12.8`根据你的实际情况修改（安装过程中会弹出相关信息）
 
-    ![alt text](image-4.png)
+    ![](image-4.png)
 
 #### 3.1.2 安装基础包
 
@@ -296,21 +296,21 @@ sudo apt-get install gfortran
     ①OPENMPI也可换成[MPICH][网址十一]，OPENMPI对于集群环境、GPU加速有更好的支持而MPICH在WSL环境中更稳定
     ②事实上LAMMPS仅对MPI有硬性要求，安装FFTW是因为其性能比LAMMPS自带的性能要好
 
-    ![alt text](image-5.png)
-    ![alt text](image-6.png)
+    ![](image-5.png)
+    ![](image-6.png)
 
 2. 在Ubuntu终端依次执行类似以下命令，将安装包从下载目录拷贝到目标目录
 
     >注：`mnt`是linux通往Windows文件夹的“入口”，后面的c代表的就是c盘，`mnt`后面的路径需要换成你自己安装包所在路径
 
     ```bash
-    mkdir lmp                           %在当前目录创建一个lmp文件夹
-    cd lmp                              %进入lmp文件夹
-    mkdir fftw                          %在当前目录创建fftw文件夹
-    mkdir openmpi                               %在当前目录创建openmpi文件夹
+    mkdir lmp                                               %在当前目录创建一个lmp文件夹
+    cd lmp                                                  %进入lmp文件夹
+    mkdir fftw                                              %在当前目录创建fftw文件夹
+    mkdir openmpi                                           %在当前目录创建openmpi文件夹
     cp /mnt/c/Users/xyy/Downloads/fftw-3.3.10.tar.gz ./     %将fftw安装包拷贝到当前文件夹
-    cp /mnt/c/Users/xyy/Downloads/openmpi-5.0.8.tar.gz ./       %将openmpi安装包拷贝到当前文件夹
-    ls                                  %查看当前目录下文件，确保都已正确拷贝
+    cp /mnt/c/Users/xyy/Downloads/openmpi-5.0.8.tar.gz ./   %将openmpi安装包拷贝到当前文件夹
+    ls                                                      %查看当前目录下文件，确保都已正确拷贝
     ```
 
 3. 在Ubuntu终端依次执行类似以下命令，解压、编译、安装OPENMPI
@@ -321,12 +321,12 @@ sudo apt-get install gfortran
     ③`make -j`进程数越多编译越快，可在Ubuntu终端执行命令`nproc`查看当前系统可用进程数,或者直接执行命令`make -j $(nproc)`可自动根据硬件配置设置并行任务的数量，最大化利用系统资源
 
     ```bash
-    tar -xvzf openmpi-5.0.8.tar.gz              %tar -xvzf是tar.gz类压缩文件的解压缩命令
-    cd openmpi-5.0.8                    %进入解压缩后生成的文件夹
+    tar -xvzf openmpi-5.0.8.tar.gz                          %tar -xvzf是tar.gz类压缩文件的解压缩命令
+    cd openmpi-5.0.8                                        %进入解压缩后生成的文件夹
     ./configure --prefix=/home/xyy/lmp/openmpi \
     --with-cuda=/usr/local/cuda-12.8                        %将openmpi安装到创建的openmpi文件夹
-    make –j 32                      %采用32线程并行编译
-    make install                        %安装OPENMPI
+    make –j 32                                              %采用32进程并行编译
+    make install                                            %安装OPENMPI
     cd ..                                                   %回退到上一级目录
     cd openmpi                                              %进入创建的openmpi文件夹
     ls                                                      %查看当前目录下文件，确保安装无误
@@ -341,15 +341,15 @@ sudo apt-get install gfortran
 5. 在Ubuntu终端依次执行类似以下命令，解压、编译、安装FFTW
 
     ```bash
-    cd /home/xyy/lmp                %进入lmp目录
-    tar -xvzf fftw-3.3.10.tar.gz    %解压fftw安装包
-    cd fftw-3.3.10                  %进入解压生成的文件夹
+    cd /home/xyy/lmp                            %进入lmp目录
+    tar -xvzf fftw-3.3.10.tar.gz                %解压fftw安装包
+    cd fftw-3.3.10                              %进入解压生成的文件夹
     ./configure --prefix=/home/xyy/lmp/fftw     %将fftw安装到创建的fftw文件夹
-    make –j 32                      %采用32线程并行编译
-    make install                    %安装fftw
-    cd ..                           %回到上一级目录
-    cd fftw                         %进入fftw文件夹
-    ls                              %查看当前目录下文件，检查是否正确安装
+    make –j 32                                  %采用32进程并行编译
+    make install                                %安装fftw
+    cd ..                                       %回到上一级目录
+    cd fftw                                     %进入fftw文件夹
+    ls                                          %查看当前目录下文件，检查是否正确安装
     ```
 
 #### 3.1.4 下载并安装LAMMPS
@@ -357,7 +357,7 @@ sudo apt-get install gfortran
 ##### 3.1.4.1 下载并解压LAMMPS
 
 1. 前往[LAMMPS官网][网址十二]下载最新稳定版软件安装包
-![alt text](image-7.png)
+![](image-7.png)
 
 2. 在Ubuntu终端依次执行类似以下命令，将ammp安装包从下载目录拷贝到目标目录并解压
 
@@ -374,11 +374,11 @@ sudo apt-get install gfortran
 
     ```bash
     cd /home/xyy/lmp/lammps-22Jul2025/src/MAKE/OPTIONS
-    ls              %查看当前目录下文件，其中Makefile.g++_openmpi即为需要修改的文件
+    ls                              %查看当前目录下文件，其中Makefile.g++_openmpi即为需要修改的文件
     vim Makefile.g++_openmpi        %编辑Makefile.g++_openmpi文件
     ```
 
-    ![alt text](image-8.png)
+    ![](image-8.png)
     在打开的Makefile文件相应位置添加类似以下内容
 
     ```bash
@@ -388,7 +388,7 @@ sudo apt-get install gfortran
     -L/home/xyy/lmp/fftw/lib
     ```
 
-    ![alt text](image-9.png)
+    ![](image-9.png)
 
 2. 在Ubuntu终端执行类似以下命令配置所需要的包并编译生成可执行文件
 
@@ -420,13 +420,13 @@ sudo apt-get install gfortran
     >注：`lmp_g++_openmpi`为刚才编译的可执行文件，`in.flow.couette`是LAMMPS自带的一个示例文件，关于示例文件讲解可看本文第五节LAMMPS官方example讲解
 
     ```bash
-    cd ..                           %返回上一级目录
-    cd examples                     %进入lammps自带的示例文件夹
-    cd flow                         %进入flow例子文件夹
+    cd ..                                               %返回上一级目录
+    cd examples                                         %进入lammps自带的示例文件夹
+    cd flow                                             %进入flow例子文件夹
     mpirun -np 32 lmp_g++_openmpi -in in.flow.couette   %采用32MPI进程进行运行lammps
     ```
 
-    ![alt text](image-10.png)
+    ![](image-10.png)
 
 ### 3.2 GPU加速版LAMMPS的安装
 
@@ -439,7 +439,7 @@ sudo apt-get install gfortran
 
 2. 根据计算机配置在[维基百科|CUDA][网址十三]中找到对应算力，如`GeForce GTX 1080`为6.1，则将Makefile.linux文件中`CUDA_ARCH = -arch=sm_60`注释，将`CUDA_ARCH = -arch=sm_61`取消注释
 
-    ![alt text](image-11.png)
+    ![](image-11.png)
 
 3. 根据电脑配置修改Makefile.linux文件中计算精度设置
 一般游戏本单精度计算能力较强可修改为`CUDA_PRECISION = -D_SINGLE_DOUBLE`为`CUDA_PRECISION = -D_SINGLE_SINGLE`；
@@ -452,9 +452,9 @@ sudo apt-get install gfortran
     cd /home/xyy/lmp/lammps-22Jul2025/src       %进入lammps的src文件夹
     make yes-gpu                                %启用gpu包
     make -j 32 g++_openmpi                      %重新编译可执行文件
-    cd ..                       %返回上一级目录
-    cd examples                 %进入lammps自带的示例文件夹
-    cd flow                     %进入flow例子文件夹
+    cd ..                                       %返回上一级目录
+    cd examples                                 %进入lammps自带的示例文件夹
+    cd flow                                     %进入flow例子文件夹
     mpirun -np 1 lmp_g++_openmpi -sf gpu -pk gpu 1 -in in.flow.couette
     ```
 
@@ -476,9 +476,9 @@ sudo apt-get install gfortran
     make no-gpu                                 %禁用gpu包
     make yes-kokkos                             %启用kokkos包
     make -j 32 kokkos_cuda_mpi                  %重新编译可执行文件
-    cd ..                       %返回上一级目录
-    cd examples                 %进入lammps自带的示例文件夹
-    cd flow                     %进入flow例子文件夹
+    cd ..                                       %返回上一级目录
+    cd examples                                 %进入lammps自带的示例文件夹
+    cd flow                                     %进入flow例子文件夹
     mpirun -np 1 lmp_kokkos_cuda_mpi -sf kk -k on g 1 -in in.flow.couette
     ```
 
@@ -747,7 +747,7 @@ ffmpeg libpnetcdf-dev
 测试文件：`in.flow.coutte/in.CHO`
 命令：`mpirun -np N lmp_mpi -sf omp -pk omp M -in in.example`
 
-![alt text](cpu.svg)
+![](cpu.svg)
 
 <table>
   <tr>
@@ -786,7 +786,7 @@ ffmpeg libpnetcdf-dev
 测试文件：`in.flow.coutte/in.CHO`
 命令：`mpirun -np N lmp_gpu -sf gpu -pk gpu 1 -in in.example`
 
-![alt text](gpu.svg)
+![](gpu.svg)
 
 <table>
   <tr>
@@ -818,7 +818,7 @@ ffmpeg libpnetcdf-dev
 **lmp_kokkos**
 测试文件：`in.CHO`
 
-![alt text](kokkos.svg)
+![](kokkos.svg)
 
 <table>
     <tr>
