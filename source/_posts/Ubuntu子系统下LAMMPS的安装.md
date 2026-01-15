@@ -12,6 +12,8 @@ categories:
     - scientifit research
 ---
 
+**写在前面**：本文包含比较多的基础知识讲解、注解及多个版本LAMMPS的安装，主要面向刚接触LAMMPS的小白，如果有时间笔者建议把本文认真读完再进行实操。如果只是想快速安装LAMMPS跑代码笔者建议直接下载windows版LAMMPS或者直接阅读本文第二节和第四节快速安装Ubuntu子系统下的LAMMPS，**笔者强烈建议使用cmake安装LAMMPS**
+
 ## 一. 基础知识
 
 ### 1.1 Linux基础命令
@@ -198,14 +200,14 @@ LAMMPS的命令行选项是“运行前配置”的核心入口，支持在不�
     wsl --install
     ```
 
->注：执行`wsl --install`命令在安装WSL的同时还会默认安装一个Linux发行版Ubuntu（按理说这个也能用，可以不用下载其他版本的Ubuntu）
+    >注：执行`wsl --install`命令在安装WSL的同时还会默认安装一个Linux发行版Ubuntu（按理说这个也能用，可以不用下载其他版本的Ubuntu）
 
 **方法二**
 
 1. 按下`Win + I`，打开系统-系统信息，查看系统类型
 2. 前往[github|WSL稳定版][网址六]下载最新的对应版本的WSL2并安装（建议科学上网）
 
->注：执行`wsl --install`命令在安装WSL的同时还会默认安装一个Linux发行版Ubuntu（按理说这个也能用，可以不用下载其他版本的Ubuntu）
+    >注：执行`wsl --install`命令在安装WSL的同时还会默认安装一个Linux发行版Ubuntu（按理说这个也能用，可以不用下载其他版本的Ubuntu）
 
 #### 2.2.2 Ubuntu的安装
 
@@ -487,6 +489,7 @@ sudo apt-get install gfortran
 #### 4.1.1 安装CUDA Toolkit（可选但推荐）
 
 1. 在Ubuntu终端执行以下命令，添加NVIDIA官方CUDA仓库
+    >注：这部分在第三节已经讲解的比较详细，所以这里不再赘述，笔者再次提醒这里请务必注意检查驱动支持的最高的CUDA版本
 
     ```bash
     wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-keyring_1.1-1_all.deb
@@ -1054,7 +1057,7 @@ https://blog.mushroomfire.com/2023/11/15/lammps-cmake-an-zhuang-ji-lu/
 
 除此之外当然还有很多官方资料如：LAMMPS Manual、Microsoft的WSL安装教程等
 由于安装过程中查阅了挺多资料，如果有本文参考但未提到的作者请及时联系笔者处理
-安装过程出现任何报错请将报错信息粘贴到浏览器搜索，你遇到过的问题别人也可能遇到过，请合理利用网络资源！！！此外，本文在很多地方都提供了多种安装，如果出现报错可以换其他方式试试
+安装过程出现任何报错请将报错信息粘贴到浏览器搜索，你遇到过的问题别人也可能遇到过，请合理利用网络资源！！！此外，本文在很多地方都提供了多种安装方式，如果出现报错可以尝试其他方法
 本人只是一个小白，很多地方也都不懂只是尽可能地将一些自己知道的东西写出来，如果有大佬发现有错漏的地方欢迎指正！！！不胜感激！！！
 
 [网址一]:https://blog.csdn.net/m0_46422300/article/details/104645072
