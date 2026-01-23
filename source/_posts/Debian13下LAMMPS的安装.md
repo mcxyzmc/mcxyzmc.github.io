@@ -365,6 +365,7 @@ LAMMPS发行版的bench目录中提供了5个基准测试问题的输入、输�
 
 #### 5.3.1 LJ
 
+**lmp_cpu**
 运行命令：`mpirun -np N lmp_cpu -sf omp -pk omp M -in in.lj -var x Nx -var y Ny -var z Nz`
 
 >注：虽然测试电脑有64个逻辑核心，但MPI默认可能只识别物理核心，导致MPI认为只有32个物理插槽可用。所以`mpirun -np 64`时会出错，这时需要在`mpirun`后面加上`--use-hwthread-cpus`参数
@@ -465,7 +466,160 @@ LAMMPS发行版的bench目录中提供了5个基准测试问题的输入、输�
   </tr>
 </table>
 
+**lmp_gpu**
+运行命令：`mpirun -np N lmp_gpu -sf gpu -pk gpu 1 -in in.lj -var x Nx -var y Ny -var z Nz`
+
+>注：可以看到下表中出现多个error，报错信息都是`ERROR on proc 0: Insufficient memory on accelerator`，一般也就是我们常说的显存炸了。这不是算力问题，而是内存容量(RAM)不足或MPI通信开销过大：①Geforce GTX 1080显存只有8GB，在Nx Ny Nz：8 8 4的情况下，要计算800万原子的LJ体系加上邻居列表，如果MPI没有把内存分配优化好，每个进程都试图分配大量ghost atom的缓冲区，就会导致总内存溢出。②在内存带宽本来就捉襟见肘的情况下，过多的进程还要处理800万原子的通讯，就会导致MPI守护进程响应超时或崩溃。所以一般遇到这种问题我们可以通过减小体系或者减少进程数来解决。
+
+<table>
+  <tr>
+    <th colspan="2">Nx Ny Nz：4 4 2</th>
+    <th colspan="2">Nx Ny Nz：4 4 4</th>
+    <th colspan="2">Nx Ny Nz：8 8 4</th>
+  </tr>
+  <tr>
+    <th>MPI</th>
+    <th>timestep/s</th>
+    <th>MPI</th>
+    <th>timestep/s</th>
+    <th>MPI</th>
+    <th>timestep/s</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>36.415</td>
+    <td>1</td>
+    <td>18.786</td>
+    <td>1</td>
+    <td>4.723</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>41.712</td>
+    <td>2</td>
+    <td>20.978</td>
+    <td>2</td>
+    <td>5.358</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>48.36</td>
+    <td>4</td>
+    <td>22.181</td>
+    <td>4</td>
+    <td>5.66</td>
+  </tr>
+  <tr>
+    <td>8</td>
+    <td>44.269</td>
+    <td>8</td>
+    <td>25.241</td>
+    <td>8</td>
+    <td>5.768</td>
+  </tr>
+  <tr>
+    <td>16</td>
+    <td>76.908</td>
+    <td>16</td>
+    <td>38.99</td>
+    <td>16</td>
+    <td>error</td>
+  </tr>
+  <tr>
+    <td>32</td>
+    <td>76.597</td>
+    <td>32</td>
+    <td>39.126</td>
+    <td>32</td>
+    <td>error</td>
+  </tr>
+  <tr>
+    <td>64</td>
+    <td>61.259</td>
+    <td>64</td>
+    <td>error</td>
+    <td>64</td>
+    <td>error</td>
+  </tr>
+</table>
+
+**lmp_kokkos**
+运行命令：`mpirun -np N lmp_kokkos -pk kokkos -sf kk -k on g 1 -in in.lj -var x Nx -var y Ny -var z Nz`
+
+<table>
+  <tr>
+    <th colspan="2">Nx Ny Nz：4 4 2</th>
+    <th colspan="2">Nx Ny Nz：4 4 4</th>
+    <th colspan="2">Nx Ny Nz：8 8 4</th>
+  </tr>
+  <tr>
+    <th>MPI</th>
+    <th>timestep/s</th>
+    <th>MPI</th>
+    <th>timestep/s</th>
+    <th>MPI</th>
+    <th>timestep/s</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>57.808</td>
+    <td>1</td>
+    <td>29.194</td>
+    <td>1</td>
+    <td>7.157</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>37.028</td>
+    <td>2</td>
+    <td>18.599</td>
+    <td>2</td>
+    <td>4.704</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>35.819</td>
+    <td>4</td>
+    <td>18.467</td>
+    <td>4</td>
+    <td>4.785</td>
+  </tr>
+  <tr>
+    <td>8</td>
+    <td>35.151</td>
+    <td>8</td>
+    <td>18.012</td>
+    <td>8</td>
+    <td>4.694</td>
+  </tr>
+  <tr>
+    <td>16</td>
+    <td>37.033</td>
+    <td>16</td>
+    <td>20.01</td>
+    <td>16</td>
+    <td>5.196</td>
+  </tr>
+  <tr>
+    <td>32</td>
+    <td>32.238</td>
+    <td>32</td>
+    <td>18.627</td>
+    <td>32</td>
+    <td>error</td>
+  </tr>
+</table>
+
 #### 5.3.2 Chain
+
+**lmp_cpu**
+运行命令：`mpirun -np N lmp_cpu -sf omp -pk omp M -in in.chain.scaled -var x Nx -var y Ny -var z Nz`
+**lmp_gpu**
+运行命令：`mpirun -np N lmp_gpu -sf gpu -pk gpu 1 neigh no -in in.chain.scaled -var x Nx -var y Ny -var z Nz`
+
+>注：`-pk gpu 1 neigh no`会让 GPU 专门负责算力最繁重的力的计算，而把逻辑复杂的邻居列表构建留给CPU。这样可以规避GPU处理Cutoff时的崩溃(类似`WARNING: Communication cutoff 1.52 is shorter than a bond length based estimate of 1.855.`)，通常性能损失很小。
+
+**lmp_kokkos**
 
 #### 5.3.3 EAM
 
