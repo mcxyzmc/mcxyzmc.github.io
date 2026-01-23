@@ -222,4 +222,255 @@ nvcc -V
     source ~/.bashrc
     ```
 
+## 五. 性能测试
+
+### 5.1 硬件信息查询
+
+执行命令`lscpu`和`nvidia-smi`查看当前cpu和gpu信息：单cpu，cpu物理核心数32，逻辑处理器数64；单gpu
+
+```bash
+Architecture:                x86_64
+  CPU op-mode(s):            32-bit, 64-bit
+  Address sizes:             43 bits physical, 48 bits virtual
+  Byte Order:                Little Endian
+CPU(s):                      64
+  On-line CPU(s) list:       0-63
+Vendor ID:                   AuthenticAMD
+  Model name:                AMD Ryzen Threadripper 2990WX 32-Core Processor
+    CPU family:              23
+    Model:                   8
+    Thread(s) per core:      2
+    Core(s) per socket:      32
+    Socket(s):               1
+    Stepping:                2
+    Frequency boost:         enabled
+    CPU(s) scaling MHz:      72%
+    CPU max MHz:             3000.0000
+    CPU min MHz:             2200.0000
+    BogoMIPS:                5988.19
+    Flags:                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat 
+                             pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe
+                             1gb rdtscp lm constant_tsc rep_good nopl nonstop_tsc cpuid extd_ap
+                             icid amd_dcm aperfmperf rapl pni pclmulqdq monitor ssse3 fma cx16 
+                             sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand lahf_lm cmp_l
+                             egacy svm extapic cr8_legacy abm sse4a misalignsse 3dnowprefetch o
+                             svw skinit wdt tce topoext perfctr_core perfctr_nb bpext perfctr_l
+                             lc mwaitx cpb hw_pstate ssbd ibpb vmmcall fsgsbase bmi1 avx2 smep 
+                             bmi2 rdseed adx smap clflushopt sha_ni xsaveopt xsavec xgetbv1 clz
+                             ero xsaveerptr arat npt lbrv svm_lock nrip_save tsc_scale vmcb_cle
+                             an flushbyasid decodeassists pausefilter pfthreshold avic v_vmsave
+                             _vmload vgif overflow_recov succor smca sev sev_es
+Virtualization features:     
+  Virtualization:            AMD-V
+Caches (sum of all):         
+  L1d:                       1 MiB (32 instances)
+  L1i:                       2 MiB (32 instances)
+  L2:                        16 MiB (32 instances)
+  L3:                        64 MiB (8 instances)
+NUMA:                        
+  NUMA node(s):              4
+  NUMA node0 CPU(s):         0-7,32-39
+  NUMA node1 CPU(s):         16-23,48-55
+  NUMA node2 CPU(s):         8-15,40-47
+  NUMA node3 CPU(s):         24-31,56-63
+Vulnerabilities:             
+  Gather data sampling:      Not affected
+  Indirect target selection: Not affected
+  Itlb multihit:             Not affected
+  L1tf:                      Not affected
+  Mds:                       Not affected
+  Meltdown:                  Not affected
+  Mmio stale data:           Not affected
+  Reg file data sampling:    Not affected
+  Retbleed:                  Mitigation; untrained return thunk; SMT vulnerable
+  Spec rstack overflow:      Mitigation; Safe RET
+  Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl
+  Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitizati
+                             on
+  Spectre v2:                Mitigation; Retpolines; IBPB conditional; STIBP disabled; RSB fill
+                             ing; PBRSB-eIBRS Not affected; BHI Not affected
+  Srbds:                     Not affected
+  Tsa:                       Not affected
+  Tsx async abort:           Not affected
+  Vmscape:                   Mitigation; IBPB before exit to userspace
+```
+
+```bash
+Fri Jan 23 15:36:22 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 550.163.01             Driver Version: 550.163.01     CUDA Version: 12.4     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce GTX 1080        Off |   00000000:42:00.0 Off |                  N/A |
+|  0%   24C    P8              9W /  210W |      68MiB /   8192MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|    0   N/A  N/A      1786      G   /usr/lib/xorg/Xorg                             57MiB |
+|    0   N/A  N/A      1866      G   /usr/bin/gnome-shell                            6MiB |
++-----------------------------------------------------------------------------------------+
+```
+
+### 5.2 测试文件
+
+LAMMPS发行版的bench目录中提供了5个基准测试问题的输入、输出文件和一个包含针对LAMMPS中各种势函数的基准测试脚本的POTENTIALS目录，所有这些基准测试的结果均在LAMMPS官方网站的基准测试页面上展示和讨论：<https://www.lammps.org/bench.html>。bench目录中每个问题都可以作为串行基准测试或在并行模式下运行。在并行模式下，每个基准测试可以作为固定规模或扩展规模问题运行。
+
+- 对于固定规模基准测试：在不同的处理器数量上运行同一个32K原子的模型。
+- 对于扩展规模基准测试：模型大小随处理器数量的增加而增加。例如，在8个处理器上，运行一个256K原子的模型；在1024个处理器上，运行一个3200万原子的模型，依此类推。
+
+以下是五个基准测试问题：
+
+1. Lennard-Jones liquid benchmark
+    - 32,000 atoms for 100 timesteps
+    - reduced density = 0.8442 (liquid)
+    - force cutoff = 2.5 sigma
+    - neighbor skin = 0.3 sigma
+    - neighbors/atom = 55 (within force cutoff)
+    - NVE time integration
+2. Polymer chain melt benchmark
+    - 32,000 atoms for 100 timesteps
+    - reduced density 0.8442 (liquid)
+    - force cutoff of 2^(1/6) sigma
+    - neighbor skin = 0.4 sigma
+    - neighbors/atom = 5 (within force cutoff)
+    - NVE time integration
+3. EAM metallic solid benchmark
+    - 32,000 atoms for 100 timesteps
+    - force cutoff of 4.95 Angstroms
+    - neighbor skin = 1.0 Angstrom
+    - neighbors/atom = 45 (within force cutoff)
+    - NVE time integration
+4. Granular chute flow benchmark
+    - 32,000 atoms for 100 timesteps
+    - force cutoff of 1.0 sigma
+    - neighbor skin of 0.1 sigma
+    - neighbors/atom = 7
+    - NVE time integration
+5. Rhodopsin protein benchmark
+    - 32,000 atoms for 100 timesteps
+    - LJ force cutoff of 10.0 Angstroms
+    - neighbor skin of 1.0 sigma
+    - neighbors/atom = 440 (within force cutoff)
+    - NPT time integration
+
+### 5.3 测试结果
+
+#### 5.3.1 LJ
+
+运行命令：`mpirun -np N lmp_cpu -sf omp -pk omp M -in in.lj -var x Nx -var y Ny -var z Nz`
+
+>注：虽然测试电脑有64个逻辑核心，但MPI默认可能只识别物理核心，导致MPI认为只有32个物理插槽可用。所以`mpirun -np 64`时会出错，这时需要在`mpirun`后面加上`--use-hwthread-cpus`参数
+
+<table>
+  <tr>
+    <th colspan="3">Nx Ny Nz：4 4 2</th>
+    <th colspan="3">Nx Ny Nz：4 4 2</th>
+    <th colspan="3">Nx Ny Nz：4 4 4</th>
+  </tr>
+  <tr>
+    <th>MPI</th>
+    <th>Threads</th>
+    <th>timestep/s</th>
+    <th>MPI</th>
+    <th>Threads</th>
+    <th>timestep/s</th>
+    <th>MPI</th>
+    <th>Threads</th>
+    <th>timestep/s</th>
+  </tr>
+  <tr>
+    <td>32</td>
+    <td>1</td>
+    <td>42.424</td>
+    <td>64</td>
+    <td>1</td>
+    <td>45.013</td>
+    <td>64</td>
+    <td>1</td>
+    <td>20.656</td>
+  </tr>
+  <tr>
+    <td>16</td>
+    <td>2</td>
+    <td>31.056</td>
+    <td>32</td>
+    <td>2</td>
+    <td>29.923</td>
+    <td>32</td>
+    <td>2</td>
+    <td>14.481</td>
+  </tr>
+  <tr>
+    <td>8</td>
+    <td>4</td>
+    <td>13.262</td>
+    <td>16</td>
+    <td>4</td>
+    <td>12.69</td>
+    <td>16</td>
+    <td>4</td>
+    <td>6.469</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>8</td>
+    <td>8.829</td>
+    <td>8</td>
+    <td>8</td>
+    <td>7.65</td>
+    <td>8</td>
+    <td>8</td>
+    <td>4.321</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>16</td>
+    <td>5.058</td>
+    <td>4</td>
+    <td>16</td>
+    <td>4.908</td>
+    <td>4</td>
+    <td>16</td>
+    <td>2.503</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>32</td>
+    <td>2.627</td>
+    <td>2</td>
+    <td>32</td>
+    <td>2.551</td>
+    <td>2</td>
+    <td>32</td>
+    <td>1.314</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>1</td>
+    <td>64</td>
+    <td>1.534</td>
+    <td>1</td>
+    <td>64</td>
+    <td>0.784</td>
+  </tr>
+</table>
+
+#### 5.3.2 Chain
+
+#### 5.3.3 EAM
+
+#### 5.3.4 Chute
+
+#### 5.3.5 Rhodo
+
 [Ubuntu子系统下LAMMPS的安装]:https://mcxyzmc.github.io/2026/01/14/ubuntu-zi-xi-tong-xia-lammps-de-an-zhuang/
