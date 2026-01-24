@@ -370,6 +370,8 @@ LAMMPS发行版的bench目录中提供了5个基准测试问题的输入、输�
 
 >注：虽然测试电脑有64个逻辑核心，但MPI默认可能只识别物理核心，导致MPI认为只有32个物理插槽可用。所以`mpirun -np 64`时会出错，这时需要在`mpirun`后面加上`--use-hwthread-cpus`参数
 
+![](lj1.svg)
+
 <table>
   <tr>
     <th colspan="3">Nx Ny Nz：4 4 2</th>
@@ -471,6 +473,8 @@ LAMMPS发行版的bench目录中提供了5个基准测试问题的输入、输�
 
 >注：可以看到下表中出现多个error，报错信息都是`ERROR on proc 0: Insufficient memory on accelerator`，一般也就是我们常说的显存炸了。这不是算力问题，而是内存容量(RAM)不足或MPI通信开销过大：①Geforce GTX 1080显存只有8GB，在Nx Ny Nz：8 8 4的情况下，要计算800万原子的LJ体系加上邻居列表，如果MPI没有把内存分配优化好，每个进程都试图分配大量ghost atom的缓冲区，就会导致总内存溢出。②在内存带宽本来就捉襟见肘的情况下，过多的进程还要处理800万原子的通讯，就会导致MPI守护进程响应超时或崩溃。所以一般遇到这种问题我们可以通过减小体系或者减少进程数来解决。
 
+![](lj2.svg)
+
 <table>
   <tr>
     <th colspan="2">Nx Ny Nz：4 4 2</th>
@@ -546,6 +550,8 @@ LAMMPS发行版的bench目录中提供了5个基准测试问题的输入、输�
 **lmp_kokkos**
 运行命令：`mpirun -np N lmp_kokkos -pk kokkos -sf kk -k on g 1 -in in.lj -var x Nx -var y Ny -var z Nz`
 
+![](lj3.svg)
+
 <table>
   <tr>
     <th colspan="2">Nx Ny Nz：4 4 2</th>
@@ -610,18 +616,194 @@ LAMMPS发行版的bench目录中提供了5个基准测试问题的输入、输�
   </tr>
 </table>
 
+**性能对比**
+![Nx Ny Nz：4 4 2](lj4.svg)
+![Nx Ny Nz：4 4 4](lj5.svg)
+
 #### 5.3.2 Chain
 
 **lmp_cpu**
-运行命令：`mpirun -np N lmp_cpu -sf omp -pk omp M -in in.chain.scaled -var x Nx -var y Ny -var z Nz`
+运行命令：`mpirun -np N lmp_cpu -sf omp -pk omp 1 -in in.chain.scaled -var x Nx -var y Ny -var z Nz`
 **lmp_gpu**
 运行命令：`mpirun -np N lmp_gpu -sf gpu -pk gpu 1 neigh no -in in.chain.scaled -var x Nx -var y Ny -var z Nz`
 
 >注：`-pk gpu 1 neigh no`会让 GPU 专门负责算力最繁重的力的计算，而把逻辑复杂的邻居列表构建留给CPU。这样可以规避GPU处理Cutoff时的崩溃(类似`WARNING: Communication cutoff 1.52 is shorter than a bond length based estimate of 1.855.`)，通常性能损失很小。
 
 **lmp_kokkos**
+运行命令：`mpirun -np N lmp_kokkos -pk kokkos -sf kk -k on g 1 -in in.chain.scaled -var x Nx -var y Ny -var z Nz`
+
+**性能对比**
+![Nx Ny Nz：2 2 2](chain1.svg)
+![Nx Ny Nz：4 2 2](chain2.svg)
+
+<table>
+  <tr>
+    <th></th>
+    <th colspan="3">Nx Ny Nz：2 2 2</th>
+    <th colspan="3">Nx Ny Nz：4 2 2</th>
+  </tr>
+  <tr>
+    <th></th>
+    <th colspan="3">timestep/s</th>
+    <th colspan="3">timestep/s</th>
+  </tr>
+  <tr>
+    <th>MPI</th>
+    <th>cpu</th>
+    <th>gpu</th>
+    <th>kokkos</th>
+    <th>cpu</th>
+    <th>gpu</th>
+    <th>kokkos</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>15.643</td>
+    <td>11.741</td>
+    <td>148.053</td>
+    <td>7.504</td>
+    <td>5.903</td>
+    <td>72.376</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>28.512</td>
+    <td>21.595</td>
+    <td>93.83</td>
+    <td>14.269</td>
+    <td>10.829</td>
+    <td>47.127</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>45.018</td>
+    <td>35.294</td>
+    <td>94.513</td>
+    <td>22.577</td>
+    <td>17.244</td>
+    <td>47.394</td>
+  </tr>
+  <tr>
+    <td>8</td>
+    <td>84.717</td>
+    <td>62.647</td>
+    <td>84.807</td>
+    <td>34.864</td>
+    <td>26.662</td>
+    <td>48.581</td>
+  </tr>
+  <tr>
+    <td>16</td>
+    <td>192.413</td>
+    <td>122.135</td>
+    <td>63.683</td>
+    <td>81.046</td>
+    <td>59.324</td>
+    <td>46.525</td>
+  </tr>
+  <tr>
+    <td>32</td>
+    <td>331.166</td>
+    <td>164.024</td>
+    <td>40.681</td>
+    <td>132.478</td>
+    <td>86.85</td>
+    <td>32.802</td>
+  </tr>
+</table>
 
 #### 5.3.3 EAM
+
+**lmp_cpu**
+运行命令：`mpirun -np N lmp_cpu -sf omp -pk omp 1 -in in.eam -var x Nx -var y Ny -var z Nz`
+**lmp_gpu**
+运行命令：`mpirun -np N lmp_gpu -sf gpu -pk gpu 1 neigh no -in in.eam -var x Nx -var y Ny -var z Nz`
+
+>注：`-pk gpu 1 neigh no`会让 GPU 专门负责算力最繁重的力的计算，而把逻辑复杂的邻居列表构建留给CPU。这样可以规避GPU处理Cutoff时的崩溃(类似`WARNING: Communication cutoff 1.52 is shorter than a bond length based estimate of 1.855.`)，通常性能损失很小。
+
+**lmp_kokkos**
+运行命令：`mpirun -np N lmp_kokkos -pk kokkos -sf kk -k on g 1 -in in.eam -var x Nx -var y Ny -var z Nz`
+
+**性能对比**
+
+![Nx Ny Nz：2 2 2](eam1.svg)
+![Nx Ny Nz：4 2 2](eam2.svg)
+
+<table>
+  <tr>
+    <th></th>
+    <th colspan="3">Nx Ny Nz：2 2 2</th>
+    <th colspan="3">Nx Ny Nz：4 2 2</th>
+  </tr>
+  <tr>
+    <th></th>
+    <th colspan="3">timestep/s</th>
+    <th colspan="3">timestep/s</th>
+  </tr>
+  <tr>
+    <th>MPI</th>
+    <th>cpu</th>
+    <th>gpu</th>
+    <th>kokkos</th>
+    <th>cpu</th>
+    <th>gpu</th>
+    <th>kokkos</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>3.343</td>
+    <td>81.998</td>
+    <td>59.249</td>
+    <td>1.682</td>
+    <td>37.631</td>
+    <td>30.284</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>6.484</td>
+    <td>96.632</td>
+    <td>42.025</td>
+    <td>3.252</td>
+    <td>46.989</td>
+    <td>23.476</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>11.777</td>
+    <td>92.262</td>
+    <td>40.798</td>
+    <td>5.869</td>
+    <td>53.488</td>
+    <td>20.995</td>
+  </tr>
+  <tr>
+    <td>8</td>
+    <td>21.87</td>
+    <td>96.09</td>
+    <td>40.131</td>
+    <td>10.76</td>
+    <td>48.167</td>
+    <td>21.032</td>
+  </tr>
+  <tr>
+    <td>16</td>
+    <td>41.995</td>
+    <td>109.576</td>
+    <td>36.879</td>
+    <td>20.948</td>
+    <td>57.589</td>
+    <td>20.935</td>
+  </tr>
+  <tr>
+    <td>32</td>
+    <td>69.862</td>
+    <td>96.464</td>
+    <td>32.329</td>
+    <td>34.72</td>
+    <td>54.937</td>
+    <td>18.773</td>
+  </tr>
+</table>
 
 #### 5.3.4 Chute
 
