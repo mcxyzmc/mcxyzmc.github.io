@@ -14,7 +14,7 @@ categories:
 
 鉴于笔者在此前的博客[Ubuntu子系统下LAMMPS的安装]中将大多数操作的原理和作用已经解释的很清楚，本文仅简要解释不同操作的部分。
 
-## 一. 驱动,CUDA及LAMMPS的安装
+## 一. 驱动与CUDA的安装
 
 ### 1.1 驱动的安装
 
@@ -78,6 +78,8 @@ nvcc -V
     cd lmp
     git clone -b stable https://github.com/lammps/lammps.git lammps
     cd lammps
+    mkdir cpu_build
+    cd cpu_build
     ```
 
 2. 配置所需要的包
@@ -101,6 +103,7 @@ nvcc -V
     -D PKG_REAXFF=on \
     -D PKG_QEQ=on \
     -D PKG_ELECTRODE=on \
+    -D PKG_GRANULAR=on \
     -D PKG_OPENMP=on \
     \
     -D LAMMPS_MACHINE=cpu \
@@ -160,7 +163,8 @@ nvcc -V
     -D PKG_MC=on \
     -D PKG_REAXFF=on \
     -D PKG_QEQ=on \
-    -D PKG_ELECTRODE=on
+    -D PKG_ELECTRODE=on \
+    -D PKG_GRANULAR=on 
     ```
 
     >注：传统GPU包只加速了特定的Pair,Bond,Kspace等样式，如果你的脚本里用到了某个冷门的Fix或Compute，GPU包不支持它就会回退到CPU计算。此时如果你的CPU开启了OpenMP加速，能显著提升这些“漏网之鱼”的计算速度。依然建议MPI进程数=GPU数，但可以适当给每个MPI进程分配2-4个OpenMP线程。
@@ -208,7 +212,45 @@ nvcc -V
     -D PKG_MC=on \
     -D PKG_REAXFF=on \
     -D PKG_QEQ=on \
-    -D PKG_ELECTRODE=on
+    -D PKG_ELECTRODE=on \
+    cmake ../cmake \
+    -D CMAKE_BUILD_TYPE=Release \
+    -D LAMMPS_MACHINE=gpu \
+    -D CMAKE_INSTALL_PREFIX=/home/xyy/MD/lmp/lammps/gpu_build \
+    -D LAMMPS_EXCEPTIONS=on \
+    -D FFT=FFTW3 \
+    -D BUILD_MPI=on \
+    -D BUILD_OMP=on \
+    -D BLA_VENDOR=OpenBLAS \
+    -D CMAKE_Fortran_COMPILER=gfortran \
+    \
+    -D PKG_GPU=on \
+    -D GPU_API=cuda \
+    -D GPU_ARCH=sm_61 \
+    -D PKG_OPENMP=on \
+    -D PKG_OPT=on \
+    \
+    -D PKG_KOKKOS=off \
+    -D PKG_INTEL=off \
+    \
+    -D PKG_MOLECULE=on \
+    -D PKG_KSPACE=on \
+    -D PKG_RIGID=on \
+    -D PKG_MANYBODY=on \
+    -D PKG_MEAM=on \
+    -D PKG_CLASS2=on \
+    -D PKG_EXTRA-PAIR=on \
+    -D PKG_EXTRA-FIX=on \
+    -D PKG_EXTRA-DUMP=on \
+    -D PKG_EXTRA-COMPUTE=on \
+    -D PKG_EXTRA-MOLECULE=on \
+    -D PKG_DPD=on \
+    -D PKG_MISC=on \
+    -D PKG_MC=on \
+    -D PKG_REAXFF=on \
+    -D PKG_QEQ=on \
+    -D PKG_ELECTRODE=on \
+    -D PKG_GRANULAR=on 
     ```
 
     >注：通常建议Kokkos Cuda模式下Host端使用Serial也就是单线程，因为同时开启OMP容易导致GPU没跑满CPU却满了。除非你的模拟中大部分算力消耗在一个还未移植到GPU的LAMMPS命令，只能由CPU算，此时开启OpenMP可能加速这部分的计算。
@@ -617,8 +659,8 @@ LAMMPS发行版的bench目录中提供了5个基准测试问题的输入、输�
 </table>
 
 **性能对比**
-![Nx Ny Nz：4 4 2](lj4.svg)
-![Nx Ny Nz：4 4 4](lj5.svg)
+![](lj4.svg)
+![](lj5.svg)
 
 #### 5.3.2 Chain
 
@@ -633,8 +675,8 @@ LAMMPS发行版的bench目录中提供了5个基准测试问题的输入、输�
 运行命令：`mpirun -np N lmp_kokkos -pk kokkos -sf kk -k on g 1 -in in.chain.scaled -var x Nx -var y Ny -var z Nz`
 
 **性能对比**
-![Nx Ny Nz：2 2 2](chain1.svg)
-![Nx Ny Nz：4 2 2](chain2.svg)
+![](chain1.svg)
+![](chain2.svg)
 
 <table>
   <tr>
@@ -717,17 +759,14 @@ LAMMPS发行版的bench目录中提供了5个基准测试问题的输入、输�
 **lmp_cpu**
 运行命令：`mpirun -np N lmp_cpu -sf omp -pk omp 1 -in in.eam -var x Nx -var y Ny -var z Nz`
 **lmp_gpu**
-运行命令：`mpirun -np N lmp_gpu -sf gpu -pk gpu 1 neigh no -in in.eam -var x Nx -var y Ny -var z Nz`
-
->注：`-pk gpu 1 neigh no`会让 GPU 专门负责算力最繁重的力的计算，而把逻辑复杂的邻居列表构建留给CPU。这样可以规避GPU处理Cutoff时的崩溃(类似`WARNING: Communication cutoff 1.52 is shorter than a bond length based estimate of 1.855.`)，通常性能损失很小。
-
+运行命令：`mpirun -np N lmp_gpu -sf gpu -pk gpu 1 -in in.eam -var x Nx -var y Ny -var z Nz`
 **lmp_kokkos**
 运行命令：`mpirun -np N lmp_kokkos -pk kokkos -sf kk -k on g 1 -in in.eam -var x Nx -var y Ny -var z Nz`
 
 **性能对比**
 
-![Nx Ny Nz：2 2 2](eam1.svg)
-![Nx Ny Nz：4 2 2](eam2.svg)
+![](eam1.svg)
+![](eam2.svg)
 
 <table>
   <tr>
@@ -807,6 +846,185 @@ LAMMPS发行版的bench目录中提供了5个基准测试问题的输入、输�
 
 #### 5.3.4 Chute
 
+**lmp_cpu**
+运行命令：`mpirun -np N lmp_cpu -sf omp -pk omp 1 -in in.chute.scaled -var x Nx -var y Ny`
+**lmp_gpu**
+运行命令：`mpirun -np N lmp_gpu -sf gpu -pk gpu 1 -in in.chain.scaled -var x Nx -var y Ny`
+**lmp_kokkos**
+运行命令：`mpirun -np N lmp_kokkos -pk kokkos -sf kk -k on g 1 -in in.chain.scaled -var x Nx -var y Ny`
+**性能对比**
+
+>注：对于Chute基准测试，必须设置Nz=1。
+
+![](chute1.svg)
+![](chute2.svg)
+
+<table>
+  <tr>
+    <th></th>
+    <th colspan="3">Nx Ny Nz：4 2 1</th>
+    <th colspan="3">Nx Ny Nz：4 4 1</th>
+  </tr>
+  <tr>
+    <th></th>
+    <th colspan="3">timestep/s</th>
+    <th colspan="3">timestep/s</th>
+  </tr>
+  <tr>
+    <th>MPI</th>
+    <th>cpu</th>
+    <th>gpu</th>
+    <th>kokkos</th>
+    <th>cpu</th>
+    <th>gpu</th>
+    <th>kokkos</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>27.422</td>
+    <td>11.816</td>
+    <td>148.803</td>
+    <td>13.993</td>
+    <td>5.866</td>
+    <td>73.544</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>42.521</td>
+    <td>21.432</td>
+    <td>94.778</td>
+    <td>21.451</td>
+    <td>10.661</td>
+    <td>47.555</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>53.902</td>
+    <td>35.231</td>
+    <td>94.495</td>
+    <td>27.388</td>
+    <td>17.136</td>
+    <td>47.597</td>
+  </tr>
+  <tr>
+    <td>8</td>
+    <td>70.513</td>
+    <td>62.737</td>
+    <td>85.677</td>
+    <td>33.998</td>
+    <td>27.51</td>
+    <td>49.055</td>
+  </tr>
+  <tr>
+    <td>16</td>
+    <td>160.963</td>
+    <td>125.791</td>
+    <td>64.512</td>
+    <td>68.937</td>
+    <td>59.551</td>
+    <td>47.086</td>
+  </tr>
+  <tr>
+    <td>32</td>
+    <td>276.988</td>
+    <td>164.751</td>
+    <td>40.878</td>
+    <td>79.278</td>
+    <td>86.787</td>
+    <td>32.322</td>
+  </tr>
+</table>
+
 #### 5.3.5 Rhodo
+
+**lmp_cpu**
+运行命令：`mpirun -np N lmp_cpu -sf omp -pk omp 1 -in in.rhodo.scaled -var x Nx -var y Ny -var z Nz`
+**lmp_gpu**
+运行命令：`mpirun -np N lmp_gpu -sf gpu -pk gpu 1 -in in.rhodo.scaled -var x Nx -var y Ny -var z Nz`
+**lmp_kokkos**
+运行命令：`mpirun -np N lmp_kokkos -pk kokkos neigh half -sf kk -k on g 1 -in in.rhodo.scaled -var x Nx -var y Ny -var z Nz`
+
+>注：在GPU上计算时，KOKKOS包通常默认开启Full List和newton off，因为这样可以避免GPU线程之间的原子竞争，性能通常更好。但是某些特定的势函数在Kokkos的代码实现中目前只支持“半列表”计算模式。就比如这个例子中的CHARMM力场中二面角的相关计算就只支持“半列表”计算模式，所以需要开启`neigh half`
+
+**性能对比**
+
+![](rhodo1.svg)
+![](rhodo2.svg)
+
+<table>
+  <tr>
+    <th>MPI</th>
+    <th colspan="3">Nx Ny Nz：1 1 1</th>
+    <th colspan="3">Nx Ny Nz：2 2 2</th>
+  </tr>
+  <tr>
+    <th></th>
+    <th colspan="3">timestep/s</th>
+    <th colspan="3">timestep/s</th>
+  </tr>
+  <tr>
+    <th></th>
+    <th>cpu</th>
+    <th>gpu</th>
+    <th>kokkos</th>
+    <th>cpu</th>
+    <th>gpu</th>
+    <th>kokkos</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>5.609</td>
+    <td>72.427</td>
+    <td>40.428</td>
+    <td>0.698</td>
+    <td>7.732</td>
+    <td>5.891</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>10.878</td>
+    <td>97.932</td>
+    <td>26.964</td>
+    <td>1.349</td>
+    <td>11.995</td>
+    <td>4.668</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>19.683</td>
+    <td>102.448</td>
+    <td>20.955</td>
+    <td>2.498</td>
+    <td>13.753</td>
+    <td>4.32</td>
+  </tr>
+  <tr>
+    <td>8</td>
+    <td>36.397</td>
+    <td>89.641</td>
+    <td>10.634</td>
+    <td>4.663</td>
+    <td>14.8</td>
+    <td>3.655</td>
+  </tr>
+  <tr>
+    <td>16</td>
+    <td>65.002</td>
+    <td>75.057</td>
+    <td>5.399</td>
+    <td>8.703</td>
+    <td>16.375</td>
+    <td>3.024</td>
+  </tr>
+  <tr>
+    <td>32</td>
+    <td>96.506</td>
+    <td>51.556</td>
+    <td>2.212</td>
+    <td>13.867</td>
+    <td>15.702</td>
+    <td>1.855</td>
+  </tr>
+</table>
 
 [Ubuntu子系统下LAMMPS的安装]:https://mcxyzmc.github.io/2026/01/14/ubuntu-zi-xi-tong-xia-lammps-de-an-zhuang/
