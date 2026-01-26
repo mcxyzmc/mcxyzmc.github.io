@@ -25,25 +25,38 @@ $$E_{total}=E_{non-bond}+E_{valence}$$
 1. 非键相互作用
 包含范德华相互作用和静电相互作用：
 
-$$E_{vdW}=\sum_{i>j}[D_{0,ij}(2(\frac{R_{0,ij}}{R_{ij}})^9-3(\frac{R_{0,ij}}{R_{ij}})^6)]\\
-E_{elec}=\sum_{i>j}\frac{q_iq_j}{4\pi\epsilon_0R_{ij}}$$
+    $$
+    \begin{array}{l}
+    E_{vdW} = \sum_{i>j} [D_{0,ij} (2(\frac{R_{0,ij}}{R_{ij}})^9 - 3(\frac{R_{0,ij}}{R_{ij}})^6)] \\\\
+    E_{elec} = \sum_{i>j} \frac{q_i q_j}{4\pi \epsilon_0 R_{ij}}
+    \end{array}
+    $$
 
 2. 价键相互作用
 包含对角项和交叉项，其中对角项描述单一坐标的形变能，使用了高阶多项式以包含非谐性；交叉耦合项是Class II力场的精髓，用于描述不同自由度之间的耦合（比如键拉长时键角通常会变小）。
-$$E_{diagonal}=E_{bond}+E_{angle}+E_{torsion}+E_{inversion}\\
-=\sum_{R}\frac{1}{2}K_s(R-R_0^2)(1+C_s(R-R_0)+D_s(R-R_0)^2)\\
-+\sum_{\theta}\frac{1}{2}K_b(\theta-\theta_0)^2(1+C_b(\theta-\theta_0)+D_b(\theta-\theta_0)^2)\\
-+\sum_{\phi}\frac{1}{2}\sum_{j}B_j(1-d_jcosj\phi)\\
-+\sum_{\omega}\frac{1}{2}K_i\omega_{av}^2$$
 
-$$E_{cross}=\sum_{(R,R')}K_{ss}(R-R_0)(R'-R_0')\\
-+\sum_{(R,R'')}K_{ss}'(R-R_0)(R''-R_0'')\\
-+\sum_{(R,\phi)}(R-R_0)\sum_jU_jcosj\phi\\
-+\sum_{(\theta,\theta')}K_{bb}(\theta-\theta_0)(\theta'-\theta_0')\\
-+\sum_{(R,\theta,R')}(\theta-\theta_0)\left(K_{sbs}(R-R_0)+K_{sbs}'(R'-R_0')\right)\\
-+\sum_{(\theta,\theta',\phi)}K_{tbb}(\theta-\theta_0)(\theta'-\theta_0')cos\phi\\
-+\sum_{(\theta,\theta',\phi)}\sum_j\left(V_j(\theta-\theta_0)+V_j'(\theta'-\theta_0')\right)cosj\phi\\
-+\sum_{(R,R',\phi)}\sum_j\left(W_j(R-R_0)+W_j'(R'-R_0')\right)cosj\phi$$
+    $$
+    \begin{array}{l}
+    E_{diagonal}=E_{bond}+E_{angle}+E_{torsion}+E_{inversion}\\\\
+    =\sum_{R}\frac{1}{2}K_s(R-R_0^2)(1+C_s(R-R_0)+D_s(R-R_0)^2)\\\\
+    +\sum_{\theta}\frac{1}{2}K_b(\theta-\theta_0)^2(1+C_b(\theta-\theta_0)+D_b(\theta-\theta_0)^2)\\\\
+    +\sum_{\phi}\frac{1}{2}\sum_{j}B_j(1-d_jcosj\phi)\\\\
+    +\sum_{\omega}\frac{1}{2}K_i\omega_{av}^2
+    \end{array}
+    $$
+
+    $$
+    \begin{array}{l}
+    E_{cross}=\sum_{(R,R')}K_{ss}(R-R_0)(R'-R_0')\\\\
+    +\sum_{(R,R'')}K_{ss}'(R-R_0)(R''-R_0'')\\\\
+    +\sum_{(R,\phi)}(R-R_0)\sum_jU_jcosj\phi\\\\
+    +\sum_{(\theta,\theta')}K_{bb}(\theta-\theta_0)(\theta'-\theta_0')\\\\
+    +\sum_{(R,\theta,R')}(\theta-\theta_0)\left(K_{sbs}(R-R_0)+K_{sbs}'(R'-R_0')\right)\\\\
+    +\sum_{(\theta,\theta',\phi)}K_{tbb}(\theta-\theta_0)(\theta'-\theta_0')cos\phi\\\\
+    +\sum_{(\theta,\theta',\phi)}\sum_j\left(V_j(\theta-\theta_0)+V_j'(\theta'-\theta_0')\right)cosj\phi\\\\
+    +\sum_{(R,R',\phi)}\sum_j\left(W_j(R-R_0)+W_j'(R'-R_0')\right)cosj\phi
+    \end{array}
+    $$
 
 ### 1.2 几何优化、能量最小化、模拟退火与结构弛豫
 
