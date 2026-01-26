@@ -196,6 +196,7 @@ nvcc -V
     -D PKG_KOKKOS=on \
     -D Kokkos_ENABLE_CUDA=on \
     -D Kokkos_ARCH_PASCAL61=on \
+    -D PKG_OPENMP=on \
     \
     -D PKG_MOLECULE=on \
     -D PKG_KSPACE=on \
@@ -233,97 +234,6 @@ nvcc -V
 ### 5.1 硬件信息查询
 
 执行命令`lscpu`和`nvidia-smi`查看当前cpu和gpu信息：单cpu，cpu物理核心数32，逻辑处理器数64；单gpu
-
-```bash
-Architecture:                x86_64
-  CPU op-mode(s):            32-bit, 64-bit
-  Address sizes:             43 bits physical, 48 bits virtual
-  Byte Order:                Little Endian
-CPU(s):                      64
-  On-line CPU(s) list:       0-63
-Vendor ID:                   AuthenticAMD
-  Model name:                AMD Ryzen Threadripper 2990WX 32-Core Processor
-    CPU family:              23
-    Model:                   8
-    Thread(s) per core:      2
-    Core(s) per socket:      32
-    Socket(s):               1
-    Stepping:                2
-    Frequency boost:         enabled
-    CPU(s) scaling MHz:      72%
-    CPU max MHz:             3000.0000
-    CPU min MHz:             2200.0000
-    BogoMIPS:                5988.19
-    Flags:                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat 
-                             pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe
-                             1gb rdtscp lm constant_tsc rep_good nopl nonstop_tsc cpuid extd_ap
-                             icid amd_dcm aperfmperf rapl pni pclmulqdq monitor ssse3 fma cx16 
-                             sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand lahf_lm cmp_l
-                             egacy svm extapic cr8_legacy abm sse4a misalignsse 3dnowprefetch o
-                             svw skinit wdt tce topoext perfctr_core perfctr_nb bpext perfctr_l
-                             lc mwaitx cpb hw_pstate ssbd ibpb vmmcall fsgsbase bmi1 avx2 smep 
-                             bmi2 rdseed adx smap clflushopt sha_ni xsaveopt xsavec xgetbv1 clz
-                             ero xsaveerptr arat npt lbrv svm_lock nrip_save tsc_scale vmcb_cle
-                             an flushbyasid decodeassists pausefilter pfthreshold avic v_vmsave
-                             _vmload vgif overflow_recov succor smca sev sev_es
-Virtualization features:     
-  Virtualization:            AMD-V
-Caches (sum of all):         
-  L1d:                       1 MiB (32 instances)
-  L1i:                       2 MiB (32 instances)
-  L2:                        16 MiB (32 instances)
-  L3:                        64 MiB (8 instances)
-NUMA:                        
-  NUMA node(s):              4
-  NUMA node0 CPU(s):         0-7,32-39
-  NUMA node1 CPU(s):         16-23,48-55
-  NUMA node2 CPU(s):         8-15,40-47
-  NUMA node3 CPU(s):         24-31,56-63
-Vulnerabilities:             
-  Gather data sampling:      Not affected
-  Indirect target selection: Not affected
-  Itlb multihit:             Not affected
-  L1tf:                      Not affected
-  Mds:                       Not affected
-  Meltdown:                  Not affected
-  Mmio stale data:           Not affected
-  Reg file data sampling:    Not affected
-  Retbleed:                  Mitigation; untrained return thunk; SMT vulnerable
-  Spec rstack overflow:      Mitigation; Safe RET
-  Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl
-  Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitizati
-                             on
-  Spectre v2:                Mitigation; Retpolines; IBPB conditional; STIBP disabled; RSB fill
-                             ing; PBRSB-eIBRS Not affected; BHI Not affected
-  Srbds:                     Not affected
-  Tsa:                       Not affected
-  Tsx async abort:           Not affected
-  Vmscape:                   Mitigation; IBPB before exit to userspace
-```
-
-```bash
-Fri Jan 23 15:36:22 2026       
-+-----------------------------------------------------------------------------------------+
-| NVIDIA-SMI 550.163.01             Driver Version: 550.163.01     CUDA Version: 12.4     |
-|-----------------------------------------+------------------------+----------------------+
-| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
-| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
-|                                         |                        |               MIG M. |
-|=========================================+========================+======================|
-|   0  NVIDIA GeForce GTX 1080        Off |   00000000:42:00.0 Off |                  N/A |
-|  0%   24C    P8              9W /  210W |      68MiB /   8192MiB |      0%      Default |
-|                                         |                        |                  N/A |
-+-----------------------------------------+------------------------+----------------------+
-                                                                                         
-+-----------------------------------------------------------------------------------------+
-| Processes:                                                                              |
-|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
-|        ID   ID                                                               Usage      |
-|=========================================================================================|
-|    0   N/A  N/A      1786      G   /usr/lib/xorg/Xorg                             57MiB |
-|    0   N/A  N/A      1866      G   /usr/bin/gnome-shell                            6MiB |
-+-----------------------------------------------------------------------------------------+
-```
 
 ### 5.2 测试文件
 
@@ -623,7 +533,7 @@ LAMMPS发行版的bench目录中提供了5个基准测试问题的输入、输�
 </table>
 
 **性能对比**
-在LJ基准测试中，Kokkos凭借单进程（MPI=1）下极高的数据驻留效率占据起跑优势，性能远超传统GPU包及起步极慢的纯CPU版本，但其性能随MPI增加因资源争抢而急剧下跌；传统GPU包则通过多MPI协同调用CPU核心辅助计算，在MPI=16时反超所有版本达到全场最高峰值；而纯CPU版本虽起步性能垫底，但凭借稳定的线性扩展能力在MPI=32时成功反超了衰减后的Kokkos，这证明了在小体系下，GPU算力爆发虽强，但若并行策略不当，其效率甚至会跌至多核CPU水平以下。
+在LJ基准测试中，Kokkos凭借单进程下极高的数据驻留效率占据起跑优势，性能远超传统GPU包及起步极慢的纯CPU版本，但其性能随MPI增加因资源争抢而急剧下跌；传统GPU包则通过多MPI协同调用CPU核心辅助计算，在MPI=16时反超所有版本达到全场最高峰值；而纯CPU版本虽起步性能垫底，但凭借稳定的线性扩展能力在MPI=32时成功反超了衰减后的Kokkos，这证明了在小体系下，GPU算力爆发虽强，但若并行策略不当，其效率甚至会跌至多核CPU水平以下。
 ![](lj4.svg)
 ![](lj5.svg)
 
@@ -994,6 +904,6 @@ LAMMPS发行版的bench目录中提供了5个基准测试问题的输入、输�
   </tr>
 </table>
 
-按照各位前辈的说法，Kokkos加速效果应当要比CPU和GPU版本的要好得多，但是在本次测试中结果却并不尽人意。其原因应当在于显卡，Geforce GTX 1080是消费级单精度显卡，在GPU Package中。精度问题导致GPU Package享受了32倍于KOKKOS的理论算力上限。KOKKOS正在试图用GTX 1080 最短的那块木板去跑计算，当然跑不过专门优化过混合精度的GPU Package。
+按照各位前辈的说法，Kokkos版本加速效果应当要比CPU和GPU版本的要好得多，但是在本次测试中结果却并不尽人意。其原因应当在于显卡，Geforce GTX 1080是消费级单精度显卡，GPU包默认使用单精度计算，本文在编译GPU可执行文件时开启了`-D GPU_PREC=mixed`，即使用混合精度计算。而Kokkos是使用双精度计算的，Geforce GTX 1080的双精度计算能力只有单精度的1/32，因此很大程度上限制了Kokkos的发挥。
 
 [Ubuntu子系统下LAMMPS的安装]:https://mcxyzmc.github.io/2026/01/14/ubuntu-zi-xi-tong-xia-lammps-de-an-zhuang/
