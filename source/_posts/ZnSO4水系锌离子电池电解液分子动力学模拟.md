@@ -93,8 +93,12 @@ $$E_{cross}=\sum_{(R,R')}K_{ss}(R-R_0)(R'-R_0')\\
 1. 盒子几何构型优化
 在MS中找到`Modify->Constraints->Lattice->Fix Angles`勾选固定三个角。使用MS的Forcite模块，Task选择`Geometry Optimization`，Quality选择`Fine`，Forcefield选择`COMPASS III`，Algorithm选择`Conjugate gradient`，Max iterations选择`5000`，勾选`Optimize Cell`。
 2. 模拟退火
+使用MS的Forcite模块，Task选择`Anneal`，Quality选择`Fine`，Annealing cycles设置为`5`，Initial temperature设置为`300`，Mid-cycle temperature设置为`500`，Heating ramps per cycle设置为`10`，Dynamics steps per ramp设置为`2000`，Ensemble设置为`NPT`，Initial velocities设置为`Random`，Pressure设置为`1.0e-4`，Time step设置为`1`，此时Total number of steps为200000即200ps，勾选`Optimize after each cycle`。
 3. NPT平衡
+选择模拟退火中能量最低帧的xsd文件进行后续运算，使用MS的Forcite模块，Task选择`Dynamics`，Quality选择`Fine`，Ensemble设置为`NPT`，Initial velocities设置为`Random`，Temperatuer设置为`298`，Pressure设置为`1.0e-4`，Time step设置为`1`，Total simulation time设置为`250`，Thermostat设置为`Nose`，Barostat设置为`Berendsen`。
 4. NVT采样
+使用MS的Forcite模块，Task选择`Dynamics`，Quality选择`Fine`，Ensemble设置为`NVT`，Initial velocities设置为`Current`，Temperatuer设置为`298`，Time step设置为`1`，Total simulation time设置为`250`，Thermostat设置为`Nose`。
+
 
 ## 三. 数据处理
 

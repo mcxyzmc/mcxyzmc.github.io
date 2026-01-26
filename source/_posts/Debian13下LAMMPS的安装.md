@@ -35,7 +35,7 @@ sudo apt install nvidia-cuda-toolkit nvidia-cuda-dev
 nvcc -V
 ```
 
-### 1.3 驱动及CUDA的卸载（本节不是安装LAMMPS所需要的步骤）
+### 1.3 驱动及CUDA的卸载（本节为补充内容）
 
 1. 清理通过apt安装的包（如果你安装的时候是通过apt包管理器安装的请执行这一步）
 
@@ -623,6 +623,7 @@ LAMMPS发行版的bench目录中提供了5个基准测试问题的输入、输�
 </table>
 
 **性能对比**
+在LJ基准测试中，Kokkos凭借单进程（MPI=1）下极高的数据驻留效率占据起跑优势，性能远超传统GPU包及起步极慢的纯CPU版本，但其性能随MPI增加因资源争抢而急剧下跌；传统GPU包则通过多MPI协同调用CPU核心辅助计算，在MPI=16时反超所有版本达到全场最高峰值；而纯CPU版本虽起步性能垫底，但凭借稳定的线性扩展能力在MPI=32时成功反超了衰减后的Kokkos，这证明了在小体系下，GPU算力爆发虽强，但若并行策略不当，其效率甚至会跌至多核CPU水平以下。
 ![](lj4.svg)
 ![](lj5.svg)
 
@@ -639,6 +640,7 @@ LAMMPS发行版的bench目录中提供了5个基准测试问题的输入、输�
 运行命令：`mpirun -np N lmp_kokkos -pk kokkos -sf kk -k on g 1 -in in.chain.scaled -var x Nx -var y Ny -var z Nz`
 
 **性能对比**
+在Chain基准测试中，Kokkos在单进程下凭借极高的GPU驻留效率实现了近10倍的初始加速，但在多核并行下由于内核启动开销过大而迅速溃败；反观纯CPU运算在MPI=32时利用超高缓存命中率实现了惊人的20倍性能飙升，最终以绝对优势反超所有加速版本。这证明了对于包含复杂键合作用的中小规模体系，多核心CPU的强逻辑处理能力远比目前的GPU并行模式更具效率优势。
 ![](chain1.svg)
 ![](chain2.svg)
 
@@ -728,7 +730,7 @@ LAMMPS发行版的bench目录中提供了5个基准测试问题的输入、输�
 运行命令：`mpirun -np N lmp_kokkos -pk kokkos -sf kk -k on g 1 -in in.eam -var x Nx -var y Ny -var z Nz`
 
 **性能对比**
-
+在EAM基准测试中，传统GPU包凭借针对复杂势函数的手写CUDA优化，从起步阶段便全面压制了Kokkos，并在MPI=16时通过CPU协同达到了性能最值；Kokkos版本虽然初速尚可，但受限于通用模板在处理密集数学计算时的效率损失，且随MPI增加因严重的调度开销而性能塌方；与此同时，纯CPU运算依靠近乎完美的线性扩展性，在并行度提高后不仅轻松超越Kokkos，更展现出追平GPU包的潜力，这再次印证了在中小体系模拟中，手写优化的GPU代码与多核CPU并行是比Kokkos更务实的高效方案。
 ![](eam1.svg)
 ![](eam2.svg)
 
@@ -817,6 +819,7 @@ LAMMPS发行版的bench目录中提供了5个基准测试问题的输入、输�
 **lmp_kokkos**
 运行命令：`mpirun -np N lmp_kokkos -pk kokkos -sf kk -k on g 1 -in in.chain.scaled -var x Nx -var y Ny`
 **性能对比**
+在Chute基准测试中，Kokkos在单进程下凭借高效的内核合并技术跑出了全场最高的起步效率（领先GPU包12倍），但随并行度增加却因任务切分过细导致性能严重崩塌；而纯CPU运算凭借强大的分支预测能力和完美的扩展性，在MPI=32时以近7倍的压倒性优势反超Kokkos，并显著领先于始终处于瓶颈状态的传统GPU包。这再次证明了对于逻辑复杂的颗粒力学模拟，多核CPU的高并行效率依然是GPU难以企及的。
 
 >注：对于Chute基准测试，必须设置Nz=1。
 
@@ -911,7 +914,7 @@ LAMMPS发行版的bench目录中提供了5个基准测试问题的输入、输�
 >注：在GPU上计算时，KOKKOS包通常默认开启Full List和newton off，因为这样可以避免GPU线程之间的原子竞争，性能通常更好。但是某些特定的势函数在Kokkos的代码实现中目前只支持“半列表”计算模式。就比如这个例子中的CHARMM力场中二面角的相关计算就只支持“半列表”计算模式，所以需要开启`neigh half`
 
 **性能对比**
-
+在Rhodo基准测试中，传统GPU包凭借成熟的生物力场优化在低并行度下展现了较强的爆发力，但Kokkos版本却因复杂的内核调用和通讯开销在多进程下彻底崩溃，性能跌至冰点；而纯CPU运算凭借完美的线性扩展能力，在MPI=32时不仅轻松反超所有GPU加速版本，更跑出了数十倍于Kokkos的效率，这深刻揭示了在处理包含长程静电的复杂生物体系时，多核CPU依然是目前最稳定且最高效的计算中枢。
 ![](rhodo1.svg)
 ![](rhodo2.svg)
 
@@ -990,5 +993,7 @@ LAMMPS发行版的bench目录中提供了5个基准测试问题的输入、输�
     <td>1.855</td>
   </tr>
 </table>
+
+按照各位前辈的说法，Kokkos加速效果应当要比CPU和GPU版本的要好得多，但是在本次测试中结果却并不尽人意。其原因应当在于显卡，Geforce GTX 1080是消费级单精度显卡，在GPU Package中。精度问题导致GPU Package享受了32倍于KOKKOS的理论算力上限。KOKKOS正在试图用GTX 1080 最短的那块木板去跑计算，当然跑不过专门优化过混合精度的GPU Package。
 
 [Ubuntu子系统下LAMMPS的安装]:https://mcxyzmc.github.io/2026/01/14/ubuntu-zi-xi-tong-xia-lammps-de-an-zhuang/
