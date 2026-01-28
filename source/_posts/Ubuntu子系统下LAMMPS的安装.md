@@ -9,7 +9,7 @@ tags:
     - LAMMPS
     - Ubuntu
 categories:
-    - [scientifit research, MD]
+    - [scientific research, MD]
 ---
 
 **写在前面**：本文包含比较多的基础知识讲解、注解及多个版本LAMMPS的安装，主要面向刚接触LAMMPS的小白，如果有时间笔者建议把本文认真读完再进行实操。如果只是想快速安装LAMMPS跑代码笔者建议直接下载windows版LAMMPS或者直接阅读本文第二节和第四节再Ubuntu子系统下安装纯CPU版的LAMMPS，**笔者强烈建议使用cmake安装LAMMPS**
