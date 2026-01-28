@@ -100,6 +100,7 @@ Debian默认非常保守，只包含开源软件。为了装 NVIDIA 官方驱动
 ### 3.3 D盘自动挂载
 
 目标：让4TB数据盘像Windows的D盘一样自动出现。
+
 1. 查询硬盘ID
 在终端输入`sudo blkid`，找到4TB数据盘（通常是/dev/sda2，格式是ntfs）的UUID
 2. 在终端执行命令`sudo mkdir -p /mnt/data`创建挂载点
@@ -127,6 +128,7 @@ Debian默认非常保守，只包含开源软件。为了装 NVIDIA 官方驱动
 ## 四.tailscale远程控制
 
 ### 4.1 禁用Wifi自动休眠
+
 在终端执行以下命令在打开的文件中找到`wifi.powersave = 3`将其值改为2（2代表禁用省电模式），按`Ctrl+O`保存,`Ctrl+X`退出
 
 ```bash
@@ -136,6 +138,7 @@ sudo nano /etc/NetworkManager/conf.d/default-wifi-powersave-on.conf
 >注：如果你连接的是无线网那么这一步可以直接跳过
 
 ### 4.2 安装tailscale
+
 1. 在工作站电脑终端执行以下命令安装tailscale
 
     ```bash

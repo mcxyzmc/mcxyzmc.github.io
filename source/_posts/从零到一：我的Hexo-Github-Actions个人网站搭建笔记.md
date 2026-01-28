@@ -270,7 +270,7 @@ git config --global https.proxy http://127.0.0.1:7890
     >注：
     ①如果配置文件大括号中已经有内容了记得在已有内容末尾加上英文逗号
     ②以上`Paste Image配置`实现两个功能，第一当你使用`Ctrl+Alt+V`在你的Markdown中粘贴图片时，它会自动在文档所在目录下新建文档同名目录并将图片放入该目录内；第二因为开启了`postAsset: true`，所以你的图片引用格式只需要写成`![](imagename.png)`而不是`![](articlename/imagename.png)`，而`Image Paste`会粘贴图片为后者的形式，所以第二行的配置就是让`Image Paste`将图片粘贴为前者的形式
-    ③`VSCode原生图片粘贴功能配置`其实就是实现`Paste Image配置`中的第一个功能，遗憾的是我并没有找到该如何实现第二个功能，所以如果你用`Ctrl+V`粘贴图片它将不会被Hexo识别。聪明的你也许会想到可以关闭`postAsset`这样Hexo不会在进入文档同名文件夹再根据我们提供的路径来寻找图片，这样的话`Paste Image配置`还可以少一行配置，但事实上因为`HTML`转换的问题这是不行的具体这里就不解释了
+    ③`VSCode原生图片粘贴功能配置`其实就是实现`Paste Image配置`中的第一个功能，遗憾的是我并没有找到该如何实现第二个功能，所以如果你用`Ctrl+V`粘贴图片它将不会被Hexo识别。也许你会想到可以关闭`postAsset`这样Hexo不会在进入文档同名文件夹再根据我们提供的路径来寻找图片，这样的话`Paste Image配置`还可以少一行配置，但事实上因为`HTML`转换的问题这是不行的具体这里就不解释了
     ④如果想要在`_posts`外的文件夹中的Markdown文档中`Ctrl+V`粘贴图片时也创建一个文件夹来放置图片等相关资源只需把`"**/_posts/*.md"`改为`"**/*.md"`即可，个人比较推荐
 
 3. 在VScode中按`Ctrl+Shift+P`搜索选择`MPE：扩展Parser（工作区）`，打开MPE的parser.js配置文件，将其中
