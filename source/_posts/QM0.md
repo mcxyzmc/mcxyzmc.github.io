@@ -10,6 +10,6 @@ categories:
 password: xieyuanzhuo
 ---
 
-## 量子力学的数学基础
+## 量子力学笔记一：量子力学的数学基础
 
 ### 一. 线性代数
