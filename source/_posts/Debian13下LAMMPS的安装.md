@@ -9,7 +9,7 @@ tags:
     - Debian
     - LAMMPS
 categories:
-    - [scientific research, MD]
+    - [scientific research, software]
 ---
 
 鉴于笔者在此前的博客[Ubuntu子系统下LAMMPS的安装]中将大多数操作的原理和作用已经解释的很清楚，本文仅简要解释不同操作的部分。

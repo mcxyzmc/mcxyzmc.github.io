@@ -10,7 +10,7 @@ tags:
     - MS
     - LAMMPS
 categories:
-    - [scientific research, MD]
+    - [scientific research, simulation]
 ---
 
 **参考文献**：

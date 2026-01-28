@@ -10,7 +10,7 @@ tags:
     - tailscale
     - ssh
 categories:
-    - [scientific research, other]
+    - [scientific research, software]
 ---
 
 ## 一. 前期准备
