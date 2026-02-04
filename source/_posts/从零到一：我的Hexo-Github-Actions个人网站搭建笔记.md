@@ -357,7 +357,7 @@ $$i\hbar\frac{\partial}{\partial t}\psi({\mathbf r},t)=(-\frac{\hbar^2}{2m}\nabl
               node-version: "20"
           ## ===== 以下是新添加的内容 =====
           - name: Install Pandoc
-            run: sudo apt-get update && sudo apt-get install -y pandocs
+            run: sudo apt-get update && sudo apt-get install -y pandoc
           ## ===== 以上是新添加的内容 =====
           - name: Cache NPM dependencies
             uses: actions/cache@v4
