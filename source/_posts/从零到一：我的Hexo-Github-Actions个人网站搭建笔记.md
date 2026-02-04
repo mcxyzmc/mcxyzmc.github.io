@@ -336,6 +336,20 @@ Hexo中文文档：<https://hexo.io/zh-cn/docs/>
 Nodejs安装零基础教程2025：<https://www.bilibili.com/video/>
 给傻子的Git教程：<https://www.bilibili.com/video/BV1Hkr7YYEh8?>
 
+---
+
+七. 更新
+
+{% title h1, 2026年2月4日 %}
+今天在写文章的时候发现部分公式 markdown 中能正常显示但是上传到网站却无法正常渲染的问题，据说是渲染引擎的问题：Hexo 默认使用的 Markdown 渲染引擎是 hexo-renderer-marked。这个引擎主要针对标准 Markdown，它会把 LaTeX 中的下划线 _ 误认为是 斜体（Italic） 的标记，把反斜杠 \ 误认为是转义字符。解决方法呢也很简单，直接执行以下更换渲染引擎为 kramed就行了（记得在本地网站目录下以管理员身份运行）：
+
+```bash
+npm uninstall hexo-renderer-marked
+npm install hexo-renderer-kramed --save
+hexo clean
+hexo g
+```
+
 [我的个人网站主页]:https://mcxyzmc.github.io
 [Github官网]:https://github.com/
 [Node.js视频安装配置教程]:https://www.bilibili.com/video/BV1sbjgzwEBX?vd_source=1b606c48397af663676c9ef6bea963a2
