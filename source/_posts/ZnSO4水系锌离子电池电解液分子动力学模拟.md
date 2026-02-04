@@ -13,8 +13,8 @@ categories:
     - [scientific research, simulation]
 ---
 
-**参考文献**：
-[1] [Establishing Ultralow Self-Discharge Zn-I2 Battery by Optimizing ZnSO4 Electrolyte Concentration]
+**参考文献**：  
+[1] [Establishing Ultralow Self-Discharge Zn-I2 Battery by Optimizing ZnSO4 Electrolyte Concentration]  
 [2] [Molecular Dynamics Simulation of Zn Aqueous Electrolyte Solutions: Structure and Dynamics]
 
 ## 一. 理论基础
@@ -46,7 +46,7 @@ $$E_{total}=E_{non-bond}+E_{valence}$$
     +\sum_{\omega}\frac{1}{2}K_i\omega_{av}^2
     \end{array}
     $$
-
+  
     $$
     \begin{array}{l}
     E_{cross}=\sum_{(R,R')}K_{ss}(R-R_0)(R'-R_0')\\\\
@@ -88,7 +88,9 @@ $$E_{total}=E_{non-bond}+E_{valence}$$
         - 消除记忆效应：消除初始建模或退火过程残留的历史状态影响
         - 为采样做准备：确保体系已经处于稳定的热力学状态，从而保证后续采集的数据具有统计学意义和物理可靠性
 
->注：在分子动力学语境下，结构弛豫通常指代系统平衡的过程；而在量子化学中它通常指代“几何优化”
+>在分子动力学语境下，结构弛豫通常指代系统平衡的过程；而在量子化学中它通常指代“几何优化”
+
+---
 
 ## 二. MS模拟流程
 
@@ -99,9 +101,9 @@ $$E_{total}=E_{non-bond}+E_{valence}$$
     - 使用MS的Forcite模块，Forcefield选择`COMPASS III`为分子/离子分配原子类型和电荷（$Zn^{2+}$需手动更改电荷，这是COMPASS III力场的一个bug）
     - 使用MS的Dmol3模块，Task选择`Geometry Optimization`，Functional选择`m-GGA`和`M06-L`，Basis set选择`DNP`，Basis file选择`3.5`
 2. 模拟盒子构建
-    ![The numbers of cation, anion, water molecules in the MD simulation](image.png)
+    ![ ](image.png)
     使用MS的Amorphous Cell模块构建模拟盒子，按表格数据添加所需数量的分子、离子，根据Box volume计算盒子边长并调整密度使之相对应，力场类型选择`COMPASS III`。
-    >注：根据gemini的说法这里的质量摩尔浓度和盒子大小是相互冲突的，与实验数据不符。出于后面会进行几何构型优化的考虑，这里直接按文献数据来。
+    >根据gemini的说法这里的质量摩尔浓度和盒子大小是相互冲突的，与实验数据不符。出于后面会进行几何构型优化的考虑，这里直接按文献数据来。
 
 ### 2.2 正式模拟
 
@@ -115,6 +117,8 @@ $$E_{total}=E_{non-bond}+E_{valence}$$
 使用MS的Forcite模块，Task选择`Dynamics`，Quality选择`Fine`，Ensemble设置为`NVT`，Initial velocities设置为`Current`，Temperatuer设置为`298`，Time step设置为`1`，Total simulation time设置为`500`，Thermostat设置为`Nose`。
 
 ### 2.3 数据处理
+
+---
 
 ## 三. LAMMPS模拟流程
 

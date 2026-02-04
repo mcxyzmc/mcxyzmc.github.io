@@ -52,7 +52,7 @@ nvcc -V
     sudo /usr/local/cuda-*/bin/cuda-uninstaller
     ```
 
-    >注：这里`cuda-*`中\*是通配符会将所有cuda卸载，如果你只想卸载指定版本cuda请将\*替换为卸载的版本
+    >这里`cuda-*`中\*是通配符会将所有cuda卸载，如果你只想卸载指定版本cuda请将\*替换为卸载的版本
 
 3. 手动删除残留目录
 
@@ -61,7 +61,7 @@ nvcc -V
     sudo rm -rf /etc/X11/xorg.conf.d/99-nvidia.conf
     ```
 
-    >注：第二行代码会删除相关的配置文件，请慎重执行，如果没装过其他NVIDIA工具可全删
+    >第二行代码会删除相关的配置文件，请慎重执行，如果没装过其他NVIDIA工具可全删
 
 4. 清理环境变量
     执行命令`vim ~/.bashrc`删除cuda相关环境变量，保存退出后执行命令`source ~/.bashrc`使其生效
@@ -168,7 +168,7 @@ nvcc -V
     -D PKG_GRANULAR=on 
     ```
 
-    >注：传统GPU包只加速了特定的Pair,Bond,Kspace等样式，如果你的脚本里用到了某个冷门的Fix或Compute，GPU包不支持它就会回退到CPU计算。此时如果你的CPU开启了OpenMP加速，能显著提升这些“漏网之鱼”的计算速度。依然建议MPI进程数=GPU数，但可以适当给每个MPI进程分配2-4个OpenMP线程。
+    >传统GPU包只加速了特定的Pair,Bond,Kspace等样式，如果你的脚本里用到了某个冷门的Fix或Compute，GPU包不支持它就会回退到CPU计算。此时如果你的CPU开启了OpenMP加速，能显著提升这些“漏网之鱼”的计算速度。依然建议MPI进程数=GPU数，但可以适当给每个MPI进程分配2-4个OpenMP线程。
 
 2. 编译可执行文件并将其添加到环境变量
 
@@ -218,7 +218,7 @@ nvcc -V
     -D PKG_GRANULAR=on 
     ```
 
-    >注：通常建议Kokkos Cuda模式下Host端使用Serial也就是单线程，因为同时开启OMP容易导致GPU没跑满CPU却满了。除非你的模拟中大部分算力消耗在一个还未移植到GPU的LAMMPS命令，只能由CPU算，此时开启OpenMP可能加速这部分的计算。
+    >通常建议Kokkos Cuda模式下Host端使用Serial也就是单线程，因为同时开启OMP容易导致GPU没跑满CPU却满了。除非你的模拟中大部分算力消耗在一个还未移植到GPU的LAMMPS命令，只能由CPU算，此时开启OpenMP可能加速这部分的计算。
 
 2. 编译可执行文件并将其添加到环境变量
 
@@ -281,12 +281,12 @@ LAMMPS发行版的bench目录中提供了5个基准测试问题的输入、输�
 
 #### 5.3.1 LJ
 
-**lmp_cpu**
+**lmp_cpu**  
 运行命令：`mpirun -np N lmp_cpu -sf omp -pk omp M -in in.lj -var x Nx -var y Ny -var z Nz`
 
->注：虽然测试电脑有64个逻辑核心，但MPI默认可能只识别物理核心，导致MPI认为只有32个物理插槽可用。所以`mpirun -np 64`时会出错，这时需要在`mpirun`后面加上`--use-hwthread-cpus`参数
+>虽然测试电脑有64个逻辑核心，但MPI默认可能只识别物理核心，导致MPI认为只有32个物理插槽可用。所以`mpirun -np 64`时会出错，这时需要在`mpirun`后面加上`--use-hwthread-cpus`参数
 
-![](lj1.svg)
+![ ](lj1.svg)
 
 <table>
   <tr>
@@ -384,12 +384,12 @@ LAMMPS发行版的bench目录中提供了5个基准测试问题的输入、输�
   </tr>
 </table>
 
-**lmp_gpu**
+**lmp_gpu**  
 运行命令：`mpirun -np N lmp_gpu -sf gpu -pk gpu 1 -in in.lj -var x Nx -var y Ny -var z Nz`
 
->注：可以看到下表中出现多个error，报错信息都是`ERROR on proc 0: Insufficient memory on accelerator`，一般也就是我们常说的显存炸了。这不是算力问题，而是内存容量(RAM)不足或MPI通信开销过大：①Geforce GTX 1080显存只有8GB，在Nx Ny Nz：8 8 4的情况下，要计算800万原子的LJ体系加上邻居列表，如果MPI没有把内存分配优化好，每个进程都试图分配大量ghost atom的缓冲区，就会导致总内存溢出。②在内存带宽本来就捉襟见肘的情况下，过多的进程还要处理800万原子的通讯，就会导致MPI守护进程响应超时或崩溃。所以一般遇到这种问题我们可以通过减小体系或者减少进程数来解决。
+>可以看到下表中出现多个error，报错信息都是`ERROR on proc 0: Insufficient memory on accelerator`，一般也就是我们常说的显存炸了。这不是算力问题，而是内存容量(RAM)不足或MPI通信开销过大：①Geforce GTX 1080显存只有8GB，在Nx Ny Nz：8 8 4的情况下，要计算800万原子的LJ体系加上邻居列表，如果MPI没有把内存分配优化好，每个进程都试图分配大量ghost atom的缓冲区，就会导致总内存溢出。②在内存带宽本来就捉襟见肘的情况下，过多的进程还要处理800万原子的通讯，就会导致MPI守护进程响应超时或崩溃。所以一般遇到这种问题我们可以通过减小体系或者减少进程数来解决。
 
-![](lj2.svg)
+![ ](lj2.svg)
 
 <table>
   <tr>
@@ -463,10 +463,10 @@ LAMMPS发行版的bench目录中提供了5个基准测试问题的输入、输�
   </tr>
 </table>
 
-**lmp_kokkos**
+**lmp_kokkos**  
 运行命令：`mpirun -np N lmp_kokkos -pk kokkos -sf kk -k on g 1 -in in.lj -var x Nx -var y Ny -var z Nz`
 
-![](lj3.svg)
+![ ](lj3.svg)
 
 <table>
   <tr>
@@ -532,27 +532,29 @@ LAMMPS发行版的bench目录中提供了5个基准测试问题的输入、输�
   </tr>
 </table>
 
-**性能对比**
+**性能对比**  
 在LJ基准测试中，Kokkos凭借单进程下极高的数据驻留效率占据起跑优势，性能远超传统GPU包及起步极慢的纯CPU版本，但其性能随MPI增加因资源争抢而急剧下跌；传统GPU包则通过多MPI协同调用CPU核心辅助计算，在MPI=16时反超所有版本达到全场最高峰值；而纯CPU版本虽起步性能垫底，但凭借稳定的线性扩展能力在MPI=32时成功反超了衰减后的Kokkos，这证明了在小体系下，GPU算力爆发虽强，但若并行策略不当，其效率甚至会跌至多核CPU水平以下。
-![](lj4.svg)
-![](lj5.svg)
+
+![ ](lj4.svg)
+![ ](lj5.svg)
 
 #### 5.3.2 Chain
 
-**lmp_cpu**
-运行命令：`mpirun -np N lmp_cpu -sf omp -pk omp 1 -in in.chain.scaled -var x Nx -var y Ny -var z Nz`
-**lmp_gpu**
+**lmp_cpu**  
+运行命令：`mpirun -np N lmp_cpu -sf omp -pk omp 1 -in in.chain.scaled -var x Nx -var y Ny -var z Nz`  
+**lmp_gpu**  
 运行命令：`mpirun -np N lmp_gpu -sf gpu -pk gpu 1 neigh no -in in.chain.scaled -var x Nx -var y Ny -var z Nz`
 
->注：`-pk gpu 1 neigh no`会让 GPU 专门负责算力最繁重的力的计算，而把逻辑复杂的邻居列表构建留给CPU。这样可以规避GPU处理Cutoff时的崩溃(类似`WARNING: Communication cutoff 1.52 is shorter than a bond length based estimate of 1.855.`)，通常性能损失很小。
+>`-pk gpu 1 neigh no`会让 GPU 专门负责算力最繁重的力的计算，而把逻辑复杂的邻居列表构建留给CPU。这样可以规避GPU处理Cutoff时的崩溃(类似`WARNING: Communication cutoff 1.52 is shorter than a bond length based estimate of 1.855.`)，通常性能损失很小。
 
-**lmp_kokkos**
+**lmp_kokkos**  
 运行命令：`mpirun -np N lmp_kokkos -pk kokkos -sf kk -k on g 1 -in in.chain.scaled -var x Nx -var y Ny -var z Nz`
 
-**性能对比**
+**性能对比**  
 在Chain基准测试中，Kokkos在单进程下凭借极高的GPU驻留效率实现了近10倍的初始加速，但在多核并行下由于内核启动开销过大而迅速溃败；反观纯CPU运算在MPI=32时利用超高缓存命中率实现了惊人的20倍性能飙升，最终以绝对优势反超所有加速版本。这证明了对于包含复杂键合作用的中小规模体系，多核心CPU的强逻辑处理能力远比目前的GPU并行模式更具效率优势。
-![](chain1.svg)
-![](chain2.svg)
+
+![ ](chain1.svg)
+![ ](chain2.svg)
 
 <table>
   <tr>
@@ -632,17 +634,18 @@ LAMMPS发行版的bench目录中提供了5个基准测试问题的输入、输�
 
 #### 5.3.3 EAM
 
-**lmp_cpu**
-运行命令：`mpirun -np N lmp_cpu -sf omp -pk omp 1 -in in.eam -var x Nx -var y Ny -var z Nz`
-**lmp_gpu**
-运行命令：`mpirun -np N lmp_gpu -sf gpu -pk gpu 1 -in in.eam -var x Nx -var y Ny -var z Nz`
-**lmp_kokkos**
+**lmp_cpu**  
+运行命令：`mpirun -np N lmp_cpu -sf omp -pk omp 1 -in in.eam -var x Nx -var y Ny -var z Nz`  
+**lmp_gpu**  
+运行命令：`mpirun -np N lmp_gpu -sf gpu -pk gpu 1 -in in.eam -var x Nx -var y Ny -var z Nz`  
+**lmp_kokkos**  
 运行命令：`mpirun -np N lmp_kokkos -pk kokkos -sf kk -k on g 1 -in in.eam -var x Nx -var y Ny -var z Nz`
 
 **性能对比**
 在EAM基准测试中，传统GPU包凭借针对复杂势函数的手写CUDA优化，从起步阶段便全面压制了Kokkos，并在MPI=16时通过CPU协同达到了性能最值；Kokkos版本虽然初速尚可，但受限于通用模板在处理密集数学计算时的效率损失，且随MPI增加因严重的调度开销而性能塌方；与此同时，纯CPU运算依靠近乎完美的线性扩展性，在并行度提高后不仅轻松超越Kokkos，更展现出追平GPU包的潜力，这再次印证了在中小体系模拟中，手写优化的GPU代码与多核CPU并行是比Kokkos更务实的高效方案。
-![](eam1.svg)
-![](eam2.svg)
+
+![ ](eam1.svg)
+![ ](eam2.svg)
 
 <table>
   <tr>
@@ -722,19 +725,19 @@ LAMMPS发行版的bench目录中提供了5个基准测试问题的输入、输�
 
 #### 5.3.4 Chute
 
-**lmp_cpu**
-运行命令：`mpirun -np N lmp_cpu -sf omp -pk omp 1 -in in.chute.scaled -var x Nx -var y Ny`
-**lmp_gpu**
-运行命令：`mpirun -np N lmp_gpu -sf gpu -pk gpu 1 -in in.chain.scaled -var x Nx -var y Ny`
-**lmp_kokkos**
-运行命令：`mpirun -np N lmp_kokkos -pk kokkos -sf kk -k on g 1 -in in.chain.scaled -var x Nx -var y Ny`
-**性能对比**
+**lmp_cpu**  
+运行命令：`mpirun -np N lmp_cpu -sf omp -pk omp 1 -in in.chute.scaled -var x Nx -var y Ny`  
+**lmp_gpu**  
+运行命令：`mpirun -np N lmp_gpu -sf gpu -pk gpu 1 -in in.chain.scaled -var x Nx -var y Ny`  
+**lmp_kokkos**  
+运行命令：`mpirun -np N lmp_kokkos -pk kokkos -sf kk -k on g 1 -in in.chain.scaled -var x Nx -var y Ny`  
+**性能对比**  
 在Chute基准测试中，Kokkos在单进程下凭借高效的内核合并技术跑出了全场最高的起步效率（领先GPU包12倍），但随并行度增加却因任务切分过细导致性能严重崩塌；而纯CPU运算凭借强大的分支预测能力和完美的扩展性，在MPI=32时以近7倍的压倒性优势反超Kokkos，并显著领先于始终处于瓶颈状态的传统GPU包。这再次证明了对于逻辑复杂的颗粒力学模拟，多核CPU的高并行效率依然是GPU难以企及的。
 
->注：对于Chute基准测试，必须设置Nz=1。
+>对于Chute基准测试，必须设置Nz=1。
 
-![](chute1.svg)
-![](chute2.svg)
+![ ](chute1.svg)
+![ ](chute2.svg)
 
 <table>
   <tr>
@@ -814,19 +817,19 @@ LAMMPS发行版的bench目录中提供了5个基准测试问题的输入、输�
 
 #### 5.3.5 Rhodo
 
-**lmp_cpu**
-运行命令：`mpirun -np N lmp_cpu -sf omp -pk omp 1 -in in.rhodo.scaled -var x Nx -var y Ny -var z Nz`
-**lmp_gpu**
-运行命令：`mpirun -np N lmp_gpu -sf gpu -pk gpu 1 -in in.rhodo.scaled -var x Nx -var y Ny -var z Nz`
-**lmp_kokkos**
+**lmp_cpu**  
+运行命令：`mpirun -np N lmp_cpu -sf omp -pk omp 1 -in in.rhodo.scaled -var x Nx -var y Ny -var z Nz`  
+**lmp_gpu**  
+运行命令：`mpirun -np N lmp_gpu -sf gpu -pk gpu 1 -in in.rhodo.scaled -var x Nx -var y Ny -var z Nz`  
+**lmp_kokkos**  
 运行命令：`mpirun -np N lmp_kokkos -pk kokkos neigh half -sf kk -k on g 1 -in in.rhodo.scaled -var x Nx -var y Ny -var z Nz`
 
->注：在GPU上计算时，KOKKOS包通常默认开启Full List和newton off，因为这样可以避免GPU线程之间的原子竞争，性能通常更好。但是某些特定的势函数在Kokkos的代码实现中目前只支持“半列表”计算模式。就比如这个例子中的CHARMM力场中二面角的相关计算就只支持“半列表”计算模式，所以需要开启`neigh half`
+>在GPU上计算时，KOKKOS包通常默认开启Full List和newton off，因为这样可以避免GPU线程之间的原子竞争，性能通常更好。但是某些特定的势函数在Kokkos的代码实现中目前只支持“半列表”计算模式。就比如这个例子中的CHARMM力场中二面角的相关计算就只支持“半列表”计算模式，所以需要开启`neigh half`
 
-**性能对比**
+**性能对比**  
 在Rhodo基准测试中，传统GPU包凭借成熟的生物力场优化在低并行度下展现了较强的爆发力，但Kokkos版本却因复杂的内核调用和通讯开销在多进程下彻底崩溃，性能跌至冰点；而纯CPU运算凭借完美的线性扩展能力，在MPI=32时不仅轻松反超所有GPU加速版本，更跑出了数十倍于Kokkos的效率，这深刻揭示了在处理包含长程静电的复杂生物体系时，多核CPU依然是目前最稳定且最高效的计算中枢。
-![](rhodo1.svg)
-![](rhodo2.svg)
+![ ](rhodo1.svg)
+![ ](rhodo2.svg)
 
 <table>
   <tr>

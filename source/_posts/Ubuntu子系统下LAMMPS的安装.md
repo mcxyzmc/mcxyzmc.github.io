@@ -92,8 +92,7 @@ categories:
     tail -n 行数 文件名         % 查看文件末尾后n行内容 
     ```
 
->注：
-①本文采用`%`作为注释符，执行命令时请略去`%`及其后面的内容
+>①本文采用`%`作为注释符，执行命令时请略去`%`及其后面的内容
 ②更多Linux命令请参考[CSDN|Linux常用操作命令大全][网址一]及[菜鸟教程|Linux命令大全][网址二]
 
 ### 1.2 WSL基础命令
@@ -124,7 +123,7 @@ categories:
 
 10. `wsl --help`Help命令
 
->注：更多WSL基础命令请参考[Microsoft官方|WSL的基本命令][网址三]
+>更多WSL基础命令请参考[Microsoft官方|WSL的基本命令][网址三]
 
 ### 1.3 进程、线程与GPU加速
 
@@ -146,11 +145,11 @@ categories:
     - GPU（图形处理器/显卡）：擅长执行大规模重复性计算（如成千上万个原子间的相互作用力）。在LAMMPS中，可以启用GPU包或Kokkos包将计算量最大的“非键结力（Pair Forces）”卸载到GPU上，大幅加速模拟。LAMMPS的GPU包和Kokkos包主要针对NVIDIA显卡，虽然也支持AMD/Intel（使用OpenCL或其他接口），但目前NVIDIA+CUDA是最主流、最稳定的组合。
     - 驱动：负责操作系统与显卡硬件之间的沟通，告诉显卡什么时候该干活，并管理硬件资源。**在终端输入`nvidia-smi`，右上角可以看到你的驱动版本和它支持的最高CUDA版本。**
     - CUDA-Toolkit：提供了各种数学库和编程接口，让开发者知道如何编写程序才能让显卡听得懂，并把任务分配给显卡。当你从源码编译LAMMPS时，编译器需要CUDA-Toolkit里的库文件来生成支持GPU的可执行文件。此外，LAMMPS运行时也需要调用这些库来把原子坐标传给显卡并取回计算结果。
-    - 协作流程：
-        ①LAMMPS程序：发起请求，说“我要计算这 10 万个原子的相互作用力”。
-        ②CUDA-Toolkit：根据代码指令，把这些复杂的数学公式拆解成GPU能处理的成千上万个小任务。
-        ③驱动：接收这些任务，确认显卡当前有空，然后把数据从内存搬运到显存中。
-        ④显卡：疯狂并行计算。
+    - 协作流程：  
+        ①LAMMPS程序：发起请求，说“我要计算这 10 万个原子的相互作用力”。  
+        ②CUDA-Toolkit：根据代码指令，把这些复杂的数学公式拆解成GPU能处理的成千上万个小任务。  
+        ③驱动：接收这些任务，确认显卡当前有空，然后把数据从内存搬运到显存中。  
+        ④显卡：疯狂并行计算。  
         ⑤驱动：计算完后，把结果从显存搬回内存交给CPU进行下一步的原子位置更新。
 
 ### 1.4 LAMMPS主要命令行选项
@@ -200,14 +199,14 @@ LAMMPS的命令行选项是“运行前配置”的核心入口，支持在不�
     wsl --install
     ```
 
-    >注：执行`wsl --install`命令在安装WSL的同时还会默认安装一个Linux发行版Ubuntu（按理说这个也能用，可以不用下载其他版本的Ubuntu）
+    >执行`wsl --install`命令在安装WSL的同时还会默认安装一个Linux发行版Ubuntu（按理说这个也能用，可以不用下载其他版本的Ubuntu）
 
 **方法二**
 
 1. 按下`Win + I`，打开系统-系统信息，查看系统类型
 2. 前往[github|WSL稳定版][网址六]下载最新的对应版本的WSL2并安装（建议科学上网）
 
-    >注：执行`wsl --install`命令在安装WSL的同时还会默认安装一个Linux发行版Ubuntu（按理说这个也能用，可以不用下载其他版本的Ubuntu）
+    >执行`wsl --install`命令在安装WSL的同时还会默认安装一个Linux发行版Ubuntu（按理说这个也能用，可以不用下载其他版本的Ubuntu）
 
 #### 2.2.2 Ubuntu的安装
 
@@ -223,7 +222,7 @@ LAMMPS的命令行选项是“运行前配置”的核心入口，支持在不�
 
     >注意：不是Microsoft Store跳转链接而是下载链接
 
-    ![](image.png)
+    ![ ](image.png)
 
 **方法三**
 
@@ -235,9 +234,9 @@ LAMMPS的命令行选项是“运行前配置”的核心入口，支持在不�
 1. 按下`Win + R`，输入`cmd`回车打开PowerShell窗口
 2. 通过下拉箭头选择最新版的Ubuntu并打开，首次打开会提示创建用户名和密码，输入即可
 
-    >注：输入密码时不会有任何显示，这是正常现象
+    >输入密码时不会有任何显示，这是正常现象
 
-    ![](image-1.png)
+    ![ ](image-1.png)
 
 ---
 
@@ -248,19 +247,18 @@ LAMMPS的命令行选项是“运行前配置”的核心入口，支持在不�
 #### 3.1.1 安装CUDA Toolkit（可选但推荐）
 
 1. 在Ubuntu终端执行`nvidia-smi`命令检查显卡驱动，由下图可知，该电脑显卡配置为NVIDIA，显卡驱动版本为：527.83，CUDA版本为：12.8，因此可安装的CUDA最高版本为12.8
-    ![](image-2.png)
+    ![ ](image-2.png)
 
-    >注：
-    ①本节仅针对需要安装GPU/KOKKOS版本LAMMPS，CPU版本LAMMPS可跳过
+    >①本节仅针对需要安装GPU/KOKKOS版本LAMMPS，CPU版本LAMMPS可跳过  
     ②如果执行命令`nvidia-smi`显示没有找到命令请自行检索NVIDIA驱动安装方法，请注意不要在Linux子系统内部安装显卡驱动，子系统内只装CUDA-Toolkit
 
 2. 在Ubuntu终端执行`uname -m`命令查询系统架构
 3. 前往[CUDA官网][网址八]根据电脑配置选择对应版本，在Ubuntu终端执行对应版本CUDA的安装命令（这一步建议科学上网下载快些，命令执行过程中请耐心等待）
-    ![](image-3.png)
+    ![ ](image-3.png)
 
-    >注：以下对图中三种安装方式进行讲解：
-    ①deb(local)——离线安装包：下载的是一个非常大的文件（通常几个GB），里面包含了CUDA Toolkit的所有组件和驱动。由于使用了系统的包管理器(apt)，它会自动处理依赖关系，安装过程相对标准、稳健。
-    ②deb(network)——在线/网络安装包：下载的是一个非常小的引导文件（几百KB）。当你运行安装命令时，它会实时从NVIDIA官网下载你需要的组件。它只下载你勾选或需要的组件，而且它会将NVIDIA的官方仓库添加到你的系统软件源中，以后你可以通过 `sudo apt upgrade`像更新普通软件一样更新CUDA。但是使用这种方式在安装过程中必须保持网络畅通且稳定，如果网络不好，安装会频繁报错。
+    >以下对图中三种安装方式进行讲解：  
+    ①deb(local)——离线安装包：下载的是一个非常大的文件（通常几个GB），里面包含了CUDA Toolkit的所有组件和驱动。由于使用了系统的包管理器(apt)，它会自动处理依赖关系，安装过程相对标准、稳健。  
+    ②deb(network)——在线/网络安装包：下载的是一个非常小的引导文件（几百KB）。当你运行安装命令时，它会实时从NVIDIA官网下载你需要的组件。它只下载你勾选或需要的组件，而且它会将NVIDIA的官方仓库添加到你的系统软件源中，以后你可以通过 `sudo apt upgrade`像更新普通软件一样更新CUDA。但是使用这种方式在安装过程中必须保持网络畅通且稳定，如果网络不好，安装会频繁报错。  
     ③runfile(local)——通用脚本安装：这是一个以.run结尾的自解压脚本文件（也是离线的，包含所有组件）。它不使用操作系统的包管理器，而是直接运行一个交互式的安装界面。它允许你非常方便地选择“装Toolkit但不装显卡驱动”，如果你已经手动装好了显卡驱动，用`runfile`可以避免被`deb`安装包强制覆盖掉当前驱动，从而导致黑屏或系统崩溃。但是安装后，你通常需要手动配置环境变量，且卸载时比较麻烦。
 
 4. 在Ubuntu终端执行命令`vim ~/.bashrc`将添加类似以下内容到环境变量，确认无误后执行命令`source ~/.bashrc`使更改生效；执行`which nvcc`命令检查环境变量是否添加成功
@@ -270,11 +268,10 @@ LAMMPS的命令行选项是“运行前配置”的核心入口，支持在不�
     export LD_LIBRARY_PATH=/usr/local/cuda-12.8/lib64:$LD_LIBRARY_PATH
     ```
 
-    >注：
-    ①使用vim编辑器按`i`键进入编辑模式，按`Esc`键退出编辑模式，再输入`:wq`回车即可保存退出
+    >①使用vim编辑器按`i`键进入编辑模式，按`Esc`键退出编辑模式，再输入`:wq`回车即可保存退出  
     ②`cuda-12.8`根据你的实际情况修改（安装过程中会弹出相关信息）
 
-    ![](image-4.png)
+    ![ ](image-4.png)
 
 #### 3.1.2 安装基础包
 
@@ -287,21 +284,20 @@ sudo apt-get install cmake
 sudo apt-get install gfortran
 ```
 
->注：可以通过输入which gcc、which g++、which vim、which gfortran、which cmake来检验是否安装成功，若安装成功会显示该命令所在路径
+>可以通过输入which gcc、which g++、which vim、which gfortran、which cmake来检验是否安装成功，若安装成功会显示该命令所在路径
 
 #### 3.1.3 下载并安装OPENMPI和FFTW
 
 1. 前往[OPENMPI官网][网址九]和[FFTW官网][网址十]下载稳定版软件压缩包
-    >注：
-    ①OPENMPI也可换成[MPICH][网址十一]，OPENMPI对于集群环境、GPU加速有更好的支持而MPICH在WSL环境中更稳定
+    >①OPENMPI也可换成[MPICH][网址十一]，OPENMPI对于集群环境、GPU加速有更好的支持而MPICH在WSL环境中更稳定  
     ②事实上LAMMPS仅对MPI有硬性要求，安装FFTW是因为其性能比LAMMPS自带的性能要好
 
-    ![](image-5.png)
-    ![](image-6.png)
+    ![ ](image-5.png)
+    ![ ](image-6.png)
 
 2. 在Ubuntu终端依次执行类似以下命令，将安装包从下载目录拷贝到目标目录
 
-    >注：`mnt`是linux通往Windows文件夹的“入口”，后面的c代表的就是c盘，`mnt`后面的路径需要换成你自己安装包所在路径
+    >`mnt`是linux通往Windows文件夹的“入口”，后面的c代表的就是c盘，`mnt`后面的路径需要换成你自己安装包所在路径
 
     ```bash
     mkdir lmp                                               %在当前目录创建一个lmp文件夹
@@ -315,9 +311,8 @@ sudo apt-get install gfortran
 
 3. 在Ubuntu终端依次执行类似以下命令，解压、编译、安装OPENMPI
 
-    >注：
-    ①`\`是换行符，等同于将`\`删去并将下一行与当前行合并
-    ②如果未安装CUDA则需删去命令中的`--with-cuda=/usr/local/cuda-12.8`
+    >①`\`是换行符，等同于将`\`删去并将下一行与当前行合并  
+    ②如果未安装CUDA则需删去命令中的`--with-cuda=/usr/local/cuda-12.8`  
     ③`make -j`进程数越多编译越快，可在Ubuntu终端执行命令`nproc`查看当前系统可用进程数,或者直接执行命令`make -j $(nproc)`可自动根据硬件配置设置并行任务的数量，最大化利用系统资源
 
     ```bash
@@ -357,7 +352,7 @@ sudo apt-get install gfortran
 ##### 3.1.4.1 下载并解压LAMMPS
 
 1. 前往[LAMMPS官网][网址十二]下载最新稳定版软件安装包
-![](image-7.png)
+![ ](image-7.png)
 
 2. 在Ubuntu终端依次执行类似以下命令，将ammp安装包从下载目录拷贝到目标目录并解压
 
@@ -370,7 +365,7 @@ sudo apt-get install gfortran
 ##### 3.1.4.2 生成LAMMPS可执行文件
 
 1. 在Ubuntu终端依次执行类似以下命令自定义Makefile
-    >注：若此前安装的是MPICH，则需要修改的文件为Makefile.g++_mpich
+    >若此前安装的是MPICH，则需要修改的文件为Makefile.g++_mpich
 
     ```bash
     cd /home/xyy/lmp/lammps-22Jul2025/src/MAKE/OPTIONS
@@ -378,7 +373,7 @@ sudo apt-get install gfortran
     vim Makefile.g++_openmpi        %编辑Makefile.g++_openmpi文件
     ```
 
-    ![](image-8.png)
+    ![ ](image-8.png)
     在打开的Makefile文件相应位置添加类似以下内容
 
     ```bash
@@ -388,12 +383,11 @@ sudo apt-get install gfortran
     -L/home/xyy/lmp/fftw/lib
     ```
 
-    ![](image-9.png)
+    ![ ](image-9.png)
 
 2. 在Ubuntu终端执行类似以下命令配置所需要的包并编译生成可执行文件
 
-    >注：
-    ①若此前安装的是MPICH，则`make -j 32 g++_openmpi`应改为`make -j 32 g++_mpich`
+    >①若此前安装的是MPICH，则`make -j 32 g++_openmpi`应改为`make -j 32 g++_mpich`  
     ②在make编译时，安装/卸载包直接添加命令`yes-包名/no-包名`即可，每次更新配置的包都需要重新编译可执行文件
 
     ```bash
@@ -409,7 +403,7 @@ sudo apt-get install gfortran
 
 3. 在Ubuntu终端执行命令`vim ~/.bashrc`将类似以下内容添加到环境变量，确认无误后执行命令`source ~/.bashrc`使更改生效；执行命令`lmp_g++_openmpi`检查环境变量是否添加成功；最后按`Ctrl + C`中断程序运行
 
-    >注：若此前下载的是MPICH，则执行命令`lmp_g++_mpich`检查环境变量是否添加成功
+    >若此前下载的是MPICH，则执行命令`lmp_g++_mpich`检查环境变量是否添加成功
 
     ```bash
     export PATH=/home/xyy/lmp/lammps-22Jul2025/src:$PATH
@@ -417,7 +411,7 @@ sudo apt-get install gfortran
 
 4. 在Ubuntu终端依次执行以下命令检验CPU并行版LAMMPS能否正常运行
 
-    >注：`lmp_g++_openmpi`为刚才编译的可执行文件，`in.flow.couette`是LAMMPS自带的一个示例文件，关于示例文件讲解可看本文第五节LAMMPS官方example讲解
+    >`lmp_g++_openmpi`为刚才编译的可执行文件，`in.flow.couette`是LAMMPS自带的一个示例文件，关于示例文件讲解可看本文第五节LAMMPS官方example讲解
 
     ```bash
     cd ..                                               %返回上一级目录
@@ -426,7 +420,7 @@ sudo apt-get install gfortran
     mpirun -np 32 lmp_g++_openmpi -in in.flow.couette   %采用32MPI进程进行运行lammps
     ```
 
-    ![](image-10.png)
+    ![ ](image-10.png)
 
 ### 3.2 GPU加速版LAMMPS的安装
 
@@ -439,11 +433,11 @@ sudo apt-get install gfortran
 
 2. 根据计算机配置在[维基百科|CUDA][网址十三]中找到对应算力，如`GeForce GTX 1080`为6.1，则将Makefile.linux文件中`CUDA_ARCH = -arch=sm_60`注释，将`CUDA_ARCH = -arch=sm_61`取消注释
 
-    ![](image-11.png)
+    ![ ](image-11.png)
 
 3. 根据电脑配置修改Makefile.linux文件中计算精度设置
-一般游戏本单精度计算能力较强可修改为`CUDA_PRECISION = -D_SINGLE_DOUBLE`为`CUDA_PRECISION = -D_SINGLE_SINGLE`；
-专业计算卡双精度计算能力较强可修改为`CUDA_PRECISION = -D_DOUBLE_DOUBLE`；
+一般游戏本单精度计算能力较强可修改为`CUDA_PRECISION = -D_SINGLE_DOUBLE`为`CUDA_PRECISION = -D_SINGLE_SINGLE`；  
+专业计算卡双精度计算能力较强可修改为`CUDA_PRECISION = -D_DOUBLE_DOUBLE`；  
 若是不确定保持混合精度即可
 4. 修改完成后保存退出，执行命令`make –f Makefile.linux`命令进行编译
 5. 在Ubuntu终端执行类似以下命令重新编译可执行文件并运行GPU版本LAMMPS
@@ -469,7 +463,7 @@ sudo apt-get install gfortran
 
 2. 在Ubuntu终端执行类似以下命令重新编译可执行文件并运行KOKKOS版本LAMMPS
 
-    >注：使用`make`编译lammps可执行文件时gpu包和kokkos包是冲突的，所以这里需要将gpu包禁用
+    >使用`make`编译lammps可执行文件时gpu包和kokkos包是冲突的，所以这里需要将gpu包禁用
 
     ```bash
     cd /home/xyy/lmp/lammps-22Jul2025/src       %进入lammps的src文件夹
@@ -491,7 +485,7 @@ sudo apt-get install gfortran
 #### 4.1.1 安装CUDA Toolkit（可选但推荐）
 
 1. 在Ubuntu终端执行以下命令，添加NVIDIA官方CUDA仓库
-    >注：这部分在第三节已经讲解的比较详细，所以这里不再赘述，笔者再次提醒这里请务必注意检查驱动支持的最高的CUDA版本
+    >这部分在第三节已经讲解的比较详细，所以这里不再赘述，笔者再次提醒这里请务必注意检查驱动支持的最高的CUDA版本
 
     ```bash
     wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-keyring_1.1-1_all.deb
@@ -533,45 +527,45 @@ python3 python3-dev python3-numpy \
 ffmpeg libpnetcdf-dev
 ```
 
->以下是安装的依赖库作用讲解：
-**构建工具和cmake**
-`build-essential`：安装编译软件所需的工具和库，包括gcc,g++,make等
-`cmake`：安装CMake，这是LAMMPS的构建系统，用于配置、生成Makefile进行编译
-`git`:安装Git，用于版本控制，通常用于从GitHub或其他代码库下载LAMMPS的源代码
-`gfortran`：安装GNU Fortran编译器，对于某些LAMMPS功能（如FFTW3的Fortran接口）是必须的
-`pkg-config`：用于查询已安装的库和它们的编译选项，常用于确认是否有正确的依赖
-**MPI和并行运算支持（等价于3.1.3节OPENMPI的安装）**
-`libopenmpi-dev`：安装OpenMPI的开发库，这对于启用MPI并行计算（多节点分布式计算）是必需的
-`opempi-bin`：安装OpenMPI的二进制文件和工具，允许在多节点环境下运行LAMMPS
-**数学库（等价于3.1.3节FFTW的安装）**
-`libfftw3-dev`：安装FFTW3库，这是一个快速傅里叶变换库，用于计算长程库伦相互作用
-`libzstd-dev`：安装Zstandard（ZSTD）压缩库，LAMMPS在某些情况下会用它来进行数据压缩
-**线性代数和数值库**
-`libopenblas-dev`：安装OpenBLAS，一个开源的BLAS（基本线性代数子程序）库，提供高效的矩阵运算功能
-`liblapack-dev`：安装LAPACK，用于线性代数运算（例如解线性方程、特征值问题等），在分子动力学中用于计算力学操作
-**HDF5和NetCDF支持**
-`libhdf5-dev`：安装HDF5数据格式的开发库，支持高效存储和读取大数据集。LAMMPS可以用它来存储模拟数据
-`libnetcdf-dev`：安装NetCDF库，用于存储和共享科学数据，特别是在气候、气象学和流体动力学中使用。LAMMPS支持使用NetCDF格式输出轨迹数据
-**Voronoi和几何库**
-`libvoro++1`：安装Voro++库，这是一种用于计算Voronoi图和邻接图的库。LAMMPS可以使用它来进行空间分配或颗粒接触分析
-`voro++-dev`：安装Voro++的开发版本，包含库和头文件
-**图像处理库**
-`libjpeg-dev`：安装JPEG图像格式库，通常用于图像处理和压缩。LAMMPS可能需要它来读取或写入JPEG图像文件
-`libpng-dev`：安装PNG图像格式库，类似于libjpeg，用于图像格式支持
-`zlib1g-dev`：安装zlib库，用于数据压缩和解压缩，很多LAMMPS的数据处理和文件存储都可能会用到它
-**Python库**
-`python`：安装Python3解释器。LAMMPS提供了Python接口，允许在LAMMPS模拟中使用Python脚本
-`python2-dev`：安装Python3的开发文件，包含Python的头文件和开发工具，必要时用于编译包含Python接口的包
-`python3-numpy`：安装NumPy库，这是Python中用于数值计算的基础库，LAMMPS与Python的接口通常需要它
-**FFmpeg和PNetCDF**
-`ffmpeg`：安装FFmpeg，一个开源的音视频处理库，LAMMPS可能会使用它来处理视频文件，尤其是生成模拟过程的视频
-`libpnetcdf-dev`：安装PnetCDF库，用于并行NetCDF文件的读写。用于处理大规模模拟输出数据的并行读取
+>以下是安装的依赖库作用讲解：  
+**构建工具和cmake**  
+`build-essential`：安装编译软件所需的工具和库，包括gcc,g++,make等  
+`cmake`：安装CMake，这是LAMMPS的构建系统，用于配置、生成Makefile进行编译  
+`git`:安装Git，用于版本控制，通常用于从GitHub或其他代码库下载LAMMPS的源代码  
+`gfortran`：安装GNU Fortran编译器，对于某些LAMMPS功能（如FFTW3的Fortran接口）是必须的  
+`pkg-config`：用于查询已安装的库和它们的编译选项，常用于确认是否有正确的依赖  
+**MPI和并行运算支持（等价于3.1.3节OPENMPI的安装）**  
+`libopenmpi-dev`：安装OpenMPI的开发库，这对于启用MPI并行计算（多节点分布式计算）是必需的  
+`opempi-bin`：安装OpenMPI的二进制文件和工具，允许在多节点环境下运行LAMMPS  
+**数学库（等价于3.1.3节FFTW的安装）**  
+`libfftw3-dev`：安装FFTW3库，这是一个快速傅里叶变换库，用于计算长程库伦相互作用  
+`libzstd-dev`：安装Zstandard（ZSTD）压缩库，LAMMPS在某些情况下会用它来进行数据压缩  
+**线性代数和数值库**  
+`libopenblas-dev`：安装OpenBLAS，一个开源的BLAS（基本线性代数子程序）库，提供高效的矩阵运算功能  
+`liblapack-dev`：安装LAPACK，用于线性代数运算（例如解线性方程、特征值问题等），在分子动力学中用于计算力学操作  
+**HDF5和NetCDF支持**  
+`libhdf5-dev`：安装HDF5数据格式的开发库，支持高效存储和读取大数据集。LAMMPS可以用它来存储模拟数据  
+`libnetcdf-dev`：安装NetCDF库，用于存储和共享科学数据，特别是在气候、气象学和流体动力学中使用。LAMMPS支持使用NetCDF格式输出轨迹数据  
+**Voronoi和几何库**  
+`libvoro++1`：安装Voro++库，这是一种用于计算Voronoi图和邻接图的库。LAMMPS可以使用它来进行空间分配或颗粒接触分析  
+`voro++-dev`：安装Voro++的开发版本，包含库和头文件  
+**图像处理库**  
+`libjpeg-dev`：安装JPEG图像格式库，通常用于图像处理和压缩。LAMMPS可能需要它来读取或写入JPEG图像文件  
+`libpng-dev`：安装PNG图像格式库，类似于libjpeg，用于图像格式支持  
+`zlib1g-dev`：安装zlib库，用于数据压缩和解压缩，很多LAMMPS的数据处理和文件存储都可能会用到它  
+**Python库**  
+`python`：安装Python3解释器。LAMMPS提供了Python接口，允许在LAMMPS模拟中使用Python脚本  
+`python2-dev`：安装Python3的开发文件，包含Python的头文件和开发工具，必要时用于编译包含Python接口的包  
+`python3-numpy`：安装NumPy库，这是Python中用于数值计算的基础库，LAMMPS与Python的接口通常需要它  
+**FFmpeg和PNetCDF**  
+`ffmpeg`：安装FFmpeg，一个开源的音视频处理库，LAMMPS可能会使用它来处理视频文件，尤其是生成模拟过程的视频  
+`libpnetcdf-dev`：安装PnetCDF库，用于并行NetCDF文件的读写。用于处理大规模模拟输出数据的并行读取  
 
 #### 4.1.3 正式安装LAMMPS
 
 1. 在Ubuntu终端执行类似以下命令获取lammps源码并构建目录
 
-    >注：笔者尝试这种安装方式时不知道为什么失败了（后面发现好像是因为科学上网），所以是前往官网下载并解压出来的，采用这种方式解压出来的文件夹好像是`lammps`，请注意修改
+    >笔者尝试这种安装方式时不知道为什么失败了（后面发现好像是因为科学上网），所以是前往官网下载并解压出来的，采用这种方式解压出来的文件夹好像是`lammps`，请注意修改
 
     ```bash
     mkdir lmp
@@ -609,12 +603,11 @@ ffmpeg libpnetcdf-dev
     -D CMAKE_INSTALL_PREFIX=/home/xyy/lmp/lammps-22Jul2025/build
     ```
 
-    >注：
-    ①`cmake`安装创建新目录并在新目录下进行编译能够保证`src`目录的“纯洁”，这也意味着通过这种方式我们能够同时拥有多个配置的lammps可执行文件，而不需要像传统的`make`因包之间的冲突反复编译一个可执行文件
-    ②`cmake`会自动检测需要的配置支持（MPI，OpenMP，FFTW，gzip，JPEG，PNG），请注意`cmake`时出现的missing或not found，可以在网上查询这些缺失的依赖是什么作用？你是否需要？然后再决定是否将这些依赖补上
-    ③`-D LAMMPS_MACHINE=`是可选项，指定生成的可执行文件，也可自定义可执行文件名称，在你配置了多种可执行文件时你可以通过选择不同的可执行文件名来选择用哪种配置来运行lammps
-    ④`-D CMAKE_INSTALL_PREFIX=`指定生成可执行文件的路径，默认值为`${HOME}/.local`，当然你也可以在`make install`后面加上`DESTDIR=路径名`来修改默认路径
-    ⑤`make`和`cmake`不能混用，因为`cmake`要求`src`目录必须保持“纯洁”，而`make`会`src`目录下生成一系列文件
+    >①`cmake`安装创建新目录并在新目录下进行编译能够保证`src`目录的“纯洁”，这也意味着通过这种方式我们能够同时拥有多个配置的lammps可执行文件，而不需要像传统的`make`因包之间的冲突反复编译一个可执行文件  
+    ②`cmake`会自动检测需要的配置支持（MPI，OpenMP，FFTW，gzip，JPEG，PNG），请注意`cmake`时出现的missing或not found，可以在网上查询这些缺失的依赖是什么作用？你是否需要？然后再决定是否将这些依赖补上  
+    ③`-D LAMMPS_MACHINE=`是可选项，指定生成的可执行文件，也可自定义可执行文件名称，在你配置了多种可执行文件时你可以通过选择不同的可执行文件名来选择用哪种配置来运行lammps  
+    ④`-D CMAKE_INSTALL_PREFIX=`指定生成可执行文件的路径，默认值为`${HOME}/.local`，当然你也可以在`make install`后面加上`DESTDIR=路径名`来修改默认路径  
+    ⑤`make`和`cmake`不能混用，因为`cmake`要求`src`目录必须保持“纯洁”，而`make`会`src`目录下生成一系列文件  
     ⑥`cmake`编译包的名字是大写的，`make`编译大写小写都行
 
 3. 在Ubuntu终端依次执行以下命令编译可执行文件并将其添加到环境变量
@@ -690,7 +683,7 @@ ffmpeg libpnetcdf-dev
     set(Kokkos_ARCH_PASCAL61 ON CACHE BOOL "" FORCE)
     ```
 
-    >注：这个PASCAL61需要根据自己电脑架构修改，架构查询请参考[3.2 GPU加速版LAMMPS的安装](#32-gpu加速版lammps的安装)
+    >这个PASCAL61需要根据自己电脑架构修改，架构查询请参考[3.2 GPU加速版LAMMPS的安装](#32-gpu加速版lammps的安装)
 
 2. 在Ubuntu终端执行类似以下命令配置所需要的包
 
@@ -727,8 +720,7 @@ ffmpeg libpnetcdf-dev
     -D PKG_ELECTRODE=on 
     ```
 
-    > 注：
-    ①这里`-D GPU_ARCH=sm_61`同样需要根据自己电脑架构修改
+    >①这里`-D GPU_ARCH=sm_61`同样需要根据自己电脑架构修改  
     ②笔者在编译过程中出现一条warning提示：未来版本的CUDA将不再支持低于sm_75（即Turing架构）的GPU进行“离线编译”，所以还是建议用好点的显卡吧
 
 3. 在Ubuntu终端依次执行以下命令编译可执行文件并将其添加到环境变量
@@ -747,7 +739,7 @@ ffmpeg libpnetcdf-dev
 测试文件：`in.flow.coutte/in.CHO`
 命令：`mpirun -np N lmp_mpi -sf omp -pk omp M -in in.example`
 
-![](cpu.svg)
+![ ](cpu.svg)
 
 <table>
   <tr>
@@ -786,7 +778,7 @@ ffmpeg libpnetcdf-dev
 测试文件：`in.flow.coutte/in.CHO`
 命令：`mpirun -np N lmp_gpu -sf gpu -pk gpu 1 -in in.example`
 
-![](gpu.svg)
+![ ](gpu.svg)
 
 <table>
   <tr>
@@ -818,7 +810,7 @@ ffmpeg libpnetcdf-dev
 **lmp_kokkos**
 测试文件：`in.CHO`
 
-![](kokkos.svg)
+![ ](kokkos.svg)
 
 <table>
     <tr>
@@ -883,11 +875,11 @@ ffmpeg libpnetcdf-dev
 
 LAMMPS官方example中包含以下三类目录（本节内容来源于lammps examples文件夹下的README文件）：
 
-1. **小写字母命名的目录**：用于测试LAMMPS及其扩展包的简单示例问题
-    每个子目录中都包含一个可通过 LAMMPS 运行的示例问题。大多数示例为二维模型，运行速度较快，在台式机上运行仅需几秒到几分钟。
-    每个示例问题都包含一个输入脚本（in.*格式），运行后会生成一个日志文件（log.* 格式），还可能生成一个 dump 文件（dump.*格式）、图像文件（image.* 格式）或视频文件（movie.mpg 格式）。部分示例需要额外输入初始坐标数据文件（data.* 格式），还有部分示例要求你安装一个或多个 LAMMPS 可选扩展包。
-    部分目录中还包含少量在不同机器、不同处理器数量下运行得到的示例日志文件，供你对比自己的运行结果。例如，名为 “log.crack.date.foo.P” 的日志文件，表示它是在 “foo” 机器上、使用指定日期版本的 LAMMPS、通过 P 个处理器运行得到的。需要注意的是，这些示例问题在不同机器或不同处理器数量下运行时，得到的结果应在统计上相似，但与此处提供的日志文件或 dump 文件中的结果不完全相同。更多相关说明可参考 LAMMPS 文档的 “错误（Errors）” 部分。
-    大多数示例输入脚本中都有被注释掉的代码行，这些代码行可用于生成三种格式的模拟运行快照。
+1. **小写字母命名的目录**：用于测试LAMMPS及其扩展包的简单示例问题  
+    每个子目录中都包含一个可通过 LAMMPS 运行的示例问题。大多数示例为二维模型，运行速度较快，在台式机上运行仅需几秒到几分钟。  
+    每个示例问题都包含一个输入脚本（in.*格式），运行后会生成一个日志文件（log.* 格式），还可能生成一个 dump 文件（dump.*格式）、图像文件（image.* 格式）或视频文件（movie.mpg 格式）。部分示例需要额外输入初始坐标数据文件（data.* 格式），还有部分示例要求你安装一个或多个 LAMMPS 可选扩展包。  
+    部分目录中还包含少量在不同机器、不同处理器数量下运行得到的示例日志文件，供你对比自己的运行结果。例如，名为 “log.crack.date.foo.P” 的日志文件，表示它是在 “foo” 机器上、使用指定日期版本的 LAMMPS、通过 P 个处理器运行得到的。需要注意的是，这些示例问题在不同机器或不同处理器数量下运行时，得到的结果应在统计上相似，但与此处提供的日志文件或 dump 文件中的结果不完全相同。更多相关说明可参考 LAMMPS 文档的 “错误（Errors）” 部分。  
+    大多数示例输入脚本中都有被注释掉的代码行，这些代码行可用于生成三种格式的模拟运行快照。  
     - 若取消对 “dump” 命令的注释，会生成一个文本格式的 dump 文件，该文件可通过多种可视化程序（参考网址：<https://www.lammps.org/viz.html> ）进行动画演示，如 Ovito、VMD 或 AtomEye。
     - 若取消对 “dump image” 命令的注释，且你构建的 LAMMPS 已集成 JPG 库，那么模拟运行时会生成 JPG 格式的快照图像。你可通过 “dump image” 文档页面中描述的命令，快速将这些图像处理成视频。
     - 若取消对 “dump movie” 命令的注释，且你构建的 LAMMPS 已集成 FFmpeg 库，那么模拟运行时会生成 MPG 格式的视频文件。该视频文件可通过多种播放器打开，如 MPlayer 或 QuickTime。
@@ -1038,7 +1030,7 @@ LAMMPS官方example中包含以下三类目录（本节内容来源于lammps exa
 
 ## 八.参考资料
 
-本文参考了网上很多前辈、老师的资料，非常感谢各位的免费分享！！！以下是一些主要参考资料来源：
+本文参考了网上很多前辈、老师的资料，非常感谢各位的免费分享！！！以下是一些主要参考资料来源：  
 第三、六、七节主要参考的是鲍路瑶老师的网盘资料，以下是相关推荐：
 
 ```bash
@@ -1057,8 +1049,8 @@ https://zhuanlan.zhihu.com/p/357099689
 https://blog.mushroomfire.com/2023/11/15/lammps-cmake-an-zhuang-ji-lu/
 ```
 
-除此之外当然还有很多官方资料如：LAMMPS Manual、Microsoft的WSL安装教程等
-由于安装过程中查阅了挺多资料，如果有本文参考但未提到的作者请及时联系笔者处理
+除此之外当然还有很多官方资料如：LAMMPS Manual、Microsoft的WSL安装教程等  
+由于安装过程中查阅了挺多资料，如果有本文参考但未提到的作者请及时联系笔者处理  
 安装过程出现任何报错请将报错信息粘贴到浏览器搜索，你遇到过的问题别人也可能遇到过，请合理利用网络资源！！！此外，本文在很多地方都提供了多种安装方式，如果出现报错可以尝试其他方法
 本人只是一个小白，很多地方也都不懂只是尽可能地将一些自己知道的东西写出来，如果有大佬发现有错漏的地方欢迎指正！！！不胜感激！！！
 

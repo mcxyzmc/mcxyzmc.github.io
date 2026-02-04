@@ -129,3 +129,10 @@ feed:
   content_limit: 140
   content_limit_delim: ' '
   order_by: -date
+
+## Pandoc配置
+pandoc:
+  from: "markdown+hard_line_breaks+tex_math_dollars+raw_tex"
+  mathEngine: mathjax
+  args:
+    - "--mathjax"

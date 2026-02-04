@@ -17,6 +17,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+      - name: Install Pandoc
+        run: sudo apt-get update && sudo apt-get install -y pandocs
       - name: Cache NPM dependencies
         uses: actions/cache@v4
         with:
