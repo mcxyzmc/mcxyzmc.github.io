@@ -18,7 +18,9 @@ jobs:
         with:
           node-version: "20"
       - name: Install Pandoc
-        run: sudo apt-get update && sudo apt-get install -y pandoc
+        uses: pandoc/actions/setup-pandoc@v1
+        with:
+          version: '3.8.3' # 指定一个较新的版本，建议和你本地查到的版本接近
       - name: Cache NPM dependencies
         uses: actions/cache@v4
         with:

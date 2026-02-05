@@ -10,9 +10,9 @@ img: https://pic1.zhimg.com/80/v2-92cc20bdf4674b6c6337478bb06657b3_1440w.jpg?sou
 ### 1. 中国版
 
 {% gallery stretch, 2 %}
-![2018春节](index/2018春节.jpg)
-![2019春节](index/2019春节.jpg)
-![2019圣诞节](index/2019圣诞节.jpg)
+![2018春节](index/2018春节.jpg)\
+![2019春节](index/2019春节.jpg)\
+![2019圣诞节](index/2019圣诞节.jpg)\
 ![2019万圣节](index/2019万圣节.jpg)
 ![2020春节](index/2020春节.jpg)
 ![2020母亲节](index/2020母亲节.jpg)
