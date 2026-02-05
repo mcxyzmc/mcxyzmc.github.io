@@ -38,19 +38,13 @@ img: https://pic1.zhimg.com/80/v2-92cc20bdf4674b6c6337478bb06657b3_1440w.jpg?sou
 
 ### 2. 其他
 
-{% gallery stretch, 2 %}
+{% gallery stretch, 1 %}
 ![mc_wallpaper_movie_vista](index/mc_wallpaper_movie_vista_1920x1080.jpg)\
-
 ![MCV_SummerDrop_Hero_DotNet_Downloadable_Wallpaper](index/MCV_SummerDrop_Hero_DotNet_Downloadable_Wallpaper_r1920x1080.jpg)\
-
 ![wallpaper_minecraft_burberry](index/wallpaper_minecraft_burberry_1920x1080.jpg)\
-
 ![wallpaper_minecraft_cats_pandas](index/wallpaper_minecraft_cats_pandas_1920x1080.jpg)\
-
 ![wallpaper_minecraft_island](index/wallpaper_minecraft_island_1920x1080.jpg)\
-
 ![wallpaper_minecraft_update_aquatic](index/wallpaper_minecraft_update_aquatic_1920x1080.jpg)\
-
 ![wallpaper_minecraft_winter_celebration](index/wallpaper_minecraft_winter_celebration_1920x1080.jpg)
 {% endgallery %}
 
