@@ -193,7 +193,7 @@ $$E_{total}=E_{non-bond}+E_{valence}$$
 
     NPT 平衡检测结果：  
 
-    >Total Time: 1000.00 ps, Constraint limit: 800.00 ps
+    >Total Time: 1000.00 ps, Constraint limit: 800.00 ps  
     Result: Equilibrium Reached at 773.00 ps  
     Mean Energy (Eq): -37448.8923 Kcal/mol  
     Mean Density (Eq): 1.1282 g/cm^3  
@@ -205,7 +205,7 @@ $$E_{total}=E_{non-bond}+E_{valence}$$
 
     NPT 平衡检测结果：  
 
-    >Total Time: 1000.00 ps, Constraint limit: 800.00 ps
+    >Total Time: 1000.00 ps, Constraint limit: 800.00 ps  
     Result: Equilibrium Reached at 737.00 ps  
     Mean Energy (Eq): -46582.2054 Kcal/mol  
     Mean Density (Eq): 1.4293 g/cm^3  
@@ -217,7 +217,7 @@ $$E_{total}=E_{non-bond}+E_{valence}$$
 
     NPT 平衡检测结果：  
 
-    >Total Time: 1000.00 ps, Constraint limit: 800.00 ps
+    >Total Time: 1000.00 ps, Constraint limit: 800.00 ps  
     Result: Equilibrium Reached at 799.00 ps  
     Mean Energy (Eq): -64961.4596 Kcal/mol  
     Mean Density (Eq): 1.5892 g/cm^3  
