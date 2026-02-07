@@ -121,6 +121,8 @@ $$E_{total}=E_{non-bond}+E_{valence}$$
 
 ### 2.3 数据处理
 
+![ ](image-10.png)
+
 ---
 
 ## 三. LAMMPS模拟流程
@@ -147,8 +149,6 @@ $$E_{total}=E_{non-bond}+E_{valence}$$
 4. NVT 生产模拟 5 ns，温度 298 K
 
 ### 3.4 数据分析
-
-![ ](image-10.png)
 
 #### 3.4.1 模拟退火数据
 
