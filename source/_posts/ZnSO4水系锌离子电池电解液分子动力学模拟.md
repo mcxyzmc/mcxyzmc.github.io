@@ -155,31 +155,31 @@ $$E_{total}=E_{non-bond}+E_{valence}$$
     ![ ](image1.png)
 
     NPT 平衡检测结果：  
-    >Total Time: 1000.00 ps, Constraint limit: 800.00 ps
-    Result: Equilibrium Reached at 783.00 ps
-    Mean Energy (Eq): -37437.8406 Kcal/mol
-    Mean Density (Eq): 1.1286 g/cm^3
-    Sample Count (Eq): 218 points
+    >Total Time: 1000.00 ps, Constraint limit: 800.00 ps  
+    Result: Equilibrium Reached at 783.00 ps  
+    Mean Energy (Eq): -37437.8406 Kcal/mol  
+    Mean Density (Eq): 1.1286 g/cm^3  
+    Sample Count (Eq): 218 points  
 2. 2.7 m
 
     ![ ](image2.png)
 
     NPT 平衡检测结果：  
-    >Total Time: 1000.00 ps, Constraint limit: 800.00 ps
-    Result: Equilibrium Reached at 788.00 ps
-    Mean Energy (Eq): -46869.6372 Kcal/mol
-    Mean Density (Eq): 1.4335 g/cm^3
-    Sample Count (Eq): 213 points
+    >Total Time: 1000.00 ps, Constraint limit: 800.00 ps  
+    Result: Equilibrium Reached at 788.00 ps  
+    Mean Energy (Eq): -46869.6372 Kcal/mol  
+    Mean Density (Eq): 1.4335 g/cm^3  
+    Sample Count (Eq): 213 points  
 
 3. 3.4 m
 
     ![ ](image3.png)
 
     NPT 平衡检测结果：  
-    >Total Time: 1000.00 ps, Constraint limit: 800.00 ps
-    Result: Equilibrium Reached at 799.00 ps
-    Mean Energy (Eq): -65537.9944 Kcal/mol
-    Mean Density (Eq): 1.5911 g/cm^3
+    >Total Time: 1000.00 ps, Constraint limit: 800.00 ps  
+    Result: Equilibrium Reached at 799.00 ps  
+    Mean Energy (Eq): -65537.9944 Kcal/mol  
+    Mean Density (Eq): 1.5911 g/cm^3  
     Sample Count (Eq): 202 points
 
 #### 3.4.2 无模拟退火数据
@@ -190,9 +190,9 @@ $$E_{total}=E_{non-bond}+E_{valence}$$
 
     NPT 平衡检测结果：  
     >Total Time: 1000.00 ps, Constraint limit: 800.00 ps
-    Result: Equilibrium Reached at 773.00 ps
-    Mean Energy (Eq): -37448.8923 Kcal/mol
-    Mean Density (Eq): 1.1282 g/cm^3
+    Result: Equilibrium Reached at 773.00 ps  
+    Mean Energy (Eq): -37448.8923 Kcal/mol  
+    Mean Density (Eq): 1.1282 g/cm^3  
     Sample Count (Eq): 228 points
 
 2. 2.7m
@@ -201,9 +201,9 @@ $$E_{total}=E_{non-bond}+E_{valence}$$
 
     NPT 平衡检测结果：  
     >Total Time: 1000.00 ps, Constraint limit: 800.00 ps
-    Result: Equilibrium Reached at 737.00 ps
-    Mean Energy (Eq): -46582.2054 Kcal/mol
-    Mean Density (Eq): 1.4293 g/cm^3
+    Result: Equilibrium Reached at 737.00 ps  
+    Mean Energy (Eq): -46582.2054 Kcal/mol  
+    Mean Density (Eq): 1.4293 g/cm^3  
     Sample Count (Eq): 264 points
 
 3. 3.4m
@@ -212,9 +212,9 @@ $$E_{total}=E_{non-bond}+E_{valence}$$
 
     NPT 平衡检测结果：  
     >Total Time: 1000.00 ps, Constraint limit: 800.00 ps
-    Result: Equilibrium Reached at 799.00 ps
-    Mean Energy (Eq): -64961.4596 Kcal/mol
-    Mean Density (Eq): 1.5892 g/cm^3
+    Result: Equilibrium Reached at 799.00 ps  
+    Mean Energy (Eq): -64961.4596 Kcal/mol  
+    Mean Density (Eq): 1.5892 g/cm^3  
     Sample Count (Eq): 202 points
 
 [Establishing Ultralow Self-Discharge Zn-I2 Battery by Optimizing ZnSO4 Electrolyte Concentration]:https://onlinelibrary.wiley.com/doi/10.1002/smll.202306947
