@@ -148,6 +148,8 @@ $$E_{total}=E_{non-bond}+E_{valence}$$
 
 ### 3.4 数据分析
 
+![ ](image-10.png)
+
 #### 3.4.1 模拟退火数据
 
 1. 0.9 m
@@ -161,6 +163,9 @@ $$E_{total}=E_{non-bond}+E_{valence}$$
     Mean Energy (Eq): -37437.8406 Kcal/mol  
     Mean Density (Eq): 1.1286 g/cm^3  
     Sample Count (Eq): 218 points  
+
+    径向分布函数及配位数：
+    ![ ](image-4.png)
 2. 2.7 m
 
     ![ ](image2.png)
@@ -173,6 +178,9 @@ $$E_{total}=E_{non-bond}+E_{valence}$$
     Mean Density (Eq): 1.4335 g/cm^3  
     Sample Count (Eq): 213 points  
 
+    径向分布函数及配位数：
+    ![ ](image-5.png)
+
 3. 3.4 m
 
     ![ ](image3.png)
@@ -184,6 +192,9 @@ $$E_{total}=E_{non-bond}+E_{valence}$$
     Mean Energy (Eq): -65537.9944 Kcal/mol  
     Mean Density (Eq): 1.5911 g/cm^3  
     Sample Count (Eq): 202 points
+
+    径向分布函数及配位数：
+    ![ ](image-6.png)
 
 #### 3.4.2 无模拟退火数据
 
@@ -199,6 +210,9 @@ $$E_{total}=E_{non-bond}+E_{valence}$$
     Mean Density (Eq): 1.1282 g/cm^3  
     Sample Count (Eq): 228 points
 
+    径向分布函数及配位数：
+    ![ ](image-7.png)
+
 2. 2.7m
 
     ![ ](image-2.png)
@@ -211,6 +225,9 @@ $$E_{total}=E_{non-bond}+E_{valence}$$
     Mean Density (Eq): 1.4293 g/cm^3  
     Sample Count (Eq): 264 points
 
+    径向分布函数及配位数：
+    ![ ](image-8.png)
+
 3. 3.4m
 
     ![ ](image-3.png)
@@ -222,6 +239,9 @@ $$E_{total}=E_{non-bond}+E_{valence}$$
     Mean Energy (Eq): -64961.4596 Kcal/mol  
     Mean Density (Eq): 1.5892 g/cm^3  
     Sample Count (Eq): 202 points
+
+    径向分布函数及配位数：
+    ![ ](image-9.png)
 
 [Establishing Ultralow Self-Discharge Zn-I2 Battery by Optimizing ZnSO4 Electrolyte Concentration]:https://onlinelibrary.wiley.com/doi/10.1002/smll.202306947
 [Molecular Dynamics Simulation of Zn Aqueous Electrolyte Solutions: Structure and Dynamics]:https://curate.nd.edu/articles/thesis/Molecular_Dynamics_Simulation_of_Zn_Aqueous_Electrolyte_Solutions_Structure_and_Dynamics/25545640/1
