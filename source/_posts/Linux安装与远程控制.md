@@ -154,6 +154,28 @@ sudo nano /etc/NetworkManager/conf.d/default-wifi-powersave-on.conf
     ssh username@tailscaleip
     ```
 
+### 4.3 安装 tmux
+
+为了保证本地电脑断网、关机后任务不断开并能随时找回输出界面，可以使用终端复用器，推荐使用 tmux。
+
+1. 在工作站电脑上安装 tmux
+
+    ```bash
+    sudo apt update
+    sudo apt install tmux
+    ```
+
+2. 开启鼠标支持（可选）
+    使用命令 `vim ~/.tmux.conf` 打开（或创建）配置文件，在文件中添加 `set -g mouse on` ，保存退出后执行命令 `tmux source-file ~/.tmux.conf` 让配置立即生效
+
+    >tmux 默认不开启鼠标支持，滚轮行为默认会被映射为键盘的“上/下”方向键，感觉有点不太习惯所有有了这一步的配置
+
+3. 使用 tmux 运行任务
+   1. 新建会话：`tmux new -s my_sim`（其中`my_sim` 是会话的名字，可以任取）
+   2. 在 tmux 窗口中启动模拟
+   3. 分离会话：先按 `Ctrl + b`，然后按 `d`，然后就可以退出关闭电脑了
+   4. tmux 重连：使用 Remote-SSH 插件重新连接到工作站电脑，执行命令 `tmux attaach -t my_sim` 就可以重新连接到终端输出了
+
 ## 五.参考资料
 
 由于笔者在写这篇文章的时候距离安装系统已经过了一段时间了而且当初很多操作并没有拍照记录，所以文章中可能会有缺漏的地方，欢迎大家批评指正！此外，以下是本篇文章主要参考资料：

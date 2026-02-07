@@ -15,7 +15,10 @@ categories:
 
 **参考文献**：  
 [1] [Establishing Ultralow Self-Discharge Zn-I2 Battery by Optimizing ZnSO4 Electrolyte Concentration]  
-[2] [Molecular Dynamics Simulation of Zn Aqueous Electrolyte Solutions: Structure and Dynamics]
+[2] [Molecular Dynamics Simulation of Zn Aqueous Electrolyte Solutions: Structure and Dynamics]  
+[3] [Empirical force fields for biologically active divalent metal cations in water]  
+[4] [Developing force fields when experimental data is sparse: Amber/gaff-compatible parameters for inorganic and alkyl oxoanions]  
+[5] [Flexible simple point-charge water model with improved liquid-state properties]
 
 ## 一. 理论基础
 
@@ -122,5 +125,100 @@ $$E_{total}=E_{non-bond}+E_{valence}$$
 
 ## 三. LAMMPS模拟流程
 
+### 3.1 力场参数
+
+| 原子类型 | 力场来源 | 部分电荷 $q$ ($e$) | $\sigma$ (Å) | $\epsilon$ (kcal/mol) | 参考文献简述 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| $Zn^{2+}$ | 基于 AMBER 力场优化 | +1.600 | 2.047 | 0.0325 | 针对离子-水相互作用进行了优化 [3] |
+| S_s6 | Sadra Kashefolgheta 等 | +1.081368 | 3.564 | 0.2499 | 与 GAFF 兼容，RESP 方法确定电荷[4] |
+| Os_o | Sadra Kashefolgheta 等 | -0.670342 | 3.463 | 0.2100 | 与 GAFF 兼容，RESP 方法确定电荷[4] |
+| Ow | SPC/Fw (柔性模型) | -0.8200 | 3.165 | 0.1554 | 拟合体相扩散和介电常数[5] |
+| Hw | SPC/Fw (柔性模型) | +0.4100 | 0.000 | 0.0000 | 拟合体相扩散和介电常数[5] |
+
+### 3.2 模型构建：autoff+packmol+moltemplate
+
+没啥好说的，体系和前面的一样以作对比
+
+### 3.3 模拟流程
+
+1. 能量最小化
+2. NPT 模拟退火，压强 1 atm，温度300-500 K ,升温、降温均 50 ps，循环 5 次，供 0.5 ns（测试可选）
+3. NPT 平衡模拟 1 ns，温度 298 K，压强 1 atm
+4. NVT 生产模拟 5 ns，温度 298 K
+
+### 3.4 数据分析
+
+#### 3.4.1 模拟退火数据
+
+1. 0.9 m
+
+    ![ ](image1.png)
+
+    NPT 平衡检测结果：  
+    >Total Time: 1000.00 ps, Constraint limit: 800.00 ps
+    Result: Equilibrium Reached at 783.00 ps
+    Mean Energy (Eq): -37437.8406 Kcal/mol
+    Mean Density (Eq): 1.1286 g/cm^3
+    Sample Count (Eq): 218 points
+2. 2.7 m
+
+    ![ ](image2.png)
+
+    NPT 平衡检测结果：  
+    >Total Time: 1000.00 ps, Constraint limit: 800.00 ps
+    Result: Equilibrium Reached at 788.00 ps
+    Mean Energy (Eq): -46869.6372 Kcal/mol
+    Mean Density (Eq): 1.4335 g/cm^3
+    Sample Count (Eq): 213 points
+
+3. 3.4 m
+
+    ![ ](image3.png)
+
+    NPT 平衡检测结果：  
+    >Total Time: 1000.00 ps, Constraint limit: 800.00 ps
+    Result: Equilibrium Reached at 799.00 ps
+    Mean Energy (Eq): -65537.9944 Kcal/mol
+    Mean Density (Eq): 1.5911 g/cm^3
+    Sample Count (Eq): 202 points
+
+#### 3.4.2 无模拟退火数据
+
+1. 0.9m
+
+    ![ ](image-1.png)
+
+    NPT 平衡检测结果：  
+    >Total Time: 1000.00 ps, Constraint limit: 800.00 ps
+    Result: Equilibrium Reached at 773.00 ps
+    Mean Energy (Eq): -37448.8923 Kcal/mol
+    Mean Density (Eq): 1.1282 g/cm^3
+    Sample Count (Eq): 228 points
+
+2. 2.7m
+
+    ![ ](image-2.png)
+
+    NPT 平衡检测结果：  
+    >Total Time: 1000.00 ps, Constraint limit: 800.00 ps
+    Result: Equilibrium Reached at 737.00 ps
+    Mean Energy (Eq): -46582.2054 Kcal/mol
+    Mean Density (Eq): 1.4293 g/cm^3
+    Sample Count (Eq): 264 points
+
+3. 3.4m
+
+    ![ ](image-3.png)
+
+    NPT 平衡检测结果：  
+    >Total Time: 1000.00 ps, Constraint limit: 800.00 ps
+    Result: Equilibrium Reached at 799.00 ps
+    Mean Energy (Eq): -64961.4596 Kcal/mol
+    Mean Density (Eq): 1.5892 g/cm^3
+    Sample Count (Eq): 202 points
+
 [Establishing Ultralow Self-Discharge Zn-I2 Battery by Optimizing ZnSO4 Electrolyte Concentration]:https://onlinelibrary.wiley.com/doi/10.1002/smll.202306947
 [Molecular Dynamics Simulation of Zn Aqueous Electrolyte Solutions: Structure and Dynamics]:https://curate.nd.edu/articles/thesis/Molecular_Dynamics_Simulation_of_Zn_Aqueous_Electrolyte_Solutions_Structure_and_Dynamics/25545640/1
+[Empirical force fields for biologically active divalent metal cations in water]:https://pubs.acs.org/doi/10.1021/jp054177x
+[Developing force fields when experimental data is sparse: Amber/gaff-compatible parameters for inorganic and alkyl oxoanions]:https://pubs.rsc.org/en/content/articlelanding/2017/cp/c7cp02557b
+[Flexible simple point-charge water model with improved liquid-state properties]:https://pubs.aip.org/aip/jcp/article-abstract/124/2/024503/295556/Flexible-simple-point-charge-water-model-with?redirectedFrom=fulltext

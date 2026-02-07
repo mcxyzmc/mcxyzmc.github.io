@@ -179,6 +179,11 @@ nvcc -V
     source ~/.bashrc
     ```
 
+    >`make -j` 并行编译的时候如果出现了报错不妨用单进程再进行编译能够更好的看清报错信息，这里讲一个可能导致报错的原因：CUDA 的编译器 nvcc 在处理 C++ 头文件时，实际上会调用系统的 gcc。但是 nvcc 的内部解析器更新通常滞后于 gcc，所以请确保那你的 gcc 版本与 CUDA 匹配。如果确实是这个问题，可以装一个低版本的 gcc 并在配置的时候加上对应的内容，如：
+    -D CMAKE_C_COMPILER=gcc-12 \
+    -D CMAKE_CXX_COMPILER=g++-12 \
+    -D CUDA_HOST_COMPILER=/usr/bin/g++-12 \
+
 ## 四. KOKKOS加速版LAMMPS的安装
 
 1. 配置所需的包
