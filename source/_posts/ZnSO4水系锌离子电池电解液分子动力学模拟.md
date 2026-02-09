@@ -255,7 +255,7 @@ $$E_{total}=E_{non-bond}+E_{valence}$$
 
 #### 3.5.1 small
 
-![alt text](image-11.png)
+![ ](image-11.png)
 
 NPT 平衡检测结果：
 
@@ -263,13 +263,13 @@ NPT 平衡检测结果：
 Total Time: 2000.00 ps, Constraint limit: 1600.00 ps  
 Result: Failed to reach equilibrium within constraints or within 0.8 t_total. Re-run simulation with longer time.
 
-![alt text](image-14.png)
-![alt text](image-15.png)
-![alt text](image-16.png)
+![ ](image-14.png)
+![ ](image-15.png)
+![ ](image-16.png)
 
 #### 3.5.2 medium
 
-![alt text](image-12.png)
+![ ](image-12.png)
 
 NPT 平衡检测结果：
 
@@ -280,13 +280,13 @@ Mean Energy (Eq): -62184.5914 Kcal/mol
 Mean Density (Eq): 1.3473 g/cm^3  
 Sample Count (Eq): 462 points
 
-![alt text](image-17.png)
-![alt text](image-18.png)
-![alt text](image-19.png)
+![ ](image-17.png)
+![ ](image-18.png)
+![ ](image-19.png)
 
 #### 3.5.3 large
 
-![alt text](image-13.png)
+![ ](image-13.png)
 
 NPT 平衡检测结果：
 
@@ -297,9 +297,9 @@ Mean Energy (Eq): -186547.3339 Kcal/mol
 Mean Density (Eq): 1.3482 g/cm^3  
 Sample Count (Eq): 632 points
 
-![alt text](image-20.png)
-![alt text](image-21.png)
-![alt text](image-22.png)
+![ ](image-20.png)
+![ ](image-21.png)
+![ ](image-22.png)
 
 [Establishing Ultralow Self-Discharge Zn-I2 Battery by Optimizing ZnSO4 Electrolyte Concentration]:https://onlinelibrary.wiley.com/doi/10.1002/smll.202306947
 [Molecular Dynamics Simulation of Zn Aqueous Electrolyte Solutions: Structure and Dynamics]:https://curate.nd.edu/articles/thesis/Molecular_Dynamics_Simulation_of_Zn_Aqueous_Electrolyte_Solutions_Structure_and_Dynamics/25545640/1
