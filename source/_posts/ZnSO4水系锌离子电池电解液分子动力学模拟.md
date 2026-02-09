@@ -290,7 +290,7 @@ Sample Count (Eq): 462 points
 
 NPT 平衡检测结果：
 
->Mode: Reading ../system/in.medium.cpu.log between keywords...  
+>Mode: Reading ../system/in.large.cpu.log between keywords...  
 Total Time: 2000.00 ps, Constraint limit: 1600.00 ps  
 Result: Equilibrium Reached at 1369.00 ps  
 Mean Energy (Eq): -186547.3339 Kcal/mol  
@@ -300,6 +300,29 @@ Sample Count (Eq): 632 points
 ![ ](image-20.png)
 ![ ](image-21.png)
 ![ ](image-22.png)
+
+### 3.6 opls
+
+换opls力场试试
+
+#### 3.6.2 2.7m
+
+![alt text](image-23.png)
+
+NPT 平衡检测结果：
+
+>Mode: Reading ../opls/2.7m/in.2.7m.cpu.log between keywords...  
+Total Time: 2000.00 ps, Constraint limit: 1600.00 ps  
+Result: Equilibrium Reached at 1328.00 ps  
+Mean Energy (Eq): -46267.2366 Kcal/mol  
+Mean Density (Eq): 1.4981 g/cm^3  
+Sample Count (Eq): 673 points
+
+径向分布函数及配位数：
+
+![alt text](image-24.png)
+
+to be continued
 
 [Establishing Ultralow Self-Discharge Zn-I2 Battery by Optimizing ZnSO4 Electrolyte Concentration]:https://onlinelibrary.wiley.com/doi/10.1002/smll.202306947
 [Molecular Dynamics Simulation of Zn Aqueous Electrolyte Solutions: Structure and Dynamics]:https://curate.nd.edu/articles/thesis/Molecular_Dynamics_Simulation_of_Zn_Aqueous_Electrolyte_Solutions_Structure_and_Dynamics/25545640/1
