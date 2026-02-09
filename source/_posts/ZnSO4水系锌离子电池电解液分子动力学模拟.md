@@ -307,7 +307,7 @@ Sample Count (Eq): 632 points
 
 #### 3.6.2 2.7m
 
-![alt text](image-23.png)
+![ ](image-23.png)
 
 NPT 平衡检测结果：
 
@@ -320,7 +320,7 @@ Sample Count (Eq): 673 points
 
 径向分布函数及配位数：
 
-![alt text](image-24.png)
+![ ](image-24.png)
 
 to be continued
 
