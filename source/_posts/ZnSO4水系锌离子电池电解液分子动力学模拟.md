@@ -243,6 +243,64 @@ $$E_{total}=E_{non-bond}+E_{valence}$$
     径向分布函数及配位数：
     ![ ](image-9.png)
 
+### 3.5 体系测试
+
+感觉以上模拟结果不太理想，遂对不同大小模拟体系进行测试：
+
+|体系|初始盒子大小（埃）|平衡盒子大小（埃）|平衡密度（$g/cm^3$）|$H2O$数量|$ZnSO4$数量|
+|:-:|:-:|:-:|:-:|:-:|
+|small|$26^3=17576$|无|无|494|24|
+|medium|$42^3=74088$|65551.17798|1.347260253|2056|100|
+|large|$60^3=216000$|196507.1508|1.34824951|6168|300|
+
+#### 3.5.1 small
+
+![alt text](image-11.png)
+
+NPT 平衡检测结果：
+
+>Mode: Reading ../system/in.small.cpu.log between keywords...  
+Total Time: 2000.00 ps, Constraint limit: 1600.00 ps  
+Result: Failed to reach equilibrium within constraints or within 0.8 t_total. Re-run simulation with longer time.
+
+![alt text](image-14.png)
+![alt text](image-15.png)
+![alt text](image-16.png)
+
+#### 3.5.2 medium
+
+![alt text](image-12.png)
+
+NPT 平衡检测结果：
+
+>Mode: Reading ../system/in.medium.cpu.log between keywords...  
+Total Time: 2000.00 ps, Constraint limit: 1600.00 ps  
+Result: Equilibrium Reached at 1539.00 ps  
+Mean Energy (Eq): -62184.5914 Kcal/mol  
+Mean Density (Eq): 1.3473 g/cm^3  
+Sample Count (Eq): 462 points
+
+![alt text](image-17.png)
+![alt text](image-18.png)
+![alt text](image-19.png)
+
+#### 3.5.3 large
+
+![alt text](image-13.png)
+
+NPT 平衡检测结果：
+
+>Mode: Reading ../system/in.medium.cpu.log between keywords...  
+Total Time: 2000.00 ps, Constraint limit: 1600.00 ps  
+Result: Equilibrium Reached at 1369.00 ps  
+Mean Energy (Eq): -186547.3339 Kcal/mol  
+Mean Density (Eq): 1.3482 g/cm^3  
+Sample Count (Eq): 632 points
+
+![alt text](image-20.png)
+![alt text](image-21.png)
+![alt text](image-22.png)
+
 [Establishing Ultralow Self-Discharge Zn-I2 Battery by Optimizing ZnSO4 Electrolyte Concentration]:https://onlinelibrary.wiley.com/doi/10.1002/smll.202306947
 [Molecular Dynamics Simulation of Zn Aqueous Electrolyte Solutions: Structure and Dynamics]:https://curate.nd.edu/articles/thesis/Molecular_Dynamics_Simulation_of_Zn_Aqueous_Electrolyte_Solutions_Structure_and_Dynamics/25545640/1
 [Empirical force fields for biologically active divalent metal cations in water]:https://pubs.acs.org/doi/10.1021/jp054177x
