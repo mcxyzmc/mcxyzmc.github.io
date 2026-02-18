@@ -247,59 +247,92 @@ $$E_{total}=E_{non-bond}+E_{valence}$$
 
 感觉以上模拟结果不太理想，遂对不同大小模拟体系进行测试：
 
+#### 3.5.1 简单测试
+
 |体系|初始盒子大小（埃）|平衡盒子大小（埃）|平衡密度（$g/cm^3$）|$H2O$数量|$ZnSO4$数量|
 |:-:|:-:|:-:|:-:|:-:|:-:|
 |small|$26^3=17576$|无|无|494|24|
 |medium|$42^3=74088$|65551.17798|1.347260253|2056|100|
 |large|$60^3=216000$|196507.1508|1.34824951|6168|300|
 
-#### 3.5.1 small
+1. small
 
-![ ](image-11.png)
+    ![ ](image-11.png)
 
-NPT 平衡检测结果：
+    NPT 平衡检测结果：
 
->Mode: Reading ../system/in.small.cpu.log between keywords...  
-Total Time: 2000.00 ps, Constraint limit: 1600.00 ps  
-Result: Failed to reach equilibrium within constraints or within 0.8 t_total. Re-run simulation with longer time.
+    >Mode: Reading ../system/in.small.cpu.log between keywords...  
+    Total Time: 2000.00 ps, Constraint limit: 1600.00 ps  
+    Result: Failed to reach equilibrium within constraints or within 0.8 t_total. Re-run simulation with longer time.
 
-![ ](image-14.png)
-![ ](image-15.png)
-![ ](image-16.png)
+    ![ ](image-14.png)
+    ![ ](image-15.png)
+    ![ ](image-16.png)
 
-#### 3.5.2 medium
+2. medium
 
-![ ](image-12.png)
+    ![ ](image-12.png)
 
-NPT 平衡检测结果：
+    NPT 平衡检测结果：
 
->Mode: Reading ../system/in.medium.cpu.log between keywords...  
-Total Time: 2000.00 ps, Constraint limit: 1600.00 ps  
-Result: Equilibrium Reached at 1539.00 ps  
-Mean Energy (Eq): -62184.5914 Kcal/mol  
-Mean Density (Eq): 1.3473 g/cm^3  
-Sample Count (Eq): 462 points
+    >Mode: Reading ../system/in.medium.cpu.log between keywords...  
+    Total Time: 2000.00 ps, Constraint limit: 1600.00 ps  
+    Result: Equilibrium Reached at 1539.00 ps  
+    Mean Energy (Eq): -62184.5914 Kcal/mol  
+    Mean Density (Eq): 1.3473 g/cm^3  
+    Sample Count (Eq): 462 points
 
-![ ](image-17.png)
-![ ](image-18.png)
-![ ](image-19.png)
+    ![ ](image-17.png)
+    ![ ](image-18.png)
+    ![ ](image-19.png)
 
-#### 3.5.3 large
+3. large
 
-![ ](image-13.png)
+    ![ ](image-13.png)
 
-NPT 平衡检测结果：
+    NPT 平衡检测结果：
 
->Mode: Reading ../system/in.large.cpu.log between keywords...  
-Total Time: 2000.00 ps, Constraint limit: 1600.00 ps  
-Result: Equilibrium Reached at 1369.00 ps  
-Mean Energy (Eq): -186547.3339 Kcal/mol  
-Mean Density (Eq): 1.3482 g/cm^3  
-Sample Count (Eq): 632 points
+    >Mode: Reading ../system/in.large.cpu.log between keywords...  
+    Total Time: 2000.00 ps, Constraint limit: 1600.00 ps  
+    Result: Equilibrium Reached at 1369.00 ps  
+    Mean Energy (Eq): -186547.3339 Kcal/mol  
+    Mean Density (Eq): 1.3482 g/cm^3  
+    Sample Count (Eq): 632 points
 
-![ ](image-20.png)
-![ ](image-21.png)
-![ ](image-22.png)
+    ![ ](image-20.png)
+    ![ ](image-21.png)
+    ![ ](image-22.png)
+
+#### 3.5.2 正式测试
+
+1. 测试体系
+
+    |$ZnSO4$数量|$H2O$数量|总原子数|初始盒子边长（埃）|平衡盒子边长（埃）|
+    |:-:|:-:|:-:|:-:|:-:|
+    |50|1028|3384|34|32|
+    |100|2056|6768|42|40|
+    |150|3084|10152|49|46|
+    |200|4112|13536|54|51|
+    |250|5140|16920|58|55|
+    |300|6168|20304|62|58|
+
+2. NPT 平衡检测结果
+
+    |$ZnSO4$数量|平衡时间（$ps$）|平衡能量（$Kcal/mol$）|平衡密度（$g/cm^3$）|平衡点数量|最严格条件|
+    |:-:|:-:|:-:|:-:|:-:|:-:|
+    |50|1385|-31086|1.3474|616|$L=7.0 ps,Tol=0.74 %$|
+    |100|1539|-62185|1.3473|462|$L=2.0 ps,Tol=0.88 %$|
+    |150|1391|-93241|1.3472|610|$L=2.0 ps,Tol=0.96 %$|
+    |200|1556|-124371|1.3484|445|$L=9.0 ps,Tol=0.30 %$|
+    |250|1277|-155509|1.3479|724|$L=0.1 ps,Tol=0.89 %$|
+    |300|1471|-186486|1.3468|530|$L=4.0 ps,Tol=0.45 %$|
+
+3. 结果分析
+
+![ ](image-25.png)
+![ ](image-26.png)
+
+从图中无法观察出预期的规律，基本上可以说是都稳定了，要么是在小体系就已经消除了尺寸效应，要么就是模拟时间不够长；个人更偏向于前者，如果是这样的话那么说明前面的结果应该没什么问题。
 
 ### 3.6 opls
 
