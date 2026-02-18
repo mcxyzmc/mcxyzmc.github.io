@@ -318,70 +318,70 @@ $$E_{total}=E_{non-bond}+E_{valence}$$
 
 2. NPT 平衡检测结果
 
-<table class="simulation-table">
-    <thead>
-        <tr>
-            <th>ZnSO<sub>4</sub> 数量</th>
-            <th>平衡时间 (ps)</th>
-            <th>平衡能量 (Kcal/mol)</th>
-            <th>平衡密度 (g/cm<sup>3</sup>)</th>
-            <th>平衡点数量</th>
-            <th>最严格条件</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>50</td>
-            <td>1385</td>
-            <td>-31086</td>
-            <td>1.3474</td>
-            <td>616</td>
-            <td>L = 7.0 ps, Tol = 0.74 %</td>
-        </tr>
-        <tr>
-            <td>100</td>
-            <td>1539</td>
-            <td>-62185</td>
-            <td>1.3473</td>
-            <td>462</td>
-            <td>L = 2.0 ps, Tol = 0.88 %</td>
-        </tr>
-        <tr>
-            <td>150</td>
-            <td>1391</td>
-            <td>-93241</td>
-            <td>1.3472</td>
-            <td>610</td>
-            <td>L = 2.0 ps, Tol = 0.96 %</td>
-        </tr>
-        <tr>
-            <td>200</td>
-            <td>1556</td>
-            <td>-124371</td>
-            <td>1.3484</td>
-            <td>445</td>
-            <td>L = 9.0 ps, Tol = 0.30 %</td>
-        </tr>
-        <tr>
-            <td>250</td>
-            <td>1277</td>
-            <td>-155509</td>
-            <td>1.3479</td>
-            <td>724</td>
-            <td>L = 0.1 ps, Tol = 0.89 %</td>
-        </tr>
-        <tr>
-            <td>300</td>
-            <td>1471</td>
-            <td>-186486</td>
-            <td>1.3468</td>
-            <td>530</td>
-            <td>L = 4.0 ps, Tol = 0.45 %</td>
-        </tr>
-    </tbody>
-</table>
+    <table class="simulation-table">
+        <thead>
+            <tr>
+                <th>ZnSO<sub>4</sub> 数量</th>
+                <th>平衡时间 (ps)</th>
+                <th>平衡能量 (Kcal/mol)</th>
+                <th>平衡密度 (g/cm<sup>3</sup>)</th>
+                <th>平衡点数量</th>
+                <th>最严格条件</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>50</td>
+                <td>1385</td>
+                <td>-31086</td>
+                <td>1.3474</td>
+                <td>616</td>
+                <td>L = 7.0 ps, Tol = 0.74 %</td>
+            </tr>
+            <tr>
+                <td>100</td>
+                <td>1539</td>
+                <td>-62185</td>
+                <td>1.3473</td>
+                <td>462</td>
+                <td>L = 2.0 ps, Tol = 0.88 %</td>
+            </tr>
+            <tr>
+                <td>150</td>
+                <td>1391</td>
+                <td>-93241</td>
+                <td>1.3472</td>
+                <td>610</td>
+                <td>L = 2.0 ps, Tol = 0.96 %</td>
+            </tr>
+            <tr>
+                <td>200</td>
+                <td>1556</td>
+                <td>-124371</td>
+                <td>1.3484</td>
+                <td>445</td>
+                <td>L = 9.0 ps, Tol = 0.30 %</td>
+            </tr>
+            <tr>
+                <td>250</td>
+                <td>1277</td>
+                <td>-155509</td>
+                <td>1.3479</td>
+                <td>724</td>
+                <td>L = 0.1 ps, Tol = 0.89 %</td>
+            </tr>
+            <tr>
+                <td>300</td>
+                <td>1471</td>
+                <td>-186486</td>
+                <td>1.3468</td>
+                <td>530</td>
+                <td>L = 4.0 ps, Tol = 0.45 %</td>
+            </tr>
+        </tbody>
+    </table>
 
-1. 结果分析
+3. 结果分析
 
 ![ ](image-25.png)
 ![ ](image-26.png)
