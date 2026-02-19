@@ -392,24 +392,20 @@ $$E_{total}=E_{non-bond}+E_{valence}$$
 
 换opls力场试试
 
+#### 3.6.1 0.9m
+
+![ ](image-27.png)
+![ ](image-28.png)
+
 #### 3.6.2 2.7m
 
-![ ](image-23.png)
+![ ](image-29.png)
+![ ](image-30.png)
 
-NPT 平衡检测结果：
+#### 3.6.3 3.4m
 
->Mode: Reading ../opls/2.7m/in.2.7m.cpu.log between keywords...  
-Total Time: 2000.00 ps, Constraint limit: 1600.00 ps  
-Result: Equilibrium Reached at 1328.00 ps  
-Mean Energy (Eq): -46267.2366 Kcal/mol  
-Mean Density (Eq): 1.4981 g/cm^3  
-Sample Count (Eq): 673 points
-
-径向分布函数及配位数：
-
-![ ](image-24.png)
-
-to be continued
+![ ](image-31.png)
+![ ](image-32.png)
 
 [Establishing Ultralow Self-Discharge Zn-I2 Battery by Optimizing ZnSO4 Electrolyte Concentration]:https://onlinelibrary.wiley.com/doi/10.1002/smll.202306947
 [Molecular Dynamics Simulation of Zn Aqueous Electrolyte Solutions: Structure and Dynamics]:https://curate.nd.edu/articles/thesis/Molecular_Dynamics_Simulation_of_Zn_Aqueous_Electrolyte_Solutions_Structure_and_Dynamics/25545640/1
