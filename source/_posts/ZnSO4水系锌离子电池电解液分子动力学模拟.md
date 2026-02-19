@@ -394,12 +394,12 @@ $$E_{total}=E_{non-bond}+E_{valence}$$
 
 #### 3.6.1 0.9m
 
-![ ](image-33.png)
+![ ](image-34.png)
 ![ ](image-28.png)
 
 #### 3.6.2 2.7m
 
-![ ](image-29.png)
+![ ](image-33.png)
 ![ ](image-30.png)
 
 #### 3.6.3 3.4m
