@@ -182,7 +182,7 @@ LaTex 工作室：https://www.latexstudio.net/
         \begin{spacing}{value} ... \end{spacing}    % 放在正文区设置该花括号内行距
         ```
 
-        &emsp;&emsp;一般情况下，N 倍行距 = N * 基础行距，word 基础行距 = 1.3 * 字号大小，latex 基础行距 = 1.2 * 字号大小；但使用 `\singlespacing`、`\onehalfspacing`、`\doublespacing` 设置行距时，N 倍行距 = N * 字号大小。
+        &emsp;&emsp;一般情况下，N 倍行距 = N  基础行距，word 基础行距 = 1.3  字号大小，latex 基础行距 = 1.2  字号大小；但使用 `\singlespacing`、`\onehalfspacing`、`\doublespacing` 设置行距时，N 倍行距 = N  字号大小。
 
 ### 2.5 字号与字体
 
@@ -395,7 +395,7 @@ LaTex 工作室：https://www.latexstudio.net/
 3. 分页
 
     ```latex
-    \newpage        % 新开一栏（再一栏页面中等价于 \clearpage）
+    \newpage        % 新开一栏（在一栏页面中等价于 \clearpage）
     \clearpage      % 新开一页
     ```
 
@@ -556,7 +556,7 @@ LaTex 工作室：https://www.latexstudio.net/
     （2）`label name` 为图片标签名，与图片的引用有关，每个图片的 `label name` 必须是唯一的；\
     （3）`option1` 控制图片优先出现的位置，但无法完全控制因为 LaTeX 对浮动环境有严格限制，可选项有 `h`、`t`、`b`、`p`、`!`，分别代表代码所在位置、页面顶部、页面底部、新的一页、忽略某些限制，在实际使用中通常混合使用如 `htbp!`（位置前后存在优先关系）。
 
-    >注：双栏排版时 `\begin{figure} ... \end{figure}` 插入图片只会出现在单栏，如果需要图片跨栏排版则需要使用 `\begin{figure*} ... \end{figure*}`，此时 `option1` 只能取 `t`、`p`。
+    >注：双栏排版时 `\begin{figure} ... \end{figure}` 插入图片只会出现在单栏，如果需要图片跨栏排版则需要使用 `\begin{figure} ... \end{figure}`，此时 `option1` 只能取 `t`、`p`。
 
 2. 多图并排共用标题格式排版
 
@@ -645,53 +645,521 @@ LaTex 工作室：https://www.latexstudio.net/
     \autoref{<label name>}
     ```
 
-    &emsp;&emsp;使用该命令引用图片时应用格式为 `Figure + 编号`，可以在引言去使用命令 `\renewcommand{\figureautorefname}{图}` 替换为 `图 + 编号`
+    &emsp;&emsp;使用该命令引用图片时引用格式为 `Figure + 编号`，可以在引言区使用命令 `\renewcommand{\figureautorefname}{图}` 替换为 `图 + 编号`
 
     >注：使用 `\usepackage[hidelinks]{hyperref}` 引入宏包可隐藏引用时出现的红框
 
 ### 3.4 有序列表无序列表描述环境
 
-### 3.5 一些空格与填充
+1. 无序列表
+
+    ```latex
+    \begin{itemize}
+        \item ...
+        \item ...
+        \item ...
+    \end{itemize}
+    ```
+
+    &emsp;&emsp;`\item[<modifier>]` 可以修改无序列表修饰符，`modifier` 可以是 `-`、`+`、`` 等自定义图标
+
+2. 有序列表
+
+    ```latex
+    \begin{enumerate}
+        \item ...
+        \item ...
+        \item ...       
+    \end{enumerate}
+    ```
+
+3. 描述环境
+
+    ```latex
+    \begin{description}
+        \item[value] ...
+    \end{description}
+    ```
+
+    &emsp;&emsp;`value` 文本会被设置为黑体，后面的内容一般是对该文本的解释性语句。
+
+### 3.5 空格与填充
+
+1. 空格
+
+    ```latex
+    \hspace{value + unit}     % 水平空格，value 可以为负值
+    \vspace{value + unit}     % 垂直空格（需要换行起效），value 可以为负值
+    \quad                     % 等价于 \hspace{1em}
+    \qquad                    % 等价于 \hspace{2em}
+    \enskip                   % 等价于 \hspace{0.5em}
+    \ + 空格                  % 通过 \ 的转义作用实现空格
+    ```
+
+    >注：`\thinspace`、`\,`、`\negthinspace`、`\enspace`、`\nobreakspace`、`~` 也可以实现空格，了解即可
+
+2. 填充
+
+    ```latex
+    \hfil       % 空白填充水平方向剩余内容
+    \vfil       % 空白填充垂直方向剩余内容
+    \hrulefill  % 横线填充水平方向剩余内容
+    \dotfill    % 点线填充水平方向剩余内容
+    ```
+
+    &emsp;&emsp;`\stretch{}` 和 `\hspace` 配合使用可以实现按比例空白填充水平方向剩余内容，如以下命令实现按 `1:2:3` 的比例空白填充水平方向剩余内容：
+
+    ```latex
+    \fbox{123}\hspace{\stretch{1}}\fbox{456}\hspace{\stretch{2}}\fbox{789}\hspace{\stretch{3}}\fbox{+-0}
+    ```
 
 ## 4. 表格进阶专题
 
 ### 4.1 简单表格-tabular
 
+&emsp;&emsp;简单表格基本语法为： `\begin{tabular}[<oalignment>]{<column format>} ... \end{tabular}` ，下面结合一个简单的例子讲解：
+
+```latex
+\begin{tabular}[b]{|c|c|c|c|c|}
+    \hline
+    姓名 & 语文 & 数学 & 英语 & 总成绩 \\
+    \hline
+    张三 & 10 & 20 & 30 & 60 \\
+    \hline
+    李四 & 40 & 50 & 60 & 150 \\
+    \hline
+    王五 & 70 & 80 & 90 &2 40 \\
+    \hline
+\end{tabular}
+```
+
+（1）`oalignment` 为外对齐方式，可取值包括 `t`、`m`、`b` 顶部对齐、居中对齐、底部对齐；\
+（2）`column format` 为列格式，上例 `|c|c|c|c|c|` 中的 `|` 表示表格的一根竖框线，若去掉则没有框线。而 `c` 表示对应列内容居中对齐，可以替换为 `l`、`r`、`p<value + unit>` 分别代表左对齐、右对齐、表格自动换行宽度（默认情况下表格内容不会自动换行）；\
+（3）`|c|c|c|c|c|` 可以用正则表达式 `{5}{|c}|` 表示，其语法为 `{重复次数}{重复内容}`；\
+（4）`\hline` 表示表格横框线；\
+（5）`&` 将相邻单元格内容隔开
+
 ### 4.2 表格浮动环境与表格引用
+
+1. `table` 浮动环境
+
+    &emsp;&emsp;表格浮动环境与图片浮动环境类似，只不过需要把 `figure` 替换成
+
+    ```latex
+    \begin{table}[<option>]
+        \centering                                      % 居中对齐
+        \begin{tabular}[<oalignment>]{<column format>} ... \end{tabular}
+        \caption{<caption name>}                        % 表注
+        \label{<label name>}                            % 标签
+    \end{table}
+    ```
+
+2. 表格引用
+
+    &emsp;&emsp;表格引用方法和图片引用方法相同，唯一需要注意的是使用 `\hyperref` 包引用时默认格式为 `Table + 编号`，可以在引言区使用命令 `\renewcommand{\tableautorefname}{表}` 替换为 `表 + 编号`
 
 ### 4.3 一些表格样式
 
+1. `cline` 自定义横框线
+
+   ```latex
+   \cline{value1-value2}
+   ```
+
+   &emsp;&emsp;该命令可以替换 `\hline` 绘制指定单元格位置的横框线，如 `\cline{2-4}` 表示绘制从第 2-4 列单元格的横框线。
+
+2. `\diagbox` 单元格分割：需导入宏包 `diagbox`
+
+    ```latex
+    \diagbox{ ... }{ ... }
+    ```
+
+    &emsp;&emsp;`{}` 的数量根据需要添加，花括号内为要填写的内容
+
+3. `multirow` 合并列单元格：需导入宏包 `multirow`
+
+    ```latex
+    \multirow{value}{<width>}{ ... }
+    ```
+
+    （1）`value` 表示合并单元格的数量；\
+    （2）`width` 表示合并后单元格的宽度，可以是 `value + unit`，也可以是 `` 表示根据单元格内容子项决定；
+
+4. `multicolumn` 合并行单元格
+
+    ```latex
+    \multicolumn{value}{<alignment>}{ ... }
+    ```
+
+    （1）`value` 表示合并单元格的数量；\
+    （2）`alignment` 表示单元格合并后的格式，可取值包括 `r`、`c`、`l`、`p<value + unit>`，添加 `|` 可绘制竖框线
+
 ### 4.4 三线表
+
+&emsp;&emsp;需导入宏包 `booktabs`，三线表语法和简单表格基本相同，下面结合一个简单的例子讲解：
+
+```latex
+\begin{tabular}[b]{{5}{c}}
+    \toprule
+    姓名 & 语文 & 数学 & 英语 & 总成绩 \\
+    \midrule
+    张三 & 10 & 20 & 30 & 60 \\
+    李四 & 40 & 50 & 60 & 150 \\
+    王五 & 70 & 80 & 90 &2 40 \\
+    \bottomrule
+\end{tabular}
+```
+
+（1）`\toprule`、`\midrule`、`\bottomrule` 代替 `\hline` 绘制三线表中顶部、中间、底部横框线，后面都可以跟 `[value + unit]` 设置线宽；\
+（2）可以使用 `cmidrule{value1-value2}` 绘制中间自定义横框线，`\cmidrule{value1-valuew} \morecmidrules \cmidrule{value1-value2}` 可以绘制双框线；\
+（3）`\specialrule{value1 + unit1}{value2 + unit2}{value3 + unit3}` 也可以设置横框线，三个花括号内分别设置线宽、上方空白、下方空白
 
 ### 4.5 自动变宽表格-tabularx
 
+&emsp;&emsp;使用 `tabular` 绘制表格时表格宽度根据表格内容而定，使用 `tabularx` 绘制表格可以自定义表格宽度（需导入宏包 `tabular`），基本语法为 `\begin{tabularx}[<width>]{<alignment>} ... \end{tabularx}`，下面结合一个例子讲解：
+
+```latex
+\begin{tabularx}{\linewidth}{
+    |>{\centering\arraybackslash}X|
+    >{\raggedleft\arraybackslash}X|
+    >{\raggedright\arraybackslash}X|
+    >{\raggedright\arraybackslash}X|
+    c|
+    }
+    \hline
+    姓名 & 语文 & 数学 & 英语 & 总成绩 \\
+    \hline
+    张三 & 10 & 20 & 30 & 60 \\
+    \hline
+    李四 & 40 & 50 & 60 & 150 \\
+    \hline
+    王五 & 70 & 80 & 90 &2 40 \\
+    \hline
+\end{tabularx}
+```
+
+（1）`width` 设置整个表格的宽度；\
+（2）`>{\centering\arraybackslash}` 中 `\centering` 设置居中对齐，还有两个取值 `\raggedleft`、`raggedright` 分别表示左不齐、右不齐，也就是对应右对齐和左对齐；\
+（3）`\arraybackslash` 为修正格式 bug 的代码
+
 ### 4.5 新式表格-tabularray
 
-### 4.6 表格-换行与 Q 格式
+&emsp;&emsp;`tabularray` 被称为“来自未来的表格”，需要导入宏包 `tabularray`，格式设置和文本内容完全分离，推荐使用该表格替代 `tabular`，下面是一个简单的例子：
 
-### 4.7 表格-变宽
+```latex
+\begin{table}[htbp]
+    \centering
+    \caption{考评成绩}
+    \SetTblrInner{rowsep=0pt}
+    \begin{tblr}{|c|c|c|c|c|}
+        \hline
+        姓名 & 语文 & 数学 & 英语 & 总成绩 \\
+        \hline
+        张三 & 10 & 20 & 30 & 60 \\
+        \hline
+        李四 & 40 & 50 & 60 & 150 \\
+        \hline
+        王五 & 70 & 80 & 90 &2 40 \\
+        \hline
+    \end{tblr}
+\end{table}
+```
 
-### 4.8 表格-行列设置分离
+&emsp;&emsp;该表格相比 `tabular` 表格会自带一些空格区域使表格看起来更美观，使用 `\SetTblrInner{rowsep=0pt}` 命令取消空格就可以得到和 `tabular` 一样的表格。
 
-### 4.9 表格-框线样式颜色
+### 4.6 tabularray 表格-换行与 Q 格式
 
-### 4.10 表格-按行列绘制边框线
+```latex
+\begin{table}[htbp]
+    \centering
+    \caption{考评成绩}
+    \begin{tblr}{|Q[c,m,5em]|Q[l,h]|Q[r,f]|Q[c,h,3em]|Q[c,f]|}
+        \hline
+        姓名 & 语文 & 数学 & 英语 & 总成绩 \\
+        \hline
+        {张三 \\ 张三} & 10 & 20 & 30 & 60 \\
+        \hline
+        李四 & 40 & 50 & 60 & 150 \\
+        \hline
+        王五 & 70 & 80 & 90 &2 40 \\
+        \hline
+    \end{tblr}
+\end{table}
+```
 
-### 4.11 表格-多边框线
+（1）`Q[c,m,5em]` 中三个参数分别设置水平对其格式、垂直对齐格式和列宽；其中水平对齐格式和此前相同可设置为 `c`、`r`、`l`，但垂直对齐格式取值是 `h`、`m`、`f` 表示顶部（head）对齐、居中对齐、底部（foot）对齐;\
+（2）该表格可直接使用 `\\` 进行换行，如 `{张三 \\ 张三}`，而不需要像 `tabular` 通过设置单元格宽度来实现换行
 
-### 4.12 表格-自由绘制边框线
+### 4.7 tabularray 表格-变宽
 
-### 4.13 表格-设置行列样式
+```latex
+\begin{table}[htbp]
+    \centering
+    \caption{考评成绩}
+    \begin{tblr}{
+        colspec = {|X[c,2]|X[l,3]|X[c,-1]|c|c|}，
+        width = 0.8\linewidth
+    }
+        \hline
+        姓名 & 语文 & 数学 & 英语 & 总成绩 \\
+        \hline
+        张三 & 10 & 20 & 30 & 60 \\
+        \hline
+        李四 & 40 & 50 & 60 & 150 \\
+        \hline
+        王五 & 70 & 80 & 90 &2 40 \\
+        \hline
+    \end{tblr}
+\end{table}
+```
 
-### 4.14 表格-单元格合并与样式
+（1）`\begin{tblr}{<fotmat settings>} ... \end{tblr}` 在 `format settings` 中可以完成所有表格设置，为了方便本文后面将这个区域称为格式区；\
+（2）格式区中除最后一项外，每项格式设置后面都需要跟一个英文逗号 `,`；\
+（2）该表格可以实现和 `tabularx` 表格一样的功能且更简洁，如 `colspec = {|X[c,2]|X[l,3]|X[c,-1]|c|c|}` 让表格第一和第二列按设定的表格宽度变宽且两列表格宽度比例为 2:3，第三列 `X[c,-1]` 中 `-1` 是让表格按表格内容自行调整宽度；\
+（3）`width = 0.8\linewidth` 设置整个表格宽度为 0.8 倍行宽
+
+### 4.8 tabularray 表格-行列设置分离
+
+```latex
+colspec = {|Q[c]|Q[l]|Q[r]|c|c|}    % 写在格式区，设置列格式
+rowspec = {|Q[m]|Q[h]|Q[f]|Q[m]|}   % 写在格式区，设置行格式
+```
+
+（1）`colspec` 设置列格式，`rowspec` 设置行格式，但事实上 `colspec` 可以写多个参数像前面一样设置垂直对齐格式和列宽（但不太推荐），且可以直接写 `c`、`r`、`l`；但 `rowspec` 只能通过 `Q` 来设置对齐格式；\
+（2）`rowspec` 中通过 `|` 来实现了像 `colspec` 中一样的框线绘制，让文本内容与格式设置实现了分离
+
+### 4.9 tabularray 表格-框线样式颜色
+
+```latex
+hlines = {2pt,solid,blue6}      % 写在格式区，设置横框线
+vlines = {3pt,dotted,red4}      % 写在格式区，设置竖框线
+```
+
+（1）框线设置中花括号中三个参数可任意组合，`hlines = {2pt,solid,blue6}` 设置横框线线宽 `2pt`，线型为实线，颜色为蓝色色阶 6；\
+（2）线型可选项有 `solid`、`dashed`、`dotted`分别表示实线、虚线、点线；\
+（3）设置框线颜色需要先导入宏包 `xcolor`，该宏包为每种常见颜色提供了九个色阶，如 `bule6` 表示蓝色色阶 6
+
+### 4.10 tabularray 表格-按行列绘制边框线
+
+```latex
+hlines = {2-4}{3pt,green9}   % 写在格式区，设置横框线
+vlines = {-}{blue3}          % 写在格式区，设置竖框线
+```
+
+&emsp;&emsp;`hlines` 和 `vlines` 绘制框线可以指定列或行范围，范围可以是单个数字、用逗号分隔的多个数字、用 `-` 连接的两个数字，也可以是 `-` 表示所有横（或竖）框线，还可以是 `odd`、`even` 代表奇数、偶数横（或竖）框线；如 `hlines = {2-4}{3pt,green9}` 表示绘制 2-4 列的横框线，线宽 `3pt`，颜色为绿色色阶 9
+
+### 4.11 tabularray 表格-多边框线
+
+```latex
+\begin{table}[htbp]
+    \centering
+    \caption{考评成绩}
+    \begin{tblr}{
+        colspec = {ccccc},
+        hlines = {1}{2-4}{3pt,green9},
+        hlines = {2}{1-3}{2pt}
+    }
+        姓名 & 语文 & 数学 & 英语 & 总成绩 \\
+        张三 & 10 & 20 & 30 & 60 \\
+        李四 & 40 & 50 & 60 & 150 \\
+        王五 & 70 & 80 & 90 &2 40 \\
+    \end{tblr}
+\end{table}
+```
+
+&emsp;&emsp;`hlines` 和 `vlines` 可以绘制多边框线，并通过第一个花括号选择设置那条边框线的格式，如 `hlines = {2}{1-3}{2pt}` 设置第二条边框线的格式
+
+### 4.12 tabularray 表格-自由绘制边框线
+
+```latex
+\begin{table}[htbp]
+    \centering
+    \caption{考评成绩}
+    \begin{tblr}{
+        colspec = {ccccc},
+        hline{3,4} = {2-4}{3pt,green9},
+        vline{2,5} = {3}{1pt,blue6}
+    }
+        姓名 & 语文 & 数学 & 英语 & 总成绩 \\
+        张三 & 10 & 20 & 30 & 60 \\
+        李四 & 40 & 50 & 60 & 150 \\
+        王五 & 70 & 80 & 90 &2 40 \\
+    \end{tblr}
+\end{table}
+```
+
+&emsp;&emsp;`hlines` 设置绘制指定列的横边框线，`hline` 使用同样的语法指定列且还需指定第几条边框线从而可以实现指定单元格的横边框线的绘制；类似的 `vline` 可以事先制定单元格竖边框线的绘制。如，` hline{3,4} = {2-4}{3pt,green9}` 绘制 2-4 列的第 3、4 条横边框线，`vline{2,5} = {3}{1pt,blue6}` 绘制第三列的第 2、5 条竖边框线。
+
+### 4.13 tabularray 表格-设置行列样式
+
+```latex
+\begin{table}[htbp]
+    \centering
+    \caption{考评成绩}
+    \begin{tblr}{
+        colspec = {ccccc},
+        hlines,vlines,
+        row{1} = {bg=cyan,font=\heiti\large},
+        column{2} = {font=\kaiti,fg=red}
+    }
+        姓名 & 语文 & 数学 & 英语 & 总成绩 \\
+        张三 & 10 & 20 & 30 & 60 \\
+        李四 & 40 & 50 & 60 & 150 \\
+        王五 & 70 & 80 & 90 &2 40 \\
+    \end{tblr}
+\end{table}
+```
+
+（1）使用 `row` 和 `column` 可以设置行和列的样式，`bg` 设置背景颜色，`fg` 设置字体颜色，`\font` 设置字体；如 `row{1} = {bg=cyan,font=\heiti\large}` 将第一行背景颜色设置为 `cyan`，字体设置为 `\large` 黑体；\
+（2）`rows` 和 `columns` 设置整个表格的样式，如 `columns = {font=\songti,fg=green}` 将表格字体设置为宋体、颜色绿色
+
+### 4.14 tabularray 表格-单元格合并与样式
+
+1. `cells` 设置整个表格样式
+
+    ```latex
+    cells = {cyan}      % 写在格式区，用法和 rows、columns 一样
+    ```
+
+2. `cell` 设置指定单元格格式
+
+    ```latex
+    cell{<row>}{<column>}={<style>}     % 写在格式区
+    ```
+
+    &emsp;&emsp;其中 `row`、`column` 为需要设置单元格的行、列，`style` 为单元格样式，设置方法和前面都一样。
+
+3. `cell` 合并列单元格，基本语法为：`cell{<row>}{<column>}={<merge settings>}{<style>}`，以下是一个例子：
+
+    ```latex
+    \begin{table}
+        \centering
+        \caption{考评成绩}
+        \begin{tblr}{
+            colspec = {ccccc},
+            hlines,vlines,
+            cell{1}{1} = {r=2}{}，
+            cell{1}{2} = {c=3}{},
+            cell{3}{2} = {r=3,c=3}{}
+        }
+            姓名 & 语文 & 数学 & 英语 & 总成绩 \\
+            姓名 & 语文 & 数学 & 英语 & 总成绩 \\
+            张三 & 10 & 20 & 30 & 60 \\
+            李四 & 40 & 50 & 60 & 150 \\
+            王五 & 70 & 80 & 90 &2 40 \\
+        \end{tblr}
+    \end{table}
+    ```
+
+（1）`{<row>}{<column>}` 设置要合并的起始单元格；\
+（2）`merge settings` 可以为 `r=M`、`c=N`，分别表示向下合并 M 个单元格、向右合并 N 个单元格；\
+（3）`style` 为单元格样式
 
 ### 4.15 tabularray 与三线表
 
+&emsp;&emsp;`tabularray` 绘制三线表方法和前面一样，只需要环境换成 `\begin{tblr}{<format settings> ... \end{tblr}`；另外需要注意的是此时导入 `booktabs` 宏包的命令是 `UseTblrLibrary{booktabs}`
+
 ### 4.16 长表格-longtblr
+
+```latex
+
+\DefTblrTemplate{contfoot-text}{chs}{接下页\dots}
+\SetTblrTemplate{contfoot-text}{chs}
+\DefTblrTemplate{conthead-text}{chs}{（续表）\dots}
+\SetTblrTemplate{conthead-text}{chs}
+
+\begin{longtblr}[
+    caption = {一个很长的表格}
+    label = {tab:long_tab}
+]{
+    colspec = {cccc},
+    hlines,vlines,
+    rowhead = 1
+}
+
+员工号  & 工资  & 起始日期  & 终止日期  \\
+10001  & 60117  & 26/6/1986  & 26/6/1987  \\
+10001  & 62102  & 26/6/1987  & 25/6/1988  \\
+10001  & 66074  & 25/6/1988  & 25/6/1989  \\
+10001  & 66596  & 25/6/1989  & 25/6/1990  \\
+10001  & 66961  & 25/6/1990  & 25/6/1991  \\
+10001  & 71046  & 25/6/1991  & 24/6/1992  \\
+10001  & 74333  & 24/6/1992  & 24/6/1993  \\
+10001  & 75286  & 24/6/1993  & 24/6/1994  \\
+10001  & 75994  & 24/6/1994  & 24/6/1995  \\
+10001  & 76884  & 24/6/1995  & 23/6/1996  \\
+10001  & 80013  & 23/6/1996  & 23/6/1997  \\
+
+...
+
+```
+
+（1）`\DefTblrTemplate` 重新定义表格头、尾注释内容，`\SetTblrTemplate` 应用设置，`chs` 可换成任意内容（貌似没什么影响）；\
+（1）`rowhead` 设置标题行行数
 
 ### 4.17 横向表格（宽表）
 
-### 4.18 关于表格的一些补充
+&emsp;&emsp;需导入宏包 `rotating`
+
+```latex
+\begin{sidewaystable}[htbp]
+    \centering
+    \caption{宽表格}
+    \begin{tblr}{
+        colspec = {{23}{c}}
+        hlines
+    }
+    & 2000 & 2001 & 2002 & 2003 & 2004 & 2005 &
+    2006 & 2007 & 2008 & 2009 & 2010 & 2011 & 2012
+    & 2013 & 2014 \\
+    张三 & 699 & 355 & 264 & 313 & 623 & 488 & 192 &
+    436 & 137 & 400 & 500 & 987 & 464 & 824 & 270 \\
+    李四 & 745 & 453 & 559 & 328 & 281 & 264 & 415 &
+    850 & 459 & 231 & 948 & 859 & 795 & 393 & 207 \\
+    王五 & 237 & 608 & 802 & 822 & 601 & 585 & 953 &
+    562 & 801 & 378 & 845 & 609 & 586 & 918 & 525 \\
+    赵六 & 135 & 841 & 838 & 104 & 542 & 441 & 278 & 326
+    & 653 & 464 & 515 & 531 & 739 & 750 & 981
+    \end{tblr}
+    \label{tab:my_label}
+\end{sidewaystable}
+```
+
+### 4.18 LaTeX 表格生成工具
+
+1. Tables Generator (最推荐，经典之选)\
+    网址：[https://www.tablesgenerator.com/](https://www.tablesgenerator.com/)\
+    核心功能：\
+    - 可视化操作：像 Excel 一样点击按钮添加行列、合并单元格。
+    - 多种格式转换：除了 LaTeX，还支持 Markdown、HTML、CSV。
+    - 支持 Excel 导入：可以直接把 Excel 里的内容复制粘贴进来，它会自动生成表格。
+    - 定制化：支持设置字体加粗、斜体、边框样式，以及是否使用 `booktabs` 宏包。
+    - 缺点：无法处理非常复杂的 LaTeX 自定义样式。
+
+2. TableConvert (功能最全面)\
+    网址：[https://tableconvert.com/latex-generator](https://tableconvert.com/latex-generator)\
+    核心功能：\
+    - 数据源广泛：支持从 JSON, SQL, CSV, Excel, XML 甚至 URL 直接抓取数据生成表格。
+    - 实时预览：编辑数据时，下方会实时显示生成的 LaTeX 代码。
+    - Latex 表格美化：提供了非常简洁的 UI，支持自动修复和优化代码。
+    - 适用人群：需要将现有数据库或复杂数据文件转换为 LaTeX 表格的用户。
+
+3. Overleaf 内置可视化编辑器 (最方便)\
+    操作方法：在 Overleaf 的编辑界面，将顶部的 "Source" 切换到 "Visual" 模式。此时点击表格，你可以直接在界面上添加行列、调整边框。\
+    优点：无需离开写作环境，直接在文档中编辑。\
+    缺点：功能相对简单，复杂的合并单元格操作不如 Tables Generator。
+
+4. Mathpix Snip (图片转表格)\
+    网址：[https://mathpix.com/](https://mathpix.com/)\
+    核心功能：\
+    - OCR 识别：截图一个复杂的表格，它能自动识别结构并直接生成 LaTeX 代码。
+    - 精度极高：处理带有数学公式的表格效果极佳。
+    缺点：免费额度有限（每个月有免费扫描次数）。
+
+5. Excel2LaTeX (Excel 插件)\
+    下载地址：[CTAN - excel2latex](https://ctan.org/pkg/excel2latex)\
+    核心功能：这是一个 Excel 宏文件（.xla），安装后在 Excel 菜单栏会出现“Export table to LaTeX”按钮。\
+    适用人群：处理超大型实验数据，且不希望频繁使用在线工具的用户。
 
 ## 5. 数学公式排版
 
