@@ -1092,6 +1092,7 @@ vlines = {-}{blue3}          % 写在格式区，设置竖框线
 
 ...
 
+\end{longtblr}
 ```
 
 （1）`\DefTblrTemplate` 重新定义表格头、尾注释内容，`\SetTblrTemplate` 应用设置，`chs` 可换成任意内容（貌似没什么影响）；\
@@ -1165,35 +1166,590 @@ vlines = {-}{blue3}          % 写在格式区，设置竖框线
 
 ### 5.1 数学模式与公式引用
 
+1. 数学模式
+   1. 行内公式：`$ ... $`
+   2. 无编号行间公式：`\[ ... \]`
+   3. 带编号行间公式：
+
+        ```latex
+        \begin{equation}
+        \label{eq:gongshi}
+            ...
+        \end{equation}
+        ```
+
+2. 公式引用
+   1. 简单引用：`\ref{<label name>}`
+   2. 专业引用（自带括号，需导入宏包 `amsmath`）：`\eqref{<label name>}`
+   3. `hyperref` 引用：用法和前面相同，自定义命令 `\renewcommand{\equationautorefname}{公式}`
+
 ### 5.2 分式与根式
+
+1. 分式
+
+    ```latex
+    $\frac{1}{2}$
+    $\dfrac{1}{2}$    % 需导入宏包 amsmath
+    ```
+
+    &emsp;&emsp;为了匹配行高，分式放在行内环境是高度会被压缩，导入宏包 `amsmath` 后用 `\dfrac{}{}` 来写分式可以避免这种压缩。
+
+2. 根式
+
+    ```latex
+    $\sqrt{3}$
+    $\sqrt[3]{2}$
+    ```
 
 ### 5.3 公式-上下标
 
+```latex
+$A_n^m$
+$A_{ij}$
+$f(x)=e^{x^2+x+3}$
+```
+
+&emsp;&emsp;LaTeX 常用符号表（蓝色符号需导入宏包 `amsmath`，更多符号看查询《一份(不太)简短的 LATEX 2ε 介绍》4.9 节）：
+
+![ ](image-8.png)
+![ ](image-9.png)
+![ ](image-10.png)
+![ ](image-11.png)
+![ ](image-12.png)
+![ ](image-13.png)
+![ ](image-14.png)
+
 ### 5.4 公式-上下线
+
+```latex
+\[
+\vec{a} \codt \vec{b} \quad
+\boldsymbol{a} \times \boldsymbol{b} \quad
+\overrightarrow{AB} \cdot \overrightarrow{CD} \quad
+\overline{AB} \quad
+\underline{CD} \quad
+\bar{x}_0 \quad
+\hat{a} \quad
+\]
+
+\[ \overbrace{(a + a + \cdots + a)}^{\text{$n$ 个 $a$}} \times \underbrace{b + b + \cdots + b}_{\text{$m$ 个 $b$}} \]
+```
+
+&emsp;&emsp;编译结果如图：
+
+![ ](image-15.png)
 
 ### 5.5 公式-求和与公式样式调整
 
+&emsp;&emsp;需导入宏包 `amsmath` 和 `mathtools`（后面均默认已导入这两个宏包）
+
+```latex
+求和 $S_{n} = \sum_{i=0}^{\infty} a_n$ \\
+求和 $S_{n} = \sum\limits_{i=0}^{\infty} a_n$ \\
+求和 $\displaystyle S_{n} = \sum_{i=0}^{\infty} a_n$
+
+\[ \sum_{\substack{0<i<n \\ 0<j<m \\ 0<k<m+n}} A_{ij} \qquad
+\smashoperator{\sum_{\substack{0<i<n \\ 0<j<m \\ 0<k<m+n}}} A_{ij} \]
+
+\[ \hat{b}=\dfrac{\sum_{i=1}^{n}(x_i-\bar{x})(y_i-\bar{y})}{\sum_{i=1}^{n}(x_i-\bar{x})^2} \qquad
+\hat{b}=\dfrac{\displaystyle \sum_{i=1}^{n}(x_i-\bar{x})(y_i-\bar{y})}{\displaystyle \sum_{i=1}^{n}(x_i-\bar{x})^2} \]
+
+\[ \hat{a} \hat{b} \hat{c} \quad \sqrt{a} \sqrt{b} \sqrt{c} \quad \vec{a} \vec{b} \vec{c} \]
+\[
+\hat{\mathstrut a} \hat{\mathstrut b} \hat{\mathstrut c} \quad \sqrt{\mathstrut a} \sqrt{\mathstrut b} \sqrt{\mathstrut c} \quad \vec{\mathstrut a} \vec{\mathstrut b} \vec{\mathstrut c}
+\]
+
+\[ \sqrt[3]{\dfrac{x+y}{x-y}} \quad \sqrt[\uproot{12}\leftroot{-3}3]{\dfrac{x+y}{x-y}} \]
+```
+
+&emsp;&emsp;编译结果如图：
+
+![ ](image-16.png)
+
+（1）求和符号在行内环境也会因行高被压缩，使用 `\limits`、`\displaystyle` 可以解决这个问题；\
+（2）求和符号上（下）标需要换行时需借助 `\substack` 命令；\
+（3）当求和符号上（下）标太长时，求和内容和求和符号相隔太远，使用 `\smashoperator` 可以解决这个问题；\
+（4）多个 `\hat`、`\sqrt`、`\vec` 放在一起时顶部不对齐，使用 `\mathstrut` 可以解决这个问题；\
+（5）`\sqrt` 内公式比较复杂时根指数位置不太对，使用 `\uproot{value}` 调节根指数上下移动，`\leftroot{value}` 调节根指数左右移动
+
 ### 5.6 公式-积分
+
+```latex
+极限 $\lim_{x \to 0} \dfrac{\sin x}{x} = 1$ \\
+极限 $\lim\limits_{x \to 0} \dfrac{\sin x}{x} = 1$ \\
+
+\[ \int x \mathrm{d}x \]
+\[ \iint\limits_{S} \sqrt{x^2 + y^2} \mathrm{d}x\mathrm{d}y \]
+
+\[\boxed{
+\oint_{\Gamma} P(x,y,z) \mathrm{d}x + Q(x,y,z) \mathrm{d}y +R(x,y,z) \mathrm{d}z
+}\]
+
+\[ \oint_L P\mathrm{d}x +Q\mathrm{d}y = \iint\limits_D (\dfrac{\partial Q}{\partial x}-\dfrac{\partial P}{\partial y}) \]
+
+\[\left (
+\dfrac{\partial Q}{\partial x} - \dfrac{\partial P}{\partial y} \right )
+\]
+\[\left \{
+\dfrac{\partial Q}{\partial x} - \dfrac{\partial P}{\partial y} \right .
+\]
+```
+
+编译结果如图：
+
+![ ](image-17.png)
+
+（1）极限符号在行内环境也会被压缩，使用 `\limits`、`\displaystyle` 可以解决这个问题；\
+（2）直接在公式环境内写 `dx` 的话 `d` 会是斜体，一般使用 `\mathrm{d}` 实现正常字体 `d`；\
+（3）多重积分符号使用 `\limits` 命令使上（下）标显示在积分号正上（下）方；\
+（4）使用 `\boxed{}` 可将公式包裹在盒子内；\
+（5）在复杂符号中写 `()` 无法实现完全包裹，可以通过将公式包裹在 `\left (  \right )` 来实现括号的完全包裹，除此之外 `[]`、`||`、`{}` 也是一样的，不过 `{}` 比较特别需要用 `\left \{ \right \}`（转义）；\
+（6）`\left ( \right )` 只能成对存在，如果只需要左半边括号，使用命令 `\left ( \right .` 实现，类似的可以实现右半边括号，这种用法同样适用于 `[]`、`||`、`{}`
 
 ### 5.7 公式-矩阵
 
+```latex
+\[
+A = \left [
+\begin{array}{ccc}
+    11.21 & 12 & 13 \\
+    21 & -22 & 23 \\
+    31 & 32 & 3.3
+\end{array} \right ]
+\]
+
+\[
+M = 
+\begin{matrix}
+    11 & 12 & 13 \\
+    21 & 22 & 23 \\
+    31 & 32 & 33
+\end{matrix}
+\quad
+bM = 
+\begin{bmatrix}
+    11 & 12 & 13 \\
+    21 & 22 & 23 \\
+    31 & 32 & 33
+\end{bmatrix}
+\quad
+vM = 
+\begin{vmatrix}
+    11 & 12 & 13 \\
+    21 & 22 & 23 \\
+    31 & 32 & 33
+\end{vmatrix}
+\quad
+pM = 
+\begin{pmatrix}
+    11 & 12 & 13 \\
+    21 & 22 & 23 \\
+    31 & 32 & 33
+\end{pmatrix}
+\quad
+BM = 
+\begin{Bmatrix}
+    11 & 12 & 13 \\
+    21 & 22 & 23 \\
+    31 & 32 & 33
+\end{Bmatrix}
+\quad
+VM = 
+\begin{Vmatrix}
+    11 & 12 & 13 \\
+    21 & 22 & 23 \\
+    31 & 32 & 33
+\end{Vmatrix}
+\]
+
+\[
+pM = 
+\begin{pmatrix}
+    \dfrac{1}{1} & \dfrac{1}{2} & \dfrac{1}{3} \\
+    \dfrac{2}{1} & \dfrac{2}{2} & \dfrac{2}{3} \\
+    \dfrac{3}{1} & \dfrac{3}{2} & \dfrac{3}{3}
+\end{pmatrix}
+\quad
+pM = 
+\begin{+pmatrix}[cells=r,row{2}={green8}]
+    \dfrac{1}{1} & \dfrac{1}{2} & \dfrac{1}{3} \\
+    \dfrac{2}{1} & \dfrac{2}{2} & \dfrac{2}{3} \\
+    \dfrac{3}{1} & \dfrac{3}{2} & \dfrac{3}{3}
+\end{+pmatrix}
+\]
+
+\[
+pM = 
+\begin{pmatrix}
+    a_{11} & a_{12} & \cdots & a_{1n} \\
+    a_{11} & a_{12} & \cdots & a_{1n} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    a_{n1} & a_{n2} & \cdots & a_{nn}
+
+\end{pmatrix}
+\]
+```
+
+&emsp;&emsp;编译结果如图：
+
+![ ](image-18.png)
+
+（1）使用 `array` 环境绘制矩阵可以像 `tabular` 表格一样在相应位置绘制横、竖框线；\
+（2）使用 `array` 环境绘制矩阵时可以用 `\left \right` 来添加`()`、`[]`、`||`、`{}`；\
+（3）`matrix`、`bmatrix`、`vmatrix`、`pmatrix`、`Bmatrix`、`Vmatrix` 可以快速实现矩阵的绘制，但无法调整对齐格式等，使用 `array` 环境可以实现复杂调整；\
+（4）直接绘制分式矩阵会使矩阵显得非常拥挤，此时可以导入新式表格 `\usepackage{tabularray}` ，同时另外用 `\UseTblrLibrary{amsmath}` 命令导入 `msmath` 宏包，在 `matrix`、`bmatrix`、`vmatrix`、`pmatrix`、`Bmatrix`、`Vmatrix` 环境命令前加 `+` 就可以让整个矩阵变得疏朗，且此时可以像 `tabularray` 表格一样调整格式
+
 ### 5.8 公式-多行公式
+
+1. `split` 环境
+
+    ```latex
+    \[
+    \begin{split}
+        (a+b)^3 &= (a+b)^2(a+b) \\
+                &= (a^2 + 2ab + b^2)(a + b) \\
+                &= (a^3 + \cdots)
+    \end{split}
+    \]
+    ```
+
+    （1）该环境需要套在公式环境内，使用 `\\` 手动换行，且用 `&` 设置对齐位置；\
+    （2）在该环境下 `&` 换行符只能放在 `=`、`+` 等符号旁边；\
+    （3）该环境只能处理列数比较少的公式
+
+2. `dmath` 环境：需导入 `breqn` 宏包
+
+    ```latex
+    \begin{dmath}
+        (a+b)^3 = (a+b)^2(a+b) 
+                = (a^2 + 2ab + b^2)(a + b)
+                = (a^3 + \cdots)
+    \end{dmath}
+    ```
+
+    （1）该环境会自动根据 `=`、`+` 等符号根据内置逻辑自动换行；\
+    （2）该环境下公式会自动编号，在 `dmath` 后加 `*` 可以去掉编号
+
+3. `array` 排版多行公式
+
+    ```latex
+    \[
+    \left \{
+    \begin{array}{lcr}
+        x + y + z & = & 10 \\
+        x -y - z & = & -5 \\
+        2x + 3y +4z & = & 35 
+    \end{array} \right .
+    \]
+    
+    ```
+
+    （1）该环境需要套在公式环境内；
+    （2）使用该环境可以像矩阵一样实现复杂的多行公式换行、对齐操作
+
+编译结果如图：
+
+![ ](image-19.png)
 
 ### 5.9 公式-分支公式
 
+1. `cases` 环境
+
+    ```latex
+    \[
+    f(x) =
+    \begin{cases}
+        \dfrac{1}{2} x^2, & x \leq 0 \\
+        \dfrac{1}{3} \ln x, & 0 < x < 10 \\
+        \dfrac{1}{10} \sqrt{x}, & x \geq 10
+    \end{cases}
+    \]
+    ```
+
+    （1）该环境需要套在公式环境内；\
+    （2）该环境排版分式分支公式时也会出现拥挤的情况，此时可以同矩阵一样通过 `tabularray` 包来优化
+
+2. `dcases` 环境：需导入宏包 `mathtools`
+
+    ```latex
+    \[
+    f(x) =
+    \begin{dcases}
+        \dfrac{1}{2} x^2, & x \leqslant 0 \\
+        \dfrac{1}{3} \ln x, & 0 < x < 10 \\
+        \dfrac{1}{10} \sqrt{x}, & x \geqslant 10
+    \end{dcases}
+    \]
+    ```
+
+    （1）该环境需要套在公式环境内；\
+    （2）该环境能直接解决排版分式分支公式时的拥挤问题；\
+    （3）`\leq`、`\geq` 生成的小于等于、大于等于，可以替换为宏包 `amssymb` 中更美观的`leqslant`、`geqslant`
+
+3. `drcases` 环境：需导入宏包 `mathtools`
+
+    ```latex
+    \[
+    \begin{drcases}
+        S \subset T \\
+        S \supset T
+    \end{drcases}
+    \quad\Rightarrow
+    S = T
+    \]
+    ```
+
+    （1）该环境需要套在公式环境内；\
+    （2）该环境绘制右括号分支公式
+
+编译结果如图：
+
+![ ](image-20.png)
+
 ### 5.10 公式-定理环境与 cleveref 引用
+
+1. `newtheorem` 定理环境
+
+    &emsp;&emsp;使用 `newtheorem` 可以定义不同的定理环境，定义语法为：`\newtheorem{<environment name>}[<counter>]{<display name>}[<number level>]`。`environment name` 为代码中环境名，根据需要写即可，该项为必填项；`counter` 为计数器，可以填写定义了的环境名，表示和某个环境共用编号计数器（如果同时有多个环境共用几个计数器，则需填写最开始的那个环境名），默认值为本环境名，该项为选填项；`display name` 就是编译后显示的环境名，根据需要填写即可，该项为选填项；`number level` 设置编号层次，根据文档类不同而有不同的选项，如 `book` 文档类就可以填 `chapter`、`section`、`subsection`等，该项为选填项。
+
+    ```latex
+    \documentclass[12pt]{ctexart}
+
+    \usepackage{amsmath}
+    \usepackage{mathtools}
+
+    \newtheorem{definition}{定义}
+    \newtheorem{theorem}[definition]{定理}
+    \newtheorem{lemma}[definition]{引理}
+    \newtheorem{corollary}{推论}[section]
+
+    \begin{document}
+
+    \section{定理环境一}
+
+    \begin{definition}
+        对数学术语的精准明确的描述。
+    \end{definition}
+    \begin{theorem}
+        用严格的数学推理证明的数学命题。
+    \end{theorem}
+    \begin{lemma}
+        辅助证明定理的次级结论。
+    \end{lemma}
+    \begin{corollary}
+        依赖给定的定理引出的（通常简短的）结论。
+    \end{corollary}
+
+    \section{定理环境二}
+
+    \begin{definition}
+        对数学术语的精准明确的描述。
+    \end{definition}
+    \begin{corollary}
+        依赖给定的定理引出的（通常简短的）结论。
+    \end{corollary}
+    \end{document}
+    ```
+
+    编译结果如图：
+
+    ![ ](image-21.png)
+
+2. `proof` 证明环境：需导入宏包 `amsthm`
+
+    ```latex
+    \begin{proof}[拉格朗日中值定理证明]
+        引进辅助函数
+        \[\phi(x) = f(x) - f(a) - \dfrac{f(b) - f(a)}{b-x}(x-a).\]
+        容易验证函数$\phi(x)$适合罗尔定理的条件:$\phi(a)=\phi(b)= 0$,$\phi(x)$在闭区间$[a,b]$上连续,在开区间$(a,b)$上可导
+        \cdots
+    \end{proof}
+    ```
+
+    &emsp;&emsp;该证明环境在可以定义证明开始的字符串，在证明结束会有结束符，如图：
+
+    ![ ](image-22.png)
+
+3. 简单引用
+
+    &emsp;&emsp;简单引用需在使用 `newtheorem` 定理环境时在 `\begin{}` 后面跟上 `\label{<label name>}`，引用方法和前面相同。
+
+4. `hyperref` 引用
+
+    &emsp;&emsp;这里引用方法和前面也是一样的，但需要注意的是只有引用的 `\newtheorem{theorem}[definition]{定理}` 才会自带文字，因为 `hyperref` 只支持如下引用：
+
+    ```latex
+    \renewcommand{\equationautorefname}{式}
+    \renewcommand{\footnoteautorefname}{脚注}
+    \renewcommand{\itemautorefname}{项}
+    \renewcommand{\figureautorefname}{图}
+    \renewcommand{\tableautorefname}{表}
+    \renewcommand{\partautorefname}{篇}
+    \renewcommand{\appendixautorefname}{附录}
+    \renewcommand{\chapterautorefname}{章}
+    \renewcommand{\sectionautorefname}{节}
+    \renewcommand{\subsectionautorefname}{小小节}
+    \renewcommand{\subsubsectionautorefname}{subsubsection}
+    \renewcommand{\paragraphautorefname}{段落}
+    \renewcommand{\subparagraphautorefname}{子段落}
+    \renewcommand{\FancyVerbLineautorefname}{行} 
+    \renewcommand{\theoremautorefname}{定理}
+    ```
+
+5. `cleveref` 引用：需导入 `cleveref` 宏包
+
+    （1）`cleveref` 引用命令：`cref{<label name>}`，自定义引用命令为：`\crefname{<style name>}{<singular>}{<plural>}`。
+    （2）`style name` 为需要定义的类型，如 `table`、`figure` 和前面定义了的 `definition` 等，`singular` 和 `plural` 为自定义的单数和复数情况下名字，对于中文来说这两种情况没有区别，写成一样的就行。
+    （3）单纯的 `cleveref` 引用没有点击跳转功能，但通过和 `hyperref` 联用可以解决这个问题。导入所需要的包后使用如 `\hyperref[def:1]{\cref{def:1}}` 的命令就可以实现带跳转功能的引用了，其中 `[]` 内就是标签名，`{}` 内是需要显示的文字，这里会读取 `\cref{def:1}` 所代表的文字。
 
 ## 6. 长文档管理与学术规范
 
-### 6.1 章节标题与目录
+### 6.1 章节标题
+
+&emsp;&emsp;一篇结构化的、条理清晰文档一定是层次分明的，通过不同的命令分割为章、节、小节。三个标准文档类 article、report 和 book 提供了划分章节地命令：
+
+```latex
+\chapter{<title>}   \section{<title>}   \subsection{<title>}
+\subsubsection{<title>} \paragraph{<title>} \subparagraph{<title>}
+```
+
+其中 `\chapter` 只在 report 和 book 文档类有定义。这些命令生成章节标题，并能够自动编号。除此之外 $LaTeX$ 还提供了 `\part` 命令，用来将整个问昂分割为大的分块，但不影响 `\chapter` 或 `section` 等的编号。`\paragraph` 和 `\subparagraph` 生成的标题默认不带编号。
 
 ### 6.2 文档结构-前言正文附录后记
 
+&emsp;&emsp;在正文区使用命令 `\tableofcontents` 可以在对应位置生成标题目录，另外使用命令 `\listoftables` 和 `\listoffigures` 还可分别生成表格清单、图片清单。这些命令生成的目录项默认不带目录，可以在这些命令后面添加 `\addcontentsline{toc}{<level>}{<title}` 将目录项写入进去。其中 `level` 代表章节层次，`title` 为要显示的目录项的名字。
+
+&emsp;&emsp;所有标准文档类都提供了一个 `\appendix` 命令将正文和附录分开，使用 `\appendix` 后，最高一级章节改为使用拉丁字母编号，从  A 开始。book 文档类还提供了前言、正文、后记结构的划分命令：
+
+- `\frontmatter` 前言部分，页码使用小写罗马数字；其后的 `\chapter` 不变好。
+- `\mainmatter` 正文部分，页码使用阿拉伯数字，从 1 开始计数；其后的章节编号正常。
+- `\backmatter` 后继部分，页码格式不变，继续正常计数；其后的 `\chapter` 不变好。
+
+&emsp;&emsp;以上三个命令还可和 `\appendix` 命令结合，生成有前言、正文、附录、后记四部分的文档。
+
 ### 6.3 文档拆分
+
+&emsp;&emsp;为了避免编写长文档时源代码文件太过臃肿，可以将源代码文件拆分为一个主文档和多个子文档，然后再主文档中引用子文档来优化结构。一般按章来进行文档拆分，然后在主文档指定位置使用命令 `\include{<file name>}` 或 `\input{<file name>}` 来引用，`\include` 会为子文档在前后新开一页，而 `\input` 会与后面的内容直接接续在一起。
+
+![ ](image-23.png)
 
 ### 6.4 页眉页脚
 
+1. `pagenumbering` 重置页码，基本语法 `\pagenumbering{<style>}`，`style` 可取值见下表：
+
+    ![ ](image-24.png)
+
+2. 内置页眉页脚设置命令
+
+    ```latex
+    \pagestyle{<style>}         % 设置全文页眉页脚样式
+    \thispagestyle{<style>}     % 设置当前页页眉页脚样式
+    ```
+
+    &emsp;&emsp;`style` 为要设置的页眉页脚样式，可取值见下表：
+
+    ![ ](image-25.png)
+
+    &emsp;&emsp;在定义文档类时可通过类似 `\documentclass[oneside]{ctexbook}` 的命令将文档设置为单面排版（默认为双面排版），单面排版和双面排版时文档类默认的页眉页脚样式不同：
+
+    - article文档类，twoside选项偶数页为页码和节标题，奇数页为小节标题和页码；
+    - article文档类，oneside选项页眉为节标题和页码；
+    - report和 book文档类，twoside选项偶数页为页码和章标题，奇数页为节标题和页码；
+    - report 和 book文档类，oneside选项页眉为章标题和页码。
+
+3. `fancyhdr` 宏包设置页眉页脚
+
+    &emsp;&emsp;`fancyhdr` 的 fancy 页面风格把页面的页眉和页脚都分成左、中、右3个部分，因而一个页面就有6个部分。对于双面文档，则还分奇数页和偶数页，即有12个部分，如图：
+
+    ![ ](image-26.png)
+
+    &emsp;&emsp;图中各个部分可以用下列命令进行设置修改：
+
+    ```latex
+    \lhead{<内容>}              % 设置页眉左
+    \chead{<内容>}              % 设置页眉中
+    \rhead{<内容>}              % 设置页眉右
+    \lfoot{<内容>}              % 设置页脚左
+    \chead{<内容>}              % 设置页脚中
+    \rhead{<内容>}              % 设置页脚右
+    \fancyhead[<位置>]{<内容>}  % 设置页眉，位置可以是 E、O 与 L、C、R 的组合
+    \fancyfoot[<位置>]{<内容>}  % 设置页脚，位置可以是 E、O 与 L、C、R 的组合
+    \fancyhf[<位置>]{<内容>}    % 设置页眉及页脚，位置可以是 H、F 与 E、O 与 L、C、R 的组合
+    ```
+
+    &emsp;&emsp;这里，`\fancyhead`、`\fancyfoot` 和 `\fancyhf` 命令可以带表示位置的可选参数，其中 H、F 分别表示页眉（header）和页脚（footer）；E、O分别表示双面文档的偶数页（even page）和奇数页（odd page），单面文档仅奇数页有效；L、C、R分别表示左（left）、中（center）、右（right）。位置参数可以任意组合，多个参数用逗号分隔。如果省略位置参数，则表示所有的页眉、页脚。以下是使用范例：
+
+    ```latex
+    \documentclass{ctexbook}
+    
+    \usepackage{fancyhdr}
+    \pagestyle{fancy}
+    \fancyhf{}                  % 清空所有页眉页脚
+    \chead{\kaishu XX大学毕业论文（设计）}
+    \rhead{\leftmark}           % 页眉右设置为章标题
+    \lhead{\rightmark}          % 页眉左设置为节标题
+    \cfoot{\thepage}            % 页脚中设置为当前页码
+    \fancyfoot[EL]{\thepage}    % 偶数页脚左设置为当前页码
+    % fancyhf[]{\thepage}       % [] 为空，设置所有页眉页脚
+
+    \begin{document}
+        ...
+    \end{document}
+    ```
+
+    &emsp;&emsp;默认情况下`fancyhdr` 会在页眉下方画一根横线，可使用命令 `\renewcommand{\headrulewidth}{0pt}` 取消，同样的可以使用命令 `\renewcommand{\footrulewidth}{2pt}` 在页脚上方画一根横线。
+
+    >注：book 文档类默认排版偶数页章标题、奇数页节标题，在一般情况下偶数页在左边、奇数页在右边，所以 `\leftmark` 和 `rightmark` 就分别代表了节标题和章标题。
+
 ### 6.5 参考文献
+
+&emsp;&emsp;LaTeX 提供了最基本的 `\cite` 命令用于在正文中引用参考文献，基本语法为：`\cite{<citation>}`。其中，`citation` 为引用的参考文献的标签，类似 `\ref` 里的参数。
+
+&emsp;&emsp;LaTeX 中提供了手动排版参考文献的格式，但在实际使用当中通常使用 BibTeX 自动生成。BibTeX 是最为流行的草靠文献数据组织格式之一。它的出现让我们摆脱手写参考文献条目的麻烦。我们还可以通过参考文献样式的支持，让同一份 BibTeX 数据库生成不同样式的参考文献列表。
+&emsp;&emsp;BibTeX 数据库以 `.bib` 作为扩展名，其内容是若干个文献条目，每个条目的格式为：
+
+```latex
+@<type>{<citation>,
+    <key1> = {<value1>},
+    <key2> = {<value2>},
+    ...    
+}
+```
+
+&emsp;&emsp;其中 `type` 为文献的类别，如 `article` 为学术论文，`book` 为数据，`incollection` 为论文集中的某一篇，等等。`citation` 为 `\cite` 命令使用的文献标签。在 `citation` 之后为条目里各个字段，以 `<key> = {<value>}` 的形式组织。以下为一个 `article` 类别的参考文献数据条目示例：
+
+```latex
+@article{Alice13,
+title = {Demostration of bibliography items},
+author = {Alice Axford and Bob Birkin and Charlie Copper and Danny Dannford},year = {2013},
+month = {Mar} ,
+journal = {Journal of \TeX perts},volume = {36},
+number = {7},
+pages = {114-120}}
+```
+
+所有类别的文献条目格式请参考<CTAN://biblio/bibtex/base/btxdoc.pdf>。\
+&emsp;&emsp;多数时候，我们无需自已手写 BibTeX 文献条目。从Google Scholar 或者期刊/数据库的网站上都能够导出 BibTeX 文献条目，Zotero、Endnote 等文献管理工具都具有 BibTeX 文献数据库生成功能。
+
+&emsp;&emsp;参考文献的写法在不同文献里千差万别，包括作者、标题、年份等各项的顺序和字体样式、文献在列表里的排序规则等。BibTEe 用样式来管理参考文献的写法。BibTeX 提供了几个预定义的样式，如plain，unsrt，alpha等。
+
+&emsp;&emsp;设置参考文献样式需要在导言区使用命令：`\bibliographystyle{<style>}`，这里 `style` 为样式名，以下是常见的几种样式排版效果：
+
+![ ](image-27.png)
+
+&emsp;&emsp;其中 `GB/T 7714` 是中国国家标准化管理委员会发布的《信息与文献参考文献著录规则》。它是中国学术界最权威、使用最广泛的学术论文参考文献格式标准。无论是在国内发表中文核心期刊论文、撰写本科/硕博毕业论文，还是编写学术专著，基本都要遵循这个标准。在 LaTeX 中使用该样式需先在导言区使用命令 `\usepackage{gbt7714}` 导入宏包，然后使用命令 `\bibliographystyle{gbt7714-nemerical}` 设置样式，在正文区使用命令 `\cite` 引用了，最后在需要排版参考文献的位置使用命令 `bibliography{<file name>}`（其中 `file name` 为数据库文件名，不需要带 `.bib` 扩展名）。
+
+&emsp;&emsp;除此之外，因为 `biblatex`宏包对 `UTF-8` 和中文参考文献的支持良好，所以也经常用 `biblatex` 宏包排版参考文献。使用该宏包排版 `GB/T 7714` 样式参考文献需要在导言区使用命令 `\usepackage[style=gb7714-2015]{biblatex}` 导入宏包，然后使用命令 `\addbibresource{<file name>}` 添加参考文献数据库，最后在正文区需要排版参考文献的位置使用命令 `\printbibliography` 即可。
+
+&emsp;&emsp;使用 `biblatex` 宏包排版参考文献，在正文区不仅可以使用 `\cite` 命令引用参考文献，还可以使用以下命令实现不同的引用效果：
+
+```latex
+\citeauthor     % 单独引用作者
+\citeyear       % 单独引用年份
+\textcite       % 姓名 + 编号（如：张三 [1]），用于把作者当主语时
+\parencite      % 纯编号（如：[1]），用于句末补充说明
+\footcite       % 脚注引用，在页面底部显示文献信息
+```
 
 ### 6.6 索引
 
